@@ -15,7 +15,8 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => 'corcel',
+    //'default' => env('DB_CONNECTION', 'corcel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,6 +62,21 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+        ],
+        'corcel' => [ // for WordPress database (used by Corcel)
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('WP_HOST', '127.0.0.1'),
+            'port' => env('WP_PORT', '3306'),
+            'database' => env('WP_DATABASE', 'forge'),
+            'username' => env('WP_USERNAME', 'forge'),
+            'password' => env('WP_PASSWORD', ''),
+            'unix_socket' => env('WP_SOCKET', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => 'wp_',
+            'strict'    => false,
+            'engine'    => null,
         ],
 
         'pgsql' => [
