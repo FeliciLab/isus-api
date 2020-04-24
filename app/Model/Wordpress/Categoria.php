@@ -27,5 +27,4 @@ class Categoria extends Taxonomy
 
         return $data;
     }
-
 }
