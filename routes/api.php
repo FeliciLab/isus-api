@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/posts', 'Api\PostController@posts');
+Route::get('/posts', 'Api\WordpressController@posts');
+Route::get('/categorias', 'Api\WordpressController@categorias');

@@ -20,4 +20,12 @@ services:
       volumes:
         - .:/application
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
-
+    db:
+      image: mysql:5.6
+      ports:
+        - "3306:3306"
+      volumes:
+        - .:/application
+      environment:
+        - MYSQL_ROOT_PASSWORD=12345678
+        - MYSQL_DATABASE=coronavirus
