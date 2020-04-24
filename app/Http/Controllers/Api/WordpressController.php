@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Post;
-
-use Corcel\Model\Taxonomy as CorcelTaxonomy;
+use App\Model\Wordpress\Post;
+use App\Model\Wordpress\Categoria;
 
 class WordpressController extends Controller
 {
@@ -18,22 +17,8 @@ class WordpressController extends Controller
 
     public function categorias()
     {
-        $data = array();
-
-        $categoriasPai = CorcelTaxonomy::where('taxonomy', 'project_category')->where('parent', 0)->get();
-        foreach ($categoriasPai as $categoriaPai) {
-            $subCategorias = CorcelTaxonomy::where('taxonomy', 'project_category')->where('parent', $categoriaPai->term_id)->get();
-
-            $subCategoriasA = null;
-            foreach ($subCategorias as $subcategoria) {
-                $subCategoriasA[] = $subcategoria->term;
-            }
-
-            $dataA['categoria'] = $categoriaPai->term;
-            $dataA['categoria']['subcategorias'] = $subCategoriasA;
-
-            $data[] = $dataA;
-        }
+        $categoria = new Categoria();
+        $data = $categoria->retornaCategorias();
 
         return response()->json($data);
     }

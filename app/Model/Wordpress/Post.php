@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model\Wordpress;
 
 use Corcel\Model\Post as Corcel;
 
