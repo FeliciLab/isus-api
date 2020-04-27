@@ -52,6 +52,13 @@ Gerar Application Key
 php artisan key:generate
 ```
 
+Será necessário da permissão para as views acessar os storage
+```
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache`
+```
+
+
 O banco será criado vazio, nesse caso é necessário solicitar o backup do banco ao responsável pela aplicação
 
 Em seguida com backup, simplismente realizar o backup
