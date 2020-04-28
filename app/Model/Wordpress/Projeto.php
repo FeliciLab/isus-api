@@ -14,7 +14,7 @@ class Projeto extends Post
         $categorias = Categoria::where('taxonomy', 'project_category')
                                 ->where('term_id', $categoriaid)
                                 ->get();
-
+        $projetos = [];
         foreach ($categorias as $categoria) {
             $projetosPublicados = [];
             foreach ($categoria->posts as $post) {
@@ -32,8 +32,9 @@ class Projeto extends Post
                 }
             }
 
-            $projetos[] = $projetosPublicados;
+            $projetos = $projetosPublicados;
         }
+
         return $projetos;
     }
 }
