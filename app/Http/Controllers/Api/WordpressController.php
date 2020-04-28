@@ -51,4 +51,16 @@ class WordpressController extends Controller
         ];
         return response()->json($projeto);
     }
+
+    public function buscaPorProjetos(Request $request) {
+        $search = $request->search ?? ' ';
+
+        $projetos = Projeto::where(function($query) use ($search) {
+            return $query->orWhere('post_title', 'like', '%'.$search.'%')
+            ->orWhere('post_excerpt', 'like', '%'.$search.'%')
+            ->orWhere('post_content', 'like', '%'.$search.'%');
+        })->published()->paginate($request->step ?? 10);
+
+        return response()->json($projetos);
+    }
 }
