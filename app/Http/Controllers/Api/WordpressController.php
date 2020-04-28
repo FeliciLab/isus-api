@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 
 class WordpressController extends Controller
 {
-    public function projetos()
+    public function projetos(Request $request)
     {
-        $data = Projeto::published()->get();
+        $data = Projeto::published()->paginate(
+            $request->has('step') ? $request->step :  10
+        );
 
         return response()->json($data);
     }
