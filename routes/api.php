@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/projetos', 'Api\WordpressController@projetos');
+Route::get('/buscaPorProjetos', 'Api\WordpressController@buscaPorProjetos');
 Route::get('/categorias', 'Api\WordpressController@categorias');
 Route::get('/projetosPorCategoria/{categoriaid}', 'Api\WordpressController@projetosPorCategoria');
 Route::get('/projeto/{id}', 'Api\WordpressController@projetoPorId');

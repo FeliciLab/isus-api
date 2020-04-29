@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 
 class WordpressController extends Controller
 {
-    public function projetos()
+    public function projetos(Request $request)
     {
-        $data = Projeto::published()->get();
-
+        $data = Projeto::published()->paginate($request->step ?? 10);
         return response()->json($data);
     }
 
@@ -28,8 +27,13 @@ class WordpressController extends Controller
     {
         $projeto = new Projeto();
         $data = $projeto->retornaProjetosPorCategoria($categoriaid);
+        // Pagination
+        $total = count($data);
+        $step = $request->step ?? 10;
+        $current_page = $request->page ?? 1;
 
-        return response()->json($data);
+        $paginate = $this::paginationResolver($data, $step, $total, $current_page);
+        return response()->json($paginate);
     }
 
     public function projetoPorId(Request $request, $id)
@@ -46,5 +50,17 @@ class WordpressController extends Controller
             'post_content' => $projeto->post_content
         ];
         return response()->json($projeto);
+    }
+
+    public function buscaPorProjetos(Request $request) {
+        $search = $request->search ?? ' ';
+
+        $projetos = Projeto::where(function($query) use ($search) {
+            return $query->orWhere('post_title', 'like', '%'.$search.'%')
+            ->orWhere('post_excerpt', 'like', '%'.$search.'%')
+            ->orWhere('post_content', 'like', '%'.$search.'%');
+        })->published()->paginate($request->step ?? 10);
+
+        return response()->json($projetos);
     }
 }
