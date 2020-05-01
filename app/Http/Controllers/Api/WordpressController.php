@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Model\Wordpress\Projeto;
 use App\Model\Wordpress\Categoria;
+use App\Model\Wordpress\App;
 use Illuminate\Http\Request;
 
 class WordpressController extends Controller
@@ -62,5 +63,21 @@ class WordpressController extends Controller
         })->published()->paginate($request->step ?? 10);
 
         return response()->json($projetos);
+    }
+
+    public function categoriasArquitetura()
+    {
+        $arquitetura = [];
+
+        $categoria = new Categoria();
+
+        $apps = App::APP;
+        foreach ($apps as $key => $app) {
+            foreach ($app as $categoriaId) {
+                $arquitetura[$key][] = $categoria->retornaCategoria($categoriaId);
+            }
+        }
+
+        return response()->json($arquitetura);
     }
 }
