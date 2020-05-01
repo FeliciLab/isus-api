@@ -74,7 +74,11 @@ class WordpressController extends Controller
         $apps = App::APP;
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
-                $arquitetura[$key][] = $categoria->retornaCategoria($categoriaId);
+                $cat = $categoria->retornaCategoria($categoriaId);
+                if (!empty($cat[0])) {
+                    $arquitetura[$key][] = $cat[0]->term;
+                }
+
             }
         }
 
