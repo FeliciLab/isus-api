@@ -40,6 +40,7 @@ class WordpressController extends Controller
     public function projetoPorId(Request $request, $id)
     {
         $projeto = Projeto::find($id);
+      
         $projeto = [
             'id' => $projeto->ID,
             'slug' => $projeto->slug,
@@ -54,15 +55,18 @@ class WordpressController extends Controller
     }
 
     public function buscaPorProjetos(Request $request) {
+        
         $search = $request->search ?? ' ';
-
-        $projetos = Projeto::where(function($query) use ($search) {
-            return $query->orWhere('post_title', 'like', '%'.$search.'%')
+        //buscando os campos
+        $projetos = Projeto::select('id' , 'post_date', 'post_title', 'post_excerpt','post_content', 'post_status', 'post_content')
+        ->where(function($query) use ($search) {
+            return $query
+            ->orWhere('post_title', 'like', '%'.$search.'%')
             ->orWhere('post_excerpt', 'like', '%'.$search.'%')
-            ->orWhere('post_content', 'like', '%'.$search.'%');
+            ->orWhere('post_content', 'like', '%'.$search.'%');           
         })->published()->paginate($request->step ?? 10);
 
-        return response()->json($projetos);
+       return response()->json($projetos);
     }
 
     public function categoriasArquitetura()
