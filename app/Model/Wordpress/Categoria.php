@@ -27,4 +27,9 @@ class Categoria extends Taxonomy
 
         return $data;
     }
+
+    public function retornaCategoria($id)
+    {
+        return self::where('taxonomy', 'project_category')->where('term_id', $id)->get();;
+    }
 }
