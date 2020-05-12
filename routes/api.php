@@ -22,3 +22,7 @@ Route::get('/projetosPorCategoria/{categoriaid}', 'Api\WordpressController@proje
 Route::get('/projeto/{id}', 'Api\WordpressController@projetoPorId');
 Route::get('/categoriasArquitetura', 'Api\WordpressController@categoriasArquitetura');
 
+Route::get('/delay-textit/{segundos?}', function($segundos = 1) {
+    sleep($segundos);
+});
+
