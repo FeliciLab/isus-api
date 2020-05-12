@@ -1,5 +1,13 @@
 API para prover os dados do Wordpress
 
+## Tecnologias
+### Ambiente
+- Docker
+### API
+- REST
+- PHP 7.4 (FPM)
+- Laravel 7
+
 # Servidor de desenvolvimento 🚀🚀
 
 Clonando o projeto
