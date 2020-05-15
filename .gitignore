@@ -11,3 +11,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .idea
+db/mariadb/*
+db/phpmyadmin/sessions
+db/phpmyadmin/users.passwd
+db/traefik/traefik.toml
