@@ -2,17 +2,29 @@
 #                          Generated on phpdocker.io                          #
 ###############################################################################
 version: "3.1"
+networks:
+  web:
+    external: true
 services:
     webserver:
       image: nginx:alpine
       container_name: anticorona-corcel-webserver
       working_dir: /application
       volumes:
-          - .:/application
-          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+       - .:/application
+       - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       ports:
        - "7000:80"
-
+      restart: unless-stopped
+      networks:
+       - web
+       - default
+      labels:
+       - "traefik.port=80"
+       - "traefik.frontend.rule=HostRegexp:{catchall:.*}"
+       - "traefik.frontend.priority=1"
+       - "traefik.enable=true"
+       - "traefik.docker.network=web"
     php-fpm:
       build: phpdocker/php-fpm
       container_name: anticorona-corcel-php-fpm
@@ -20,12 +32,57 @@ services:
       volumes:
         - .:/application
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+      restart: unless-stopped
     db:
-      image: mysql:5.6
-      ports:
-        - "3306:3306"
+      image: mariadb:10
       volumes:
         - .:/application
+        - ./db/mariadb:/var/lib/mysql
       environment:
-        - MYSQL_ROOT_PASSWORD=12345678
-        - MYSQL_DATABASE=coronavirus
+        - MYSQL_ROOT_PASSWORD=mysqlrootpass
+        - MYSQL_DATABASE=corona
+        - MYSQL_USER=corona
+        - MYSQL_PASSWORD=coronapassword
+      restart: unless-stopped
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      environment:
+        - PMA_ARBITRARY=1
+      restart: unless-stopped
+      volumes:
+        - ./db/phpmyadmin/sessions:/sessions
+        - ./db/phpmyadmin/htaccess:/var/www/html/.htaccess
+        - ./db/phpmyadmin/users.passwd:/etc/apache2/users.passwd
+      labels:
+        traefik.frontend.rule: Host:phpmyadmin.example.com
+        traefik.frontend.priority: '1'
+        traefik.port: '80'
+        traefik.enable: 'true'
+        traefik.docker.network: 'web'
+        traefik.frontend.redirect.entryPoint: 'https'
+      networks:
+        - web
+        - default
+    traefik:
+      image: traefik:alpine
+      environment:
+        AWS_REGION: us-east-1
+      volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        - "./db/traefik/traefik.toml:/traefik.toml"
+        - "./db/traefik/acme.json:/acme.json"
+      ports:
+        - 80:80
+        - 8080:8080
+        - 443:443
+      networks:
+        - web
+      command:
+        - --configfile=/traefik.toml
+      labels:
+        traefik.frontend.rule: Host:traefik.example.com
+        traefik.alias: traefik
+        traefik.port: '8080'
+        traefik.enable: 'true'
+      restart: unless-stopped
+      container_name: traefik
