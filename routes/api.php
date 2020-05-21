@@ -21,6 +21,7 @@ Route::get('/categorias', 'Api\WordpressController@categorias');
 Route::get('/projetosPorCategoria/{categoriaid}', 'Api\WordpressController@projetosPorCategoria');
 Route::get('/projeto/{id}', 'Api\WordpressController@projetoPorId');
 Route::get('/categoriasArquitetura', 'Api\WordpressController@categoriasArquitetura');
+Route::post('/feedback', 'Api\FeedbackController@enviarEmail');
 
 Route::get('/delay-textit/{segundos?}', function($segundos = 1) {
     sleep($segundos);
