@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Wordpress\Projeto;
 use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\App;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class WordpressController extends Controller
@@ -39,19 +40,10 @@ class WordpressController extends Controller
 
     public function projetoPorId(Request $request, $id)
     {
-        $projeto = Projeto::find($id);
+        $client = new Client();
+        $res = $client->get('https://coronavirus.ceara.gov.br/wp-json/wp/v2/project/' . $id);
 
-        $projeto = [
-            'id' => $projeto->ID,
-            'slug' => $projeto->slug,
-            'post_date' => $projeto->post_date,
-            'post_title' => $projeto->post_title,
-            'post_status' => $projeto->post_status,
-            'image' => $projeto->image,
-            'keywords' => $projeto->keywords,
-            'post_content' => $projeto->post_content
-        ];
-        return response()->json($projeto);
+        return response()->json(json_decode($res->getBody(), true));
     }
 
     public function buscaPorProjetos(Request $request) {
