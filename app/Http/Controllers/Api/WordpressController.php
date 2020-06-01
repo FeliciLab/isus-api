@@ -42,8 +42,21 @@ class WordpressController extends Controller
     {
         $client = new Client();
         $res = $client->get('https://coronavirus.ceara.gov.br/wp-json/wp/v2/project/' . $id);
+        $projetoAPI = json_decode($res->getBody(), true);
 
-        return response()->json(json_decode($res->getBody(), true));
+        $projeto = Projeto::find($id);
+        $projeto = [
+            'id' => $projeto->ID,
+            'slug' => $projeto->slug,
+            'post_date' => $projeto->post_date,
+            'post_title' => $projeto->post_title,
+            'post_status' => $projeto->post_status,
+            'image' => $projeto->image,
+            'keywords' => $projeto->keywords,
+            'post_content' => $projetoAPI['content']['rendered']
+        ];
+
+        return response()->json($projeto);
     }
 
     public function buscaPorProjetos(Request $request) {
