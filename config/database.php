@@ -15,8 +15,7 @@ return [
     |
     */
 
-    'default' => 'corcel',
-    //'default' => env('DB_CONNECTION', 'corcel'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
