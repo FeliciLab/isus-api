@@ -10,57 +10,77 @@ use Illuminate\Http\Request;
 
 class WordpressController extends Controller
 {
-    public function projetosPorCategoria(Request $request, $categoriaid)
+    private $step = 20;
+
+    public function projetosPorCategoria(Request $request, $categoriaId)
     {
-        $projeto = new Projeto();
-        $data = $projeto->retornaProjetosPorCategoria($categoriaid);
+
+        $categoria = Categoria::where('term_id', $categoriaId)->first();
+
+        $projetosPublicados = [];
+        foreach ($categoria->projetos as $projeto) {
+            $projetosPublicados[] = $projeto;
+        }
+        
         // Pagination
-        $total = count($data);
-        $step = $request->step ?? 10;
+        $total = count($projetosPublicados);
+        $step = $request->step ?? $this->step;
         $current_page = $request->page ?? 1;
 
-        $paginate = $this::paginationResolver($data, $step, $total, $current_page);
+        $paginate = $this::paginationResolver($projetosPublicados, $step, $total, $current_page);
         return response()->json($paginate);
     }
 
     public function projetoPorId(Request $request, $id)
     {
-        $projeto = new Projeto();
-        $projeto = $projeto->getPorId($id);
-
-        return response()->json($projeto);
+        $projeto = Projeto::find($id);
+        return response()->json([
+            'id' => $projeto->id,
+            'slug' => $projeto->slug,
+            'post_date' => $projeto->data,
+            'post_title' => $projeto->post_title,
+            'post_content' => $projeto->content,
+            'image' => $projeto->image,
+        ]);
     }
 
     public function buscaPorProjetos(Request $request)
     {
-        $projeto = new Projeto();
-        $projetos = $projeto->busca($request->search);
+       $search = $request->search ?? ' ';
 
-        // Pagination
-        $total = count($projetos);
-        $step = $request->step ?? 10;
+       $projetos = Projeto::query()
+                ->where('post_title', 'LIKE', "%{$search}%")
+                ->orWhere('content', 'LIKE', "%{$search}%")->get();
+
+        $projetosSearch = [];
+        foreach ($projetos as $projeto) {
+            $projetosSearch[] = [
+                'ID' => $projeto->id,
+                'data' => $projeto->data,
+                'post_title' => $projeto->post_title,
+                'slug' => $projeto->slug,
+                'content' => $projeto->content,
+                'image' => $projeto->image
+            ];
+        }
+
+        $total = count($projetosSearch);
+        $step = $request->step ?? $this->step;
         $current_page = $request->page ?? 1;
 
-        $paginate = $this::paginationResolver($projetos, $step, $total, $current_page);
+        $paginate = $this::paginationResolver($projetosSearch, $step, $total, $current_page);
 
-       return response()->json($paginate);
+        return response()->json($paginate);
     }
 
     public function categoriasArquitetura()
     {
         $arquitetura = [];
 
-        $categoria = new Categoria();
-        $categoriasObj = $categoria->retornaCategorias();
-
         $apps = App::APP;
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
-                foreach ($categoriasObj as $categoriaObj) {
-                    if ($categoriaObj['term_id'] == $categoriaId) {
-                        $arquitetura[$key][] = $categoriaObj;
-                    }
-                }
+                $arquitetura[$key][] = Categoria::where('term_id', $categoriaId)->first();
             }
         }
 

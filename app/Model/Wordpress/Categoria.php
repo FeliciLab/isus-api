@@ -2,23 +2,13 @@
 
 namespace App\Model\Wordpress;
 
+use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
 
-class Categoria
+class Categoria extends Model
 {
-    public function retornaCategorias()
+    public function projetos()
     {
-        $client = new Client();
-        $res = $client->get(App::WORDPRESS_ENDPOINT . 'project_category/?per_page=100');
-        $categoriaAPI = json_decode($res->getBody(), false);
-        foreach ($categoriaAPI as $cat) {
-            $categorias[] = [
-                'term_id' => $cat->id,
-                'name' => $cat->name,
-                'slug' => $cat->slug,
-            ];
-        }
-
-        return $categorias;
+        return $this->hasMany('App\Model\Wordpress\Projeto', 'categoria_id', 'term_id');
     }
 }
