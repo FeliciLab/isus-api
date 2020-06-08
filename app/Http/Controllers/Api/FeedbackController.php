@@ -15,23 +15,53 @@ class FeedbackController extends Controller
         $validator = $this->validarFeedback($request);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ]);
+            return $this->enviarMensagemDeErro($validator);
         }
 
         $dados = $request->all();
-        $imagem = $dados['imagem'];
 
-        if (empty($imagem)) {
-            $this->enviarEmail($dados);
-        } else {
+        if (key_exists('imagem', $dados)) {
+            $imagem = $dados['imagem'];
+            $validator = $this->validarImagem($request);
+
+            if ($validator->fails()) {
+                return $this->enviarMensagemDeErro($validator);
+            }
+
             $this->enviarEmailComAnexo($dados, $imagem);
+        } else {
+            $this->enviarEmail($dados);
         }
 
-        return response()->json([
-            'success' => true
+        return $this->enviarMensagemDeSucesso();
+    }
+
+    private function enviarMensagemDeSucesso()
+    {
+        return response()->json([ 'success' => true ]);
+    }
+
+    private function enviarMensagemDeErro($validator)
+    {
+        return response()->json([ 'success' => false, 'errors' => $validator->errors() ]);
+    }
+
+    private function validarImagem($request)
+    {
+        $is_base64 = function ($attribute, $value, $fail) {
+            if (base64_encode(base64_decode($value, false)) !== $value){
+                $fail($attribute.' não é uma imagem válida');
+            }
+        };
+
+        return Validator::make($request->all(), [
+            'imagem.nome' => 'required',
+            'imagem.dados' => ['required', $is_base64],
+            'imagem.tamanho' => 'required|integer|max:2000000',
+            'imagem.tipo' => 'required|endswith:jpeg,png,jpg'
+        ], [
+            'imagem.tamanho.max' => 'O arquivo não pode ser maior que 2 MB',
+            'imagem.tipo.endswith' => 'O arquivo deve ser uma imagem .jpeg, .jpg ou .png'
         ]);
     }
 
@@ -41,12 +71,6 @@ class FeedbackController extends Controller
             'email' => 'required',
             'categoria' => 'required',
             'texto' => 'required',
-            'imagem' => 'present',
-            '*.tamanho' => 'integer|max:2000000',
-            '*.tipo' => 'endswith:jpeg,png,jpg'
-        ], [
-            '*.tamanho.max' => 'O arquivo não pode ser maior que 2 MB',
-            '*.tipo.endswith' => 'O arquivo deve ser uma imagem .jpeg, .jpg ou .png'
         ]);
     }
 
