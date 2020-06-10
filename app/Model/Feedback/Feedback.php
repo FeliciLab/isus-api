@@ -41,7 +41,7 @@ class Feedback
     {
         $feedback = (array) $this;
         \Mail::send('email.feedback', array('dados' => $feedback), function ($mensagem) use ($feedback) {
-            $mensagem->from('matheus.bernardes@thoughtworks.com')
+            $mensagem->from(env('MAIL_USERNAME'))
             ->to('feedback.isus@esp.ce.gov.br')
             ->subject('ISUS APP - FEEDBACK. ' . date('d/m/Y H:i:s'));
         });
