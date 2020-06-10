@@ -3,6 +3,7 @@
 namespace App\Model\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class FeedbackComImagem extends Feedback
 {
@@ -35,9 +36,20 @@ class FeedbackComImagem extends Feedback
             'imagem.tipo' => 'required|endswith:jpeg,png,jpg'
         ],
         [
-            'imagem.tamanho.max' => 'O arquivo não pode ser maior que 2 MB',
-            'imagem.tipo.endswith' => 'O arquivo deve ser uma imagem .jpeg, .jpg ou .png'
+            'imagem.tamanho.max' => 'A imagem não pode ser maior que 2 MB',
+            'imagem.tipo.endswith' => 'A imagem deve ser no formato .jpeg, .jpg ou .png'
         ]);
+    }
+
+    public function enviarEmail()
+    {
+        $feedback = (array) $this;
+        \Mail::send('email.feedback', array('dados' => (array) $feedback), function ($message) use ($feedback) {
+            $message->from('matheus.bernardes@thoughtworks.com')
+            ->to('feedback.isus@esp.ce.gov.br')
+            ->subject('ISUS APP - FEEDBACK. ' . date('d/m/Y H:i:s'))
+            ->attachData(base64_decode($this->imagem['dados']), $this->imagem['nome'], ['mime' => $this->imagem['tipo']]);
+        });
     }
 }
 

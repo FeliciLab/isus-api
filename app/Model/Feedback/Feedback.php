@@ -3,6 +3,7 @@
 namespace App\Model\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class Feedback
 {
@@ -34,5 +35,15 @@ class Feedback
             'categoria' => 'required',
             'texto' => 'required',
         ]);
+    }
+
+    public function enviarEmail()
+    {
+        $feedback = (array) $this;
+        \Mail::send('email.feedback', array('dados' => $feedback), function ($mensagem) use ($feedback) {
+            $mensagem->from('matheus.bernardes@thoughtworks.com')
+            ->to('feedback.isus@esp.ce.gov.br')
+            ->subject('ISUS APP - FEEDBACK. ' . date('d/m/Y H:i:s'));
+        });
     }
 }
