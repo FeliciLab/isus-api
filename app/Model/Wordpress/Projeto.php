@@ -2,39 +2,13 @@
 
 namespace App\Model\Wordpress;
 
-use Corcel\Model\Post;
-use App\Model\Wordpress\Categoria;
+use Illuminate\Database\Eloquent\Model;
+use GuzzleHttp\Client;
 
-class Projeto extends Post
+class Projeto extends Model
 {
-    protected $postType = 'project';
-
-    public function retornaProjetosPorCategoria($categoriaid)
+    public function categoria()
     {
-        $categorias = Categoria::where('taxonomy', 'project_category')
-                                ->where('term_id', $categoriaid)
-                                ->get();
-        $projetos = [];
-        foreach ($categorias as $categoria) {
-            $projetosPublicados = [];
-            foreach ($categoria->posts as $post) {
-                if ($post->post_status == 'publish') {
-                    $projetosPublicados[] = [
-                        'id' => $post->ID,
-                        'data' => $post->post_date,
-                        'post_title' => $post->post_title,
-                        'slug' => $post->slug,
-                        'content' => $post->content,
-                        'image' => $post->image,
-                        'terms' => $post->terms,
-                        'keywords' => $post->keywords
-                    ];
-                }
-            }
-
-            $projetos = $projetosPublicados;
-        }
-
-        return $projetos;
+        return $this->belongsTo('App\Model\Categoria');
     }
 }

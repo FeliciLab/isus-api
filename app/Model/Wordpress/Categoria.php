@@ -2,34 +2,13 @@
 
 namespace App\Model\Wordpress;
 
-use Corcel\Model\Taxonomy;
+use Illuminate\Database\Eloquent\Model;
+use GuzzleHttp\Client;
 
-class Categoria extends Taxonomy
+class Categoria extends Model
 {
-    public function retornaCategorias()
+    public function projetos()
     {
-        $data = array();
-
-        $categoriasPai = self::where('taxonomy', 'project_category')->where('parent', 0)->get();
-        foreach ($categoriasPai as $categoriaPai) {
-            $subCategorias = self::where('taxonomy', 'project_category')->where('parent', $categoriaPai->term_id)->get();
-
-            $subCategoriasA = null;
-            foreach ($subCategorias as $subcategoria) {
-                $subCategoriasA[] = $subcategoria->term;
-            }
-
-            $dataA['categoria'] = $categoriaPai->term;
-            $dataA['categoria']['subcategorias'] = $subCategoriasA;
-
-            $data[] = $dataA;
-        }
-
-        return $data;
-    }
-
-    public function retornaCategoria($id)
-    {
-        return self::where('taxonomy', 'project_category')->where('term_id', $id)->get();
+        return $this->hasMany('App\Model\Wordpress\Projeto', 'categoria_id', 'term_id');
     }
 }

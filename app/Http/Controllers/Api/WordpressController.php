@@ -6,88 +6,84 @@ use App\Http\Controllers\Controller;
 use App\Model\Wordpress\Projeto;
 use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\App;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class WordpressController extends Controller
 {
-    public function projetos(Request $request)
-    {
-        $data = Projeto::published()->paginate($request->step ?? 10);
-        return response()->json($data);
-    }
+    private $step = 20;
 
-    public function categorias()
+    public function projetosPorCategoria(Request $request, $categoriaId)
     {
-        $categoria = new Categoria();
-        $data = $categoria->retornaCategorias();
 
-        return response()->json($data);
-    }
+        $categoria = Categoria::where('term_id', $categoriaId)->first();
 
-    public function projetosPorCategoria(Request $request, $categoriaid)
-    {
-        $projeto = new Projeto();
-        $data = $projeto->retornaProjetosPorCategoria($categoriaid);
+        $projetosPublicados = [];
+
+        if (isset($categoria)) {
+            foreach ($categoria->projetos as $projeto) {
+                $projetosPublicados[] = $projeto;
+            }
+        }
+
         // Pagination
-        $total = count($data);
-        $step = $request->step ?? 10;
+        $total = count($projetosPublicados);
+        $step = $request->step ?? $this->step;
         $current_page = $request->page ?? 1;
 
-        $paginate = $this::paginationResolver($data, $step, $total, $current_page);
+        $paginate = $this::paginationResolver($projetosPublicados, $step, $total, $current_page);
         return response()->json($paginate);
     }
 
     public function projetoPorId(Request $request, $id)
     {
-        $client = new Client();
-        $res = $client->get('https://coronavirus.ceara.gov.br/wp-json/wp/v2/project/' . $id);
-        $projetoAPI = json_decode($res->getBody(), true);
-
         $projeto = Projeto::find($id);
-        $projeto = [
-            'id' => $projeto->ID,
+        return response()->json([
+            'id' => $projeto->id,
             'slug' => $projeto->slug,
-            'post_date' => $projeto->post_date,
+            'post_date' => $projeto->data,
             'post_title' => $projeto->post_title,
-            'post_status' => $projeto->post_status,
+            'post_content' => $projeto->content,
             'image' => $projeto->image,
-            'keywords' => $projeto->keywords,
-            'post_content' => $projetoAPI['content']['rendered']
-        ];
-
-        return response()->json($projeto);
+        ]);
     }
 
-    public function buscaPorProjetos(Request $request) {
+    public function buscaPorProjetos(Request $request)
+    {
+       $search = $request->search ?? ' ';
 
-        $search = $request->search ?? ' ';
-        //buscando os campos
-        $projetos = Projeto::select('*')
-        ->where(function($query) use ($search) {
-            return $query
-            ->orWhere('post_title', 'like', '%'.$search.'%')
-            ->orWhere('post_excerpt', 'like', '%'.$search.'%')
-            ->orWhere('post_content', 'like', '%'.$search.'%');
-        })->published()->paginate($request->step ?? 10);
+       $projetos = Projeto::query()
+                ->where('post_title', 'LIKE', "%{$search}%")
+                ->orWhere('content', 'LIKE', "%{$search}%")->get();
 
-       return response()->json($projetos);
+        $projetosSearch = [];
+        foreach ($projetos as $projeto) {
+            $projetosSearch[] = [
+                'ID' => $projeto->id,
+                'data' => $projeto->data,
+                'post_title' => $projeto->post_title,
+                'slug' => $projeto->slug,
+                'content' => $projeto->content,
+                'image' => $projeto->image
+            ];
+        }
+
+        $total = count($projetosSearch);
+        $step = $request->step ?? $this->step;
+        $current_page = $request->page ?? 1;
+
+        $paginate = $this::paginationResolver($projetosSearch, $step, $total, $current_page);
+
+        return response()->json($paginate);
     }
 
     public function categoriasArquitetura()
     {
         $arquitetura = [];
 
-        $categoria = new Categoria();
-
         $apps = App::APP;
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
-                $cat = $categoria->retornaCategoria($categoriaId);
-                if (!empty($cat[0])) {
-                    $arquitetura[$key][] = $cat[0]->term;
-                }
-
+                $arquitetura[$key][] = Categoria::where('term_id', $categoriaId)->first();
             }
         }
 
