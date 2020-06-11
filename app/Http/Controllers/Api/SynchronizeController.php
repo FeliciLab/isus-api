@@ -13,16 +13,16 @@ class SynchronizeController extends Controller
 {
     const WORDPRESS_ENDPOINT = 'https://coronavirus.ceara.gov.br/wp-json/wp/v2/';
 
-    public function index() 
+    public function index()
     {
         $apps = App::APP;
 
         \DB::statement("SET FOREIGN_KEY_CHECKS = 0");
         \DB::statement("TRUNCATE TABLE projetos");
         \DB::statement("TRUNCATE TABLE categorias");
-        \DB::statement("SET FOREIGN_KEY_CHECKS = 1"); 
+        \DB::statement("SET FOREIGN_KEY_CHECKS = 1");
 
-        
+
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
                 $client = new Client();
@@ -41,23 +41,28 @@ class SynchronizeController extends Controller
                 $projetosAPI = json_decode($resProjeto->getBody(), false);
 
                 foreach ($projetosAPI as $post) {
-                    $clientImage = new Client();
-                    $resImagem = $clientImage->get($post->_links->{'wp:attachment'}[0]->href);
-                    $imageAPI = json_decode($resImagem->getBody(), false);
-
                     $projeto = new Projeto();
                     $projeto->id = $post->id;
                     $projeto->data = $post->date;
                     $projeto->post_title = $post->title->rendered;
                     $projeto->slug = $post->slug;
                     $projeto->content = $post->content->rendered;
-                    $projeto->image = count($imageAPI) > 0 ? $imageAPI[0]->guid->rendered : null;
+
+                    try {
+                        $clientImage = new Client();
+                        $resImagem = $clientImage->get($post->_links->{'wp:featuredmedia'}[0]->href);
+                        $imageAPI = json_decode($resImagem->getBody(), false);
+                        $projeto->image = $imageAPI->guid->rendered;
+                    } catch (\Exception $e) {
+                        $projeto->image = null;
+                    }
+
                     $projeto->categoria_id = $categoriaId;
 
                     $projeto->save();
                 }
             }
         }
-        
+
     }
 }
