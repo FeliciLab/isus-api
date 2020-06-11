@@ -18,10 +18,13 @@ class WordpressController extends Controller
         $categoria = Categoria::where('term_id', $categoriaId)->first();
 
         $projetosPublicados = [];
-        foreach ($categoria->projetos as $projeto) {
-            $projetosPublicados[] = $projeto;
+
+        if (isset($categoria)) {
+            foreach ($categoria->projetos as $projeto) {
+                $projetosPublicados[] = $projeto;
+            }
         }
-        
+
         // Pagination
         $total = count($projetosPublicados);
         $step = $request->step ?? $this->step;
