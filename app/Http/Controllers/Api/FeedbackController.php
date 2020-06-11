@@ -3,38 +3,27 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\Feedback\Feedback;
+use App\Model\Feedback\FeedbackComImagem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-
-use Mail;
 
 class FeedbackController extends Controller
 {
     public function enviarEmail(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'categoria' => 'required',
-            'texto' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ]);
+        $feedback = "";
+        if (key_exists('imagem', $request->all())) {
+            $feedback = new FeedbackComImagem($request);
+        } else {
+            $feedback = new Feedback($request);
         }
 
-        $dados = $request->all();
+        if (!$feedback->valido()) {
+            return response()->json([ 'success' => false, 'errors' => $feedback->erros()]);
+        }
 
-        \Mail::send('email.feedback', array('dados' => $dados), function ($message) use ($dados) {
-            $message->from(env('MAIL_USERNAME'))
-                    ->to('feedback.isus@esp.ce.gov.br')
-                    ->subject('ISUS APP - FEEDBACK. ' . date('d/m/Y H:i:s'));
-        });
+        $feedback->enviarEmail();
 
-        return response()->json([
-            'success' => true
-        ]);
+        return response()->json([ 'success' => true ]);
     }
 }
