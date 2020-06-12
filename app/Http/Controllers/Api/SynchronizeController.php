@@ -26,7 +26,7 @@ class SynchronizeController extends Controller
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
                 $client = new Client();
-                $res = $client->get(self::WORDPRESS_ENDPOINT . 'project_category/' . $categoriaId);
+                $res = $client->get(self::WORD  PRESS_ENDPOINT . 'project_category/' . $categoriaId);
                 $categoriaAPI = json_decode($res->getBody(), false);
 
                 $categoria = new Categoria();
