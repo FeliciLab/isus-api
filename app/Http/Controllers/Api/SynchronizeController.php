@@ -44,7 +44,7 @@ class SynchronizeController extends Controller
                     $projeto = new Projeto();
                     $projeto->id = $post->id;
                     $projeto->data = $post->date;
-                    $projeto->post_title = $post->title->rendered;
+                    $projeto->post_title = html_entity_decode($post->title->rendered, ENT_NOQUOTES, 'UTF-8');
                     $projeto->slug = $post->slug;
                     $projeto->content = $post->content->rendered;
 
