@@ -5,7 +5,6 @@ version: "3.1"
 services:
     webserver:
       image: nginx:alpine
-      container_name: anticorona-corcel-webserver
       working_dir: /application
       volumes:
           - .:/application
@@ -15,7 +14,6 @@ services:
 
     php-fpm:
       build: phpdocker/php-fpm
-      container_name: anticorona-corcel-php-fpm
       working_dir: /application
       volumes:
         - .:/application
@@ -28,4 +26,4 @@ services:
         - .:/application
       environment:
         - MYSQL_ROOT_PASSWORD=12345678
-        - MYSQL_DATABASE=coronavirus
+        - MYSQL_DATABASE=isus
