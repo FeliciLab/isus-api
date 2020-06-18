@@ -45,7 +45,7 @@ class FeedbackComImagem extends Feedback
     {
         $feedback = (array) $this;
         \Mail::send('email.feedback', array('dados' => (array) $feedback), function ($message) use ($feedback) {
-            $message->from($feedback['email'])
+            $message->from(env('MAIL_USERNAME'), $feedback['email'])
             ->to('feedback.isus@esp.ce.gov.br')
             ->subject('ISUS APP - FEEDBACK. ' . date('d/m/Y H:i:s'))
             ->attachData(base64_decode($this->imagem['dados']), $this->imagem['nome'], ['mime' => $this->imagem['tipo']]);
