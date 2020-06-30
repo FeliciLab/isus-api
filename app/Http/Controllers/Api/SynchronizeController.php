@@ -8,6 +8,7 @@ use App\Model\Wordpress\App;
 
 use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\Projeto;
+use App\Model\Wordpress\Anexo;
 
 class SynchronizeController extends Controller
 {
@@ -20,6 +21,7 @@ class SynchronizeController extends Controller
         \DB::statement("SET FOREIGN_KEY_CHECKS = 0");
         \DB::statement("TRUNCATE TABLE projetos");
         \DB::statement("TRUNCATE TABLE categorias");
+        \DB::statement("TRUNCATE TABLE anexos");
         \DB::statement("SET FOREIGN_KEY_CHECKS = 1");
 
 
@@ -57,8 +59,18 @@ class SynchronizeController extends Controller
                         $projeto->image = null;
                     }
 
-                    $projeto->categoria_id = $categoriaId;
+                    $clientAnexo = new Client();
+                    $resAnexo = $clientAnexo->get($post->_links->{'wp:attachment'}[0]->href);
+                    $anexosAPI = json_decode($resAnexo->getBody(), false);
+                    foreach ($anexosAPI as $anexoAPI) {
+                        $anexo = new Anexo();
+                        $anexo->projeto_id = $post->id;
+                        $anexo->link = $anexoAPI->guid->rendered;
+                        $anexo->save();
+                    }
 
+
+                    $projeto->categoria_id = $categoriaId;
                     $projeto->save();
                 }
             }

@@ -9,6 +9,11 @@ class Projeto extends Model
 {
     public function categoria()
     {
-        return $this->belongsTo('App\Model\Categoria');
+        return $this->belongsTo('App\Model\Wordpress\Categoria');
+    }
+
+    public function anexos()
+    {
+        return $this->hasMany('App\Model\Wordpress\Anexo');
     }
 }
