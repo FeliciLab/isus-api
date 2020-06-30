@@ -44,6 +44,7 @@ class WordpressController extends Controller
             'post_title' => $projeto->post_title,
             'post_content' => $projeto->content,
             'image' => $projeto->image,
+            'anexos' => $projeto->anexos()->get()
         ]);
     }
 
