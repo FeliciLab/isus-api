@@ -13,7 +13,7 @@ class FeedbackComImagem extends Feedback
     {
         $dados = $request->all();
         $this->email = $dados['email'];
-        $this->categoria = $dados['categoria'];
+        $this->tipoDeFeedback = $dados['tipoDeFeedback'];
         $this->texto = $dados['texto'];
         $this->imagem = $dados['imagem'];
     }
@@ -28,7 +28,7 @@ class FeedbackComImagem extends Feedback
 
         return Validator::make((array) $this, [
             'email' => 'required',
-            'categoria' => 'required',
+            'tipoDeFeedback' => 'required',
             'texto' => 'required',
             'imagem.nome' => 'required',
             'imagem.dados' => ['required', $is_base64],
