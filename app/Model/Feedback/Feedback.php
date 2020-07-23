@@ -1,21 +1,23 @@
 <?php
 
 namespace App\Model\Feedback;
+
+use App\Model\EnviavelPorEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Mail;
 
-class Feedback
+class Feedback implements EnviavelPorEmail
 {
     public $email = "";
-    public $categoria = "";
+    public $tipoDeFeedback = "";
     public $texto = "";
 
     function __construct(Request $request)
     {
         $dados = $request->all();
         $this->email = $dados['email'];
-        $this->categoria = $dados['categoria'];
+        $this->tipoDeFeedback = $dados['tipoDeFeedback'];
         $this->texto = $dados['texto'];
     }
 
@@ -32,7 +34,7 @@ class Feedback
         $feedback = (array) $this;
         return Validator::make($feedback, [
             'email' => 'required',
-            'categoria' => 'required',
+            'tipoDeFeedback' => 'required',
             'texto' => 'required',
         ]);
     }
