@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use App\Model\UserKeycloak;
 
 class KeycloakService
 {
@@ -42,16 +43,14 @@ class KeycloakService
         return $body->access_token;
     }
 
-    public function save()
+    public function save(UserKeycloak $userKeycloak)
     {
-        $response = $this->keycloakClient->post('https://dev.id.org.br/auth/admin/realms/saude/users', [
-            RequestOptions::JSON => ['email' => 'victormagalhaes@gmail.com'],
+        return $this->keycloakClient->post("{$this->keycloakUri}/auth/admin/realms/saude/users", [
+            RequestOptions::JSON => $userKeycloak->toKeycloak(),
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => "Bearer {$this->getTokenAdmin()}"
             ]
         ]);
-
-        dd($response);
     }
 }
