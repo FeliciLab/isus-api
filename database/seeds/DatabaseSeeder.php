@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             CategoriasProfissionaisSeeder::class,
             TipoContratacoesSeeder::class,
             TitulacoesAcademicaSeeder::class,
-            InstituicoesSeeder::class
+            InstituicoesSeeder::class,
+            ServicoSeeder::class,
         ]);
     }
 }

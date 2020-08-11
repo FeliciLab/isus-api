@@ -12,7 +12,10 @@ class TipoContratacoesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tipo_contratacoes')->insert(['id'   => 1 ,'nome' => 'Contratação 1']);
-        DB::table('tipo_contratacoes')->insert(['id'   => 2 ,'nome' => 'Contratação 2']);
+        DB::table('tipo_contratacoes')->insert(['id'   => 1 ,'nome' => 'Estatutário']);
+        DB::table('tipo_contratacoes')->insert(['id'   => 2 ,'nome' => 'Cooperado']);
+        DB::table('tipo_contratacoes')->insert(['id'   => 3 ,'nome' => 'Terceirizado']);
+        DB::table('tipo_contratacoes')->insert(['id'   => 4 ,'nome' => 'Autônomo']);
+        DB::table('tipo_contratacoes')->insert(['id'   => 5 ,'nome' => 'Outro']);
     }
 }
