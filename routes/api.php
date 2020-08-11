@@ -34,6 +34,7 @@ Route::namespace('Api')->group(function () {
     Route::get('/instituicoes', 'InstituicaoController@index');
 
     Route::post('/user', 'UserController@save');
+    Route::post('/auth', 'AuthController@auth');
 
 });
 

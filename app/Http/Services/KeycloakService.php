@@ -30,6 +30,20 @@ class KeycloakService
         $this->keycloakAdminIsusGranttype = env("KEYCLOAK_ADMIN_ISUS_GRANTTYPE");
     }
 
+    public function login($email, $senha)
+    {
+        $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token", [
+            'form_params' => [
+                'username' => $email,
+                'password' => $senha,
+                'client_id' => 'isus',
+                'grant_type' => $this->keycloakAdminIsusGranttype
+            ]
+        ]);
+
+        return $response;
+    }
+
     private function getTokenAdmin()
     {
 
