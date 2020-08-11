@@ -45,24 +45,16 @@ class UserController extends Controller
     private function validarRequisicao($dados)
     {
         return Validator::make($dados, [
-            'enabled' => 'required|boolean',
-            'username' => 'required',
             'email' => ['required', 'email'],
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'password' => 'required',
-            'phone' => 'required|min:9|max:11',
+            'nome' => 'required',
+            'sobrenome' => 'required',
+            'senha' => 'min:8|required|required_with:repetirsenha|same:repetirsenha',
+            'repetirsenha' => 'min:8|required',
+            'telefone' => 'required|min:9|max:11',
             'cpf' => 'required|min:11|max:11',
-            'rg' => 'required',
-            'estadoId' => 'required',
-            'estado' => 'required',
             'cidadeId' => 'required',
             'cidade' => 'required',
-            'termos' => 'required|boolean',
-            'categoriaProfissional' => 'required',
-            'titulacaoAcademica' => 'required',
-            'tipoContratacao' => 'required',
-            'instituicao' => 'required'
+            'termos' => 'accepted'
         ]);
     }
 }

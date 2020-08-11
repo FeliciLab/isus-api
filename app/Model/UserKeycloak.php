@@ -5,7 +5,6 @@ namespace App\Model;
 class UserKeycloak
 {
     private $enabled = true;
-    private $username;
     private $email;
     private $firstName;
     private $lastName;
@@ -25,30 +24,28 @@ class UserKeycloak
 
     public function __construct($dados)
     {
-        $this->username = $dados['username'];
-        $this->email = $dados['email'];
-        $this->firstName = $dados['firstName'];
-        $this->lastName = $dados['lastName'];
-        $this->password = $dados['password'];
-        $this->phone = $dados['phone'];
-        $this->cpf = $dados['cpf'];
-        $this->rg = $dados['rg'];
-        $this->estadoId = $dados['estadoId'];
-        $this->estado = $dados['estado'];
-        $this->cidadeId = $dados['cidadeId'];
-        $this->cidade = $dados['cidade'];
-        $this->termos = $dados['termos'];
-        $this->categoriaProfissional = $dados['categoriaProfissional'];
-        $this->titulacaoAcademica = $dados['titulacaoAcademica'];
-        $this->tipoContratacao = $dados['tipoContratacao'];
-        $this->instituicao = $dados['instituicao'];
+        $this->email = $dados['email'] ?? null;
+        $this->firstName = $dados['nome'] ?? null;
+        $this->lastName = $dados['sobrenome'] ?? null;
+        $this->password = $dados['senha'] ?? null;
+        $this->phone = $dados['telefone'] ?? null;
+        $this->cpf = $dados['cpf'] ?? null;
+        $this->rg = $dados['rg'] ?? null;
+        $this->estadoId = $dados['estadoId'] ?? null;
+        $this->estado = $dados['estado'] ?? null;
+        $this->cidadeId = $dados['cidadeId'] ?? null;
+        $this->cidade = $dados['cidade'] ?? null;
+        $this->termos = $dados['termos'] ?? null;
+        $this->categoriaProfissional = $dados['categoriaProfissional'] ?? null;
+        $this->titulacaoAcademica = $dados['titulacaoAcademica'] ?? null;
+        $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
+        $this->instituicao = $dados['instituicao'] ?? null;
     }
 
     public function toKeycloak()
     {
         return [
             "enabled" => $this->enabled,
-            "username" => $this->username,
             "email" => $this->email,
             "firstName" => $this->firstName,
             "lastName" => $this->lastName,
