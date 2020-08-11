@@ -4,6 +4,8 @@ namespace App\Model;
 
 class UserKeycloak
 {
+
+    private $id;
     private $enabled = true;
     private $email;
     private $firstName;
@@ -21,6 +23,28 @@ class UserKeycloak
     private $titulacaoAcademica;
     private $tipoContratacao;
     private $instituicao;
+
+
+    public function getName()
+    {
+        return $this->firstName . " " . $this->lastName;
+    }
+
+
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
 
     public function __construct($dados)
     {

@@ -11,8 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -33,8 +32,9 @@ class UserController extends Controller
         $userKeycloak = new UserKeycloak($dados);
         $keyCloakService = new KeycloakService();
         try {
-            $resposta = $keyCloakService->save($userKeycloak);
-            if ($resposta->getStatusCode() == Response::HTTP_CREATED) {
+            $user = $keyCloakService->save($userKeycloak);
+
+            if (!empty($user->id_keycloak)) {
                 return response()->json([ 'sucesso' => true, 'mensagem' =>  "Usuário cadastrado com sucesso"]);
             }
         } catch (Exception $error) {
@@ -45,13 +45,13 @@ class UserController extends Controller
     private function validarRequisicao($dados)
     {
         return Validator::make($dados, [
-            'email' => ['required', 'email'],
+            'email' => 'required|email|unique:users',
             'nome' => 'required',
             'sobrenome' => 'required',
             'senha' => 'min:8|required|required_with:repetirsenha|same:repetirsenha',
             'repetirsenha' => 'min:8|required',
             'telefone' => 'required|min:9|max:11',
-            'cpf' => 'required|min:11|max:11',
+            'cpf' => 'required|min:11|max:11|unique:users',
             'cidadeId' => 'required',
             'cidade' => 'required',
             'termos' => 'accepted'

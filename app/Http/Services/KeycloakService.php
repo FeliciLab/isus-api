@@ -2,9 +2,12 @@
 
 namespace App\Http\Services;
 
+use App\Model\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use App\Model\UserKeycloak;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class KeycloakService
 {
@@ -45,12 +48,32 @@ class KeycloakService
 
     public function save(UserKeycloak $userKeycloak)
     {
-        return $this->keycloakClient->post("{$this->keycloakUri}/auth/admin/realms/saude/users", [
+        $resposta = $this->keycloakClient->post("{$this->keycloakUri}/auth/admin/realms/saude/users", [
             RequestOptions::JSON => $userKeycloak->toKeycloak(),
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => "Bearer {$this->getTokenAdmin()}"
             ]
         ]);
+
+        if ($resposta->getStatusCode() == Response::HTTP_CREATED) {
+
+            $location = $resposta->getHeader('Location');
+
+            $locationArray = explode('/', $location[0]);
+            $idKeycloak = $locationArray[count($locationArray)-1];
+
+            $user = new User();
+            $user->name = $userKeycloak->getName();
+            $user->cpf = $userKeycloak->getCpf();
+            $user->email = $userKeycloak->getEmail();
+            $user->password = Hash::make($userKeycloak->getPassword());
+            $user->id_keycloak = $idKeycloak;
+            $user->save();
+
+            return $user;
+        } else {
+            throw new \Exception('Usuário não criado error keycloak');
+        }
     }
 }
