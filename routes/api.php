@@ -36,8 +36,10 @@ Route::namespace('Api')->group(function () {
     Route::post('/user', 'UserController@save');
     Route::post('/auth', 'AuthController@auth');
 
+    Route::group(['middleware' => ['ApiProtectedRoute']], function () {
+        Route::post('/logout', 'AuthController@logout');
+    });
 });
-
 
 
 Route::get('/delay-textit/{segundos?}', function($segundos = 1) {

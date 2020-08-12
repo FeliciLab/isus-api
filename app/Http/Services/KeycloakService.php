@@ -44,6 +44,27 @@ class KeycloakService
         return $response;
     }
 
+    public function logout($refreshToken)
+    {
+        $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/logout", [
+            'form_params' => [
+                'refresh_token' => $refreshToken,
+                'client_id' => 'isus'
+            ]
+        ]);
+
+        return $response;
+    }
+
+    public function userProfile($token)
+    {
+        return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/userinfo", [
+            'headers' => [
+                'Authorization' => "{$token}"
+            ]
+        ]);
+    }
+
     private function getTokenAdmin()
     {
 
