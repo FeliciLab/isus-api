@@ -32,6 +32,7 @@ Route::namespace('Api')->group(function () {
     Route::get('/tipos-contratacoes', 'TipoContratacaoController@index');
     Route::get('/titulacoes-academica', 'TitulacaoAcademicaController@index');
     Route::get('/instituicoes', 'InstituicaoController@index');
+    Route::get('/unidades-servico', 'UnidadeServicoController@index');
 });
 
 

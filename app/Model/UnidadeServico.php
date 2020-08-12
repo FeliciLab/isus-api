@@ -4,9 +4,9 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Servico extends Model
+class UnidadeServico extends Model
 {
-    protected $table = 'servico';
+    protected $table = 'unidades_servico';
 
     protected $hidden = ['created_at', 'updated_at'];
 }
