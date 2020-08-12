@@ -77,7 +77,7 @@ class UserKeycloak
                 [
                     "type" => "password",
                     "value" => $this->password,
-                    "temporary" => 'false'
+                    "temporary" => false
                 ]
             ],
             "attributes" => [
