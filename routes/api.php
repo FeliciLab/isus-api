@@ -15,14 +15,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/synchronize', 'Api\SynchronizeController@index');
+Route::namespace('Api')->group(function () {
+    Route::get('/synchronize', 'SynchronizeController@index');
 
-Route::get('/buscaPorProjetos', 'Api\WordpressController@buscaPorProjetos');
-Route::get('/projetosPorCategoria/{categoriaid}', 'Api\WordpressController@projetosPorCategoria');
-Route::get('/projeto/{id}', 'Api\WordpressController@projetoPorId');
-Route::get('/categoriasArquitetura', 'Api\WordpressController@categoriasArquitetura');
-Route::post('/feedback', 'Api\FeedbackController@enviarEmail');
-Route::post('/alertaDeEpi', 'Api\AlertaDeEpiController@enviarEmail');
+    Route::get('/buscaPorProjetos', 'WordpressController@buscaPorProjetos');
+    Route::get('/projetosPorCategoria/{categoriaid}', 'WordpressController@projetosPorCategoria');
+    Route::get('/projeto/{id}', 'WordpressController@projetoPorId');
+    Route::get('/categoriasArquitetura', 'WordpressController@categoriasArquitetura');
+    Route::post('/feedback', 'FeedbackController@enviarEmail');
+    Route::post('/alertaDeEpi', 'AlertaDeEpiController@enviarEmail');
+
+    // cadastro profissional
+    Route::get('/estados', 'EstadoController@index');
+    Route::get('/estados/{estadoId}/municipios', 'MunicipioController@index');
+    Route::get('/categorias-profissionais', 'CategoriaProfissionalController@index');
+    Route::get('/tipos-contratacoes', 'TipoContratacaoController@index');
+    Route::get('/titulacoes-academica', 'TitulacaoAcademicaController@index');
+    Route::get('/instituicoes', 'InstituicaoController@index');
+    Route::get('/unidades-servico', 'UnidadeServicoController@index');
+
+    Route::post('/user', 'UserController@save');
+    Route::post('/auth', 'AuthController@auth');
+
+});
+
+
 
 Route::get('/delay-textit/{segundos?}', function($segundos = 1) {
     sleep($segundos);

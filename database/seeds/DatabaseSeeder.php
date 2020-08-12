@@ -11,6 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call([
+            EstadosSeeder::class,
+            MunicipiosSeeder::class,
+            CategoriasProfissionaisSeeder::class,
+            TipoContratacoesSeeder::class,
+            TitulacoesAcademicaSeeder::class,
+            InstituicoesSeeder::class,
+            UnidadesServicoSeeder::class,
+        ]);
     }
 }
