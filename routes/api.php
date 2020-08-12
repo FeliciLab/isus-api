@@ -33,6 +33,10 @@ Route::namespace('Api')->group(function () {
     Route::get('/titulacoes-academica', 'TitulacaoAcademicaController@index');
     Route::get('/instituicoes', 'InstituicaoController@index');
     Route::get('/unidades-servico', 'UnidadeServicoController@index');
+
+    Route::post('/user', 'UserController@save');
+    Route::post('/auth', 'AuthController@auth');
+
 });
 
 
