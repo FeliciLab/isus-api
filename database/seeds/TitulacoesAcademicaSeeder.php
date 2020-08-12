@@ -12,7 +12,14 @@ class TitulacoesAcademicaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('titulacoes_academica')->insert(['id'   => 1 ,'nome' => 'Titulação 1']);
-        DB::table('titulacoes_academica')->insert(['id'   => 2 ,'nome' => 'Titulação 2']);
+        DB::table('titulacoes_academica')->insert(['id'   => 1 ,'nome' => 'Graduado']);
+        DB::table('titulacoes_academica')->insert(['id'   => 2 ,'nome' => 'Especialista']);
+        DB::table('titulacoes_academica')->insert(['id'   => 3 ,'nome' => 'Mestrado']);
+        DB::table('titulacoes_academica')->insert(['id'   => 4 ,'nome' => 'Doutorado']);
+        DB::table('titulacoes_academica')->insert(['id'   => 5 ,'nome' => 'Residência em Terapia Intensiva']);
+        DB::table('titulacoes_academica')->insert(['id'   => 6 ,'nome' => 'Residência em Clínica Médica']);
+        DB::table('titulacoes_academica')->insert(['id'   => 7 ,'nome' => 'Residência em Urgência e Emergência']);
+        DB::table('titulacoes_academica')->insert(['id'   => 8 ,'nome' => 'Residência em Anestesiologia']);
+        DB::table('titulacoes_academica')->insert(['id'   => 9 ,'nome' => 'Residência em Outra']);
     }
 }
