@@ -23,6 +23,7 @@ class UserKeycloak
     private $titulacaoAcademica;
     private $tipoContratacao;
     private $instituicao;
+    private $unidadeServico;
 
 
     public function getName()
@@ -64,6 +65,7 @@ class UserKeycloak
         $this->titulacaoAcademica = $dados['titulacaoAcademica'] ?? null;
         $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
         $this->instituicao = $dados['instituicao'] ?? null;
+        $this->unidadeServico = $dados['unidadeServico'] ?? null;
     }
 
     public function toKeycloak()
@@ -77,7 +79,7 @@ class UserKeycloak
                 [
                     "type" => "password",
                     "value" => $this->password,
-                    "temporary" => 'false'
+                    "temporary" => false
                 ]
             ],
             "attributes" => [
@@ -92,7 +94,8 @@ class UserKeycloak
                 "CATEGORIA_PROFISSIONAL" => $this->categoriaProfissional,
                 "TITULACAO_ACADEMICA" => $this->titulacaoAcademica,
                 "TIPO_CONTRATACAO" => $this->tipoContratacao,
-                "INSTITUICAO" => $this->instituicao
+                "INSTITUICAO" => $this->instituicao,
+                "UNIDADE_SERVICO" => $this->unidadeServico
             ]
         ];
     }

@@ -34,6 +34,23 @@ class AuthController extends Controller
         }
     }
 
+    public function logout(Request $request)
+    {
+        $dados = $request->all();
+        $keyCloakService = new KeycloakService();
+        try {
+            $resposta = $keyCloakService->logout($dados['refresh_token']);
+
+            if ($resposta->getStatusCode() == Response::HTTP_NO_CONTENT) {
+                return response()->json([ 'sucesso' => true, 'mensagem' =>  "Logout de usuário realizado com sucesso"], Response::HTTP_OK);
+            } else {
+                return response()->json([ 'sucesso' => true, 'mensagem' =>  "Erro ao realizar logout de usuário"], Response::HTTP_BAD_REQUEST);
+            }
+        } catch (Exception $error) {
+            return response()->json([ 'sucesso' => false, 'erros' =>  "Não foi possível realizar o logout do usuário"]);
+        }
+    }
+
     private function validarRequisicao($dados)
     {
         return Validator::make($dados, [
