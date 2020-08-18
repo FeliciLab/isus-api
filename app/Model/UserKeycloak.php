@@ -25,6 +25,25 @@ class UserKeycloak
     private $instituicao;
     private $unidadeServico;
 
+    private function pegarSobrenome($nomeCompleto) {
+        $sobrenome = "";
+        $nomeCompletoArr = explode(" ", $nomeCompleto);
+        for ($i = 0; $i < sizeof($nomeCompletoArr) ; $i++){
+            if ($i != 0) {
+                if ($i < sizeof($nomeCompletoArr)-1) {
+                    $sobrenome .= $nomeCompletoArr[$i] . ' ';
+                } else {
+                    $sobrenome .= $nomeCompletoArr[$i];
+                }
+            }
+        }
+        return $sobrenome;
+    }
+
+    private function pegarNome($nomeCompleto) {
+        return explode(' ', $nomeCompleto)[0];
+    }
+
 
     public function getName()
     {
@@ -49,9 +68,13 @@ class UserKeycloak
 
     public function __construct($dados)
     {
+        $nomeCompleto = $dados['nomeCompleto'] ?? null;
+        $nome = $this->pegarNome($nomeCompleto);
+        $sobrenome = $this->pegarSobrenome($nomeCompleto);
+
         $this->email = $dados['email'] ?? null;
-        $this->firstName = $dados['nome'] ?? null;
-        $this->lastName = $dados['sobrenome'] ?? null;
+        $this->firstName = $nome ?? null;
+        $this->lastName = $sobrenome ?? null;
         $this->password = $dados['senha'] ?? null;
         $this->phone = $dados['telefone'] ?? null;
         $this->cpf = $dados['cpf'] ?? null;
