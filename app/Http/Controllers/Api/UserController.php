@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\KeycloakService;
-use App\Model\Estado;
 use App\Model\User;
 use App\Model\UserKeycloak;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -46,8 +43,7 @@ class UserController extends Controller
     {
         return Validator::make($dados, [
             'email' => 'required|email|unique:users',
-            'nome' => 'required',
-            'sobrenome' => 'required',
+            'nomeCompleto' => 'required',
             'senha' => 'min:8|required|required_with:repetirsenha|same:repetirsenha',
             'repetirsenha' => 'min:8|required',
             'telefone' => 'required|min:9|max:11',
