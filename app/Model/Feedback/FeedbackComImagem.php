@@ -11,10 +11,8 @@ class FeedbackComImagem extends Feedback
 
     function __construct(Request $request)
     {
+        parent::__construct($request);
         $dados = $request->all();
-        $this->email = $dados['email'];
-        $this->tipoDeFeedback = $dados['tipoDeFeedback'];
-        $this->texto = $dados['texto'];
         $this->imagem = $dados['imagem'];
     }
 
@@ -30,6 +28,8 @@ class FeedbackComImagem extends Feedback
             'email' => 'required',
             'tipoDeFeedback' => 'required',
             'texto' => 'required',
+            'versaoAplicativo' => 'required',
+            'plataforma' => 'required',
             'imagem.nome' => 'required',
             'imagem.dados' => ['required', $is_base64],
             'imagem.tamanho' => 'required|integer|max:2000000',
