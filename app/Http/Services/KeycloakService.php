@@ -6,6 +6,7 @@ use App\Model\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use App\Model\UserKeycloak;
+use App\Model\UserUnidadeServico;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
@@ -104,7 +105,21 @@ class KeycloakService
             $user->email = $userKeycloak->getEmail();
             $user->password = Hash::make($userKeycloak->getPassword());
             $user->id_keycloak = $idKeycloak;
+            $user->municipio_id = $userKeycloak->getCidadeId();
+            $user->categoriaprofissional_id = $userKeycloak->getCategoriaProfissionalId();
             $user->save();
+
+            if (!$user->id) {
+                throw new \Exception('Usuário não criado na API');
+            }
+
+            $unidadesServicos = $userKeycloak->getUnidadesServicos();
+            foreach ($unidadesServicos as $servico) {
+                $userUnidadeServico = new UserUnidadeServico();
+                $userUnidadeServico->user_id = $user->id;
+                $userUnidadeServico->unidade_servico_id = $servico->id;
+                $userUnidadeServico->save();
+            }
 
             return $user;
         } else {

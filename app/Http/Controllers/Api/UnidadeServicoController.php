@@ -18,7 +18,7 @@ class UnidadeServicoController extends Controller
     public function index()
     {
         try {
-            $unidadeServico = $this->unidadeServico->all();
+            $unidadeServico = $this->unidadeServico->whereNotNull('pai')->get();
 
             return response()->json($unidadeServico->toArray(), 200);
         } catch(Exception $e){

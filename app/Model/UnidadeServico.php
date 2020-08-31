@@ -8,5 +8,4 @@ class UnidadeServico extends Model
 {
     protected $table = 'unidades_servico';
 
-    protected $hidden = ['created_at', 'updated_at'];
 }

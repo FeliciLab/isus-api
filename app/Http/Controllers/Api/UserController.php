@@ -28,15 +28,15 @@ class UserController extends Controller
         }
         $userKeycloak = new UserKeycloak($dados);
         $keyCloakService = new KeycloakService();
-        try {
+        //try {
             $user = $keyCloakService->save($userKeycloak);
 
-            if (!empty($user->id_keycloak)) {
-                return response()->json([ 'sucesso' => true, 'mensagem' =>  "Usuário cadastrado com sucesso"]);
-            }
-        } catch (Exception $error) {
-            return response()->json([ 'sucesso' => false, 'erros' =>  "Não foi possível cadastrar o usuário"]);
-        }
+        //     if (!empty($user->id_keycloak)) {
+        //         return response()->json([ 'sucesso' => true, 'mensagem' =>  "Usuário cadastrado com sucesso"]);
+        //     }
+        // } catch (Exception $error) {
+        //     return response()->json([ 'sucesso' => false, 'erros' =>  "Não foi possível cadastrar o usuário"]);
+        // }
     }
 
     private function validarRequisicao($dados)

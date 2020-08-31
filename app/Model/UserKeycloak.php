@@ -66,6 +66,21 @@ class UserKeycloak
         return $this->password;
     }
 
+    public function getCidadeId()
+    {
+        return $this->cidadeId;
+    }
+    public function getCategoriaProfissionalId()
+    {
+        $categoriaProfissional = json_decode($this->categoriaProfissional);
+        return $categoriaProfissional->id;
+    }
+
+    public function getUnidadesServicos()
+    {
+        return json_decode($this->unidadeServico);
+    }
+
     public function __construct($dados)
     {
         $nomeCompleto = $dados['nomeCompleto'] ?? null;
