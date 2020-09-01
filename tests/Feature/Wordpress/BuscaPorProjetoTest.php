@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Wordpress;
 
+use App\Model\Wordpress\App;
+use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\Projeto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -9,6 +11,23 @@ use Tests\TestCase;
 
 class BuscaPorProjetoTest extends TestCase
 {
+    use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $apps = App::APP;
+        foreach ($apps as $key => $app) {
+            foreach ($app as $categoriaId) {
+                $categoria = factory(Categoria::class)->create([
+                    'term_id' => $categoriaId
+                ]);
+
+            }
+        }
+    }
+
     public function testBuscaPorProjetosSemParametro()
     {
         $response = $this->json('GET', 'api/buscaPorProjetos');
@@ -20,10 +39,17 @@ class BuscaPorProjetoTest extends TestCase
 
     public function testBuscaPorProjetosComParametro()
     {
-        $response = $this->json('GET', 'api/buscaPorProjetos?search=covid');
+        $categorias = Categoria::all();
+        foreach ($categorias as $categoria) {
+            $projeto = factory(Projeto::class)->create([
+                'categoria_id' => $categoria->term_id
+            ]);
+        }
+
+        $response = $this->json('GET', "api/buscaPorProjetos?search={$projeto->post_title}");
         $response->assertOk();
         $response->assertJsonFragment([
-            'post_title' => 'Saúde Ceará disponibiliza curso sobre prevenção e controle de infecções'
+            'post_title' => $projeto->post_title
         ]);
     }
 }

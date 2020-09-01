@@ -8,8 +8,12 @@ use Tests\TestCase;
 
 class CategoriaProfissionalTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testRetornaTodasCategoriaProfissionais()
     {
+        $this->seed();
+
         $response = $this->json('GET', 'api/categorias-profissionais');
         $response->assertOk();
         $response->assertJsonFragment([
