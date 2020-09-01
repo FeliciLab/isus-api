@@ -8,17 +8,20 @@ use Tests\TestCase;
 
 class UnidadesServicoTest extends TestCase
 {
-    public function testRetornaTodasUnidadesServico()
+    public function testRetornaTodasSubUnidadesServico()
     {
         $response = $this->json('GET', 'api/unidades-servico');
         $response->assertOk();
         $response->assertJsonFragment([
-            'id' => 1,
+            'id' => 5,
+            'pai' => 1,
             'nome' => 'Pronto-socorro'
+
         ]);
         $response->assertJsonStructure([
             [
                 'id',
+                'pai',
                 'nome'
             ]
         ]);
