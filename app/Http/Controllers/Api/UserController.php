@@ -53,4 +53,8 @@ class UserController extends Controller
             'termos' => 'accepted'
         ]);
     }
+
+    public function projetosPorProfissional(Request $request) {
+        dd($request);
+    }
 }

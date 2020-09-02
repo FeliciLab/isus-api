@@ -27,6 +27,7 @@ class ApiProtectedRoute
         try {
             $resposta = $keycloakService->userProfile($accessToken);
             if ($resposta->getStatusCode() == Response::HTTP_OK) {
+                $request->request->add(['usuario' => json_decode($resposta->getBody())]);
                 return $next($request);
             } else {
                 return response()->json([ 'sucesso' => false, 'erros' =>  "Token não autorizado"], Response::HTTP_UNAUTHORIZED);
