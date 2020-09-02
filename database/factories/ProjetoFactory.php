@@ -8,11 +8,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Projeto::class, function (Faker $faker) {
     return [
-        'id' => $faker->randomDigit,
         'data' => Carbon::now(),
-        'post_title' => $faker->realText(100),
+        'post_title' => 'Post title',
         'slug'  => $faker->slug,
-        'content' => $faker->text,
+        'content' => 'Post content',
         'image' => $faker->slug,
     ];
 });

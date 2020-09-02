@@ -39,12 +39,8 @@ class BuscaPorProjetoTest extends TestCase
 
     public function testBuscaPorProjetosComParametro()
     {
-        $categorias = Categoria::all();
-        foreach ($categorias as $categoria) {
-            $projeto = factory(Projeto::class)->create([
-                'categoria_id' => $categoria->term_id
-            ]);
-        }
+
+        $projeto = factory(Projeto::class)->create();
 
         $response = $this->json('GET', "api/buscaPorProjetos?search={$projeto->post_title}");
         $response->assertOk();

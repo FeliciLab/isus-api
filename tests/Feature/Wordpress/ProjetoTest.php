@@ -16,22 +16,7 @@ class ProjetoTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        $apps = App::APP;
-        foreach ($apps as $key => $app) {
-            foreach ($app as $categoriaId) {
-                $categoria = factory(Categoria::class)->create([
-                    'term_id' => $categoriaId
-                ]);
-
-                $categorias = Categoria::all();
-                foreach ($categorias as $categoria) {
-                    $projeto = factory(Projeto::class)->create([
-                        'categoria_id' => $categoria->term_id
-                    ]);
-                }
-            }
-        }
+        factory(Projeto::class)->create();
     }
 
     public function testRetornaProjetoSemParametro()

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriasTable extends Migration
+class RemoveColunaCategoriaidDoProjeto extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateCategoriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('categorias', function (Blueprint $table) {
-            $table->id('term_id');
-            $table->string('name', 255);
-            $table->string('slug', 255);
-            $table->timestamps();
+        Schema::table('projetos', function (Blueprint $table) {
+            $table->dropColumn('categoria_id');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateCategoriasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categorias');
+        Schema::table('projetos', function (Blueprint $table) {
+            $table->unsignedBigInteger('categoria_id');
+        });
     }
 }

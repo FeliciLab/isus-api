@@ -4,6 +4,7 @@ namespace Tests\Feature\Wordpress;
 
 use App\Model\Wordpress\App;
 use App\Model\Wordpress\Categoria;
+use App\Model\Wordpress\CategoriaProjeto;
 use App\Model\Wordpress\Projeto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -45,16 +46,19 @@ class ProjetosPorCategoriaTest extends TestCase
 
                 $categorias = Categoria::all();
                 foreach ($categorias as $categoria) {
-                    $projeto = factory(Projeto::class)->create([
-                        'categoria_id' => $categoria->term_id
-                    ]);
+                    $projeto = factory(Projeto::class)->create();
+
+                    $categoriaProjeto = new CategoriaProjeto();
+                    $categoriaProjeto->projeto_id = $projeto->id;
+                    $categoriaProjeto->categoria_id = $categoria->term_id;
+                    $categoriaProjeto->save();
                 }
             }
         }
 
         $response = $this->json('GET', "api/projetosPorCategoria/{$categoria->term_id}");
         $response->assertJsonFragment([
-            'categoria_id' => $categoria->term_id
+            'content' => $projeto->content
         ]);
         $response->assertOk();
     }
