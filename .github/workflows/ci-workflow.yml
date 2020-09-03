@@ -17,7 +17,7 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-    step:
+    steps:
       - uses: actions/checkout@v2
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
