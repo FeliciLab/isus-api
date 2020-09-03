@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-interface EnviavelPorEmail {
-    function enviarEmail();
-};
-
+interface EnviavelPorEmail
+{
+    public function enviarEmail();
+}

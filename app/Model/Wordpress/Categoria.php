@@ -3,7 +3,6 @@
 namespace App\Model\Wordpress;
 
 use Illuminate\Database\Eloquent\Model;
-use GuzzleHttp\Client;
 
 class Categoria extends Model
 {

@@ -13,11 +13,11 @@ class AlertaDeEpiController extends Controller
         $alertaDeEpi = new AlertaDeEpi($request);
 
         if (!$alertaDeEpi->valido()) {
-            return response()->json([ 'success' => false, 'errors' => $alertaDeEpi->erros()]);
+            return response()->json(['success' => false, 'errors' => $alertaDeEpi->erros()]);
         }
 
         $alertaDeEpi->enviarEmail();
 
-        return response()->json([ 'success' => true ]);
+        return response()->json(['success' => true]);
     }
 }

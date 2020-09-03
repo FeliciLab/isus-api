@@ -21,11 +21,10 @@ class TitulacaoAcademicaController extends Controller
             $titulacaoAcademica = $this->titulacaoAcademica->all();
 
             return response()->json($titulacaoAcademica->toArray(), 200);
-        } catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Não foi possivel retornar os dados',
             ], 500);
         }
-
     }
 }

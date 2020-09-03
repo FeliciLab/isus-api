@@ -21,7 +21,7 @@ class MunicipioController extends Controller
             $municipio = $this->municipio->where('estado_id', $estadoId)->get();
 
             return response()->json($municipio->toArray(), 200);
-        } catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Não foi possivel retornar os dados',
             ], 500);
