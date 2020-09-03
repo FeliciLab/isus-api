@@ -5,7 +5,6 @@ jobs:
   container-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
       - uses: actions/checkout@v2
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
