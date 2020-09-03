@@ -6,13 +6,17 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:5.6
+        image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: 12345678
           MYSQL_DATABASE: isus_testing
         ports:
-          - 3306:3306
-    steps:
+          - 33306:3306
+          options: >-
+            --health-cmd="mysqladmin ping"
+            --health-interval=10s
+            --health-timeout=5s
+            --health-retries=3
       - uses: actions/checkout@v2
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -24,5 +28,12 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Check PHP CS
         run: composer run php-cs:check
-      - name: Run TestSuite
-        run: php artisan test
+        env:
+          DB_CONNECTION: mysql
+          DB_DATABASE: isus_testing
+          DB_PORT: 33306
+          DB_USER: root
+          DB_PASSWORD: 12345678
+        run: |
+          php artisan migrate
+          vendor/phpunit/phpunit/phpunit
