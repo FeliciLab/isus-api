@@ -30,12 +30,12 @@ jobs:
       - name: Check PHP CS
         run: composer run php-cs:check
       - name: Check PHP CS
-        run: php artisan migrate
-      - name: Run Tests
         env:
           DB_CONNECTION: mysql
           DB_DATABASE: isus_testing
           DB_PORT: 33306
           DB_USER: root
           DB_PASSWORD: 12345678
+        run: php artisan migrate
+      - name: Run Tests
         run: vendor/phpunit/phpunit/phpunit
