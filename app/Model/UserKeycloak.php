@@ -24,62 +24,6 @@ class UserKeycloak
     private $instituicao;
     private $unidadeServico;
 
-    private function pegarSobrenome($nomeCompleto) {
-        $sobrenome = "";
-        $nomeCompletoArr = explode(" ", $nomeCompleto);
-        for ($i = 0; $i < sizeof($nomeCompletoArr) ; $i++){
-            if ($i != 0) {
-                if ($i < sizeof($nomeCompletoArr)-1) {
-                    $sobrenome .= $nomeCompletoArr[$i] . ' ';
-                } else {
-                    $sobrenome .= $nomeCompletoArr[$i];
-                }
-            }
-        }
-        return $sobrenome;
-    }
-
-    private function pegarNome($nomeCompleto) {
-        return explode(' ', $nomeCompleto)[0];
-    }
-
-
-    public function getName()
-    {
-        return $this->firstName . " " . $this->lastName;
-    }
-
-
-    public function getCpf()
-    {
-        return $this->cpf;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function getCidadeId()
-    {
-        return $this->cidadeId;
-    }
-    public function getCategoriaProfissionalId()
-    {
-        $categoriaProfissional = json_decode($this->categoriaProfissional);
-        return $categoriaProfissional->id;
-    }
-
-    public function getUnidadesServicos()
-    {
-        return json_decode($this->unidadeServico);
-    }
-
     public function __construct($dados)
     {
         $nomeCompleto = $dados['nomeCompleto'] ?? null;
@@ -103,6 +47,43 @@ class UserKeycloak
         $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
         $this->instituicao = $dados['instituicao'] ?? null;
         $this->unidadeServico = $dados['unidadeServico'] ?? null;
+    }
+
+    public function getName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getCidadeId()
+    {
+        return $this->cidadeId;
+    }
+
+    public function getCategoriaProfissionalId()
+    {
+        $categoriaProfissional = json_decode($this->categoriaProfissional);
+
+        return $categoriaProfissional->id;
+    }
+
+    public function getUnidadesServicos()
+    {
+        return json_decode($this->unidadeServico);
     }
 
     public function toKeycloak()
@@ -135,5 +116,27 @@ class UserKeycloak
                 'UNIDADE_SERVICO' => $this->unidadeServico,
             ],
         ];
+    }
+
+    private function pegarSobrenome($nomeCompleto)
+    {
+        $sobrenome = '';
+        $nomeCompletoArr = explode(' ', $nomeCompleto);
+        for ($i = 0; $i < count($nomeCompletoArr); $i++) {
+            if ($i != 0) {
+                if ($i < count($nomeCompletoArr) - 1) {
+                    $sobrenome .= $nomeCompletoArr[$i] . ' ';
+                } else {
+                    $sobrenome .= $nomeCompletoArr[$i];
+                }
+            }
+        }
+
+        return $sobrenome;
+    }
+
+    private function pegarNome($nomeCompleto)
+    {
+        return explode(' ', $nomeCompleto)[0];
     }
 }

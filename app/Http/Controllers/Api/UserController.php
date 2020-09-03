@@ -31,12 +31,17 @@ class UserController extends Controller
         try {
             $user = $keyCloakService->save($userKeycloak);
 
-             if (!empty($user->id_keycloak)) {
-                 return response()->json([ 'sucesso' => true, 'mensagem' =>  "Usuário cadastrado com sucesso"]);
-             }
-         } catch (Exception $error) {
-             return response()->json([ 'sucesso' => false, 'erros' =>  "Não foi possível cadastrar o usuário"]);
-         }
+            if (!empty($user->id_keycloak)) {
+                return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário cadastrado com sucesso']);
+            }
+        } catch (Exception $error) {
+            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível cadastrar o usuário']);
+        }
+    }
+
+    public function projetosPorProfissional(Request $request)
+    {
+        dd($request);
     }
 
     private function validarRequisicao($dados)
@@ -52,9 +57,5 @@ class UserController extends Controller
             'cidade' => 'required',
             'termos' => 'accepted',
         ]);
-    }
-
-    public function projetosPorProfissional(Request $request) {
-        dd($request);
     }
 }

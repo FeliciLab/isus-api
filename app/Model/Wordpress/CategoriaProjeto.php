@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoriaProjeto extends Model
 {
-    protected $table = 'categorias_projetos';
     public $timestamps = false;
+    protected $table = 'categorias_projetos';
 
     public function projeto()
     {

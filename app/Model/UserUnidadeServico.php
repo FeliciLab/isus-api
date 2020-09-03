@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserUnidadeServico extends Model
 {
-    protected $table = 'users_unidades_servicos';
-
     public $timestamps = false;
+    protected $table = 'users_unidades_servicos';
 
     public function unidadeServico()
     {

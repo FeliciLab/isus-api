@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Model\Wordpress\Anexo;
 use App\Model\Wordpress\App;
 use App\Model\Wordpress\Categoria;
-use App\Model\Wordpress\Projeto;
 use App\Model\Wordpress\CategoriaProjeto;
+use App\Model\Wordpress\Projeto;
 use GuzzleHttp\Client;
 
 class SynchronizeController extends Controller
@@ -18,14 +18,12 @@ class SynchronizeController extends Controller
     {
         $apps = App::APP;
 
-        \DB::statement("SET FOREIGN_KEY_CHECKS = 0");
-        \DB::statement("TRUNCATE TABLE projetos");
-        \DB::statement("TRUNCATE TABLE categorias_projetos");
-        \DB::statement("TRUNCATE TABLE categorias");
-        \DB::statement("TRUNCATE TABLE anexos");
-        \DB::statement("SET FOREIGN_KEY_CHECKS = 1");
-
-
+        \DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        \DB::statement('TRUNCATE TABLE projetos');
+        \DB::statement('TRUNCATE TABLE categorias_projetos');
+        \DB::statement('TRUNCATE TABLE categorias');
+        \DB::statement('TRUNCATE TABLE anexos');
+        \DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         $client = new Client();
         $res = $client->get(self::WORDPRESS_ENDPOINT . 'project_category/?per_page=100');
@@ -42,7 +40,6 @@ class SynchronizeController extends Controller
             $categoria->name = $categoriaAPI->name;
             $categoria->slug = $categoriaAPI->slug;
             $categoria->save();
-
 
             $clientProjeto = new Client();
             $resProjeto = $clientProjeto->get(self::WORDPRESS_ENDPOINT . 'project/?project_category=' . $categoriaId);
@@ -78,7 +75,6 @@ class SynchronizeController extends Controller
                     }
                     $projeto->save();
 
-
                     foreach ($post->project_category as $projetoCategoria) {
                         $categoriasProjetosTemp[] = [
                             'categoria_id' => $projetoCategoria,
@@ -89,13 +85,11 @@ class SynchronizeController extends Controller
             }
         }
 
-
         foreach ($categoriasProjetosTemp as $categoriaProjetoTemp) {
             $categoriaProjeto = new CategoriaProjeto();
             $categoriaProjeto->categoria_id = $categoriaProjetoTemp['categoria_id'];
             $categoriaProjeto->projeto_id = $categoriaProjetoTemp['projeto_id'];
             $categoriaProjeto->save();
         }
-
     }
 }

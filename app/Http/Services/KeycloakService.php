@@ -4,9 +4,9 @@ namespace App\Http\Services;
 
 use App\Model\User;
 use App\Model\UserKeycloak;
+use App\Model\UserUnidadeServico;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use App\Model\UserUnidadeServico;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
