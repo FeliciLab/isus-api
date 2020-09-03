@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Http\Response;
-use Illuminate\Http\Request;
 use App\Http\Services\KeycloakService;
+use Closure;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ApiProtectedRoute
 {
@@ -15,6 +15,7 @@ class ApiProtectedRoute
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     *
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -22,7 +23,7 @@ class ApiProtectedRoute
         $accessToken = $request->header('Authorization');
         $keycloakService = new KeycloakService();
         if (empty($accessToken)) {
-            return response()->json([ 'sucesso' => false, 'erros' =>  "Token não autorizado"], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['sucesso' => false, 'erros' =>  'Token não autorizado'], Response::HTTP_UNAUTHORIZED);
         }
         try {
             $resposta = $keycloakService->userProfile($accessToken);
@@ -30,10 +31,10 @@ class ApiProtectedRoute
                 $request->request->add(['usuario' => json_decode($resposta->getBody())]);
                 return $next($request);
             } else {
-                return response()->json([ 'sucesso' => false, 'erros' =>  "Token não autorizado"], Response::HTTP_UNAUTHORIZED);
+                return response()->json(['sucesso' => false, 'erros' =>  'Token não autorizado'], Response::HTTP_UNAUTHORIZED);
             }
         } catch (Exception $error) {
-            return response()->json([ 'sucesso' => false, 'erros' =>  "Token não autorizado"], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['sucesso' => false, 'erros' =>  'Token não autorizado'], Response::HTTP_UNAUTHORIZED);
         }
     }
 }

@@ -4,7 +4,6 @@ namespace App\Model;
 
 class UserKeycloak
 {
-
     private $id;
     private $enabled = true;
     private $email;
@@ -109,32 +108,32 @@ class UserKeycloak
     public function toKeycloak()
     {
         return [
-            "enabled" => $this->enabled,
-            "email" => $this->email,
-            "firstName" => $this->firstName,
-            "lastName" => $this->lastName,
-            "credentials" => [
+            'enabled' => $this->enabled,
+            'email' => $this->email,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'credentials' => [
                 [
-                    "type" => "password",
-                    "value" => $this->password,
-                    "temporary" => false
-                ]
+                    'type' => 'password',
+                    'value' => $this->password,
+                    'temporary' => false,
+                ],
             ],
-            "attributes" => [
-                "TELEFONE" => $this->phone,
-                "CPF" => $this->cpf,
-                "RG" => $this->rg,
-                "ESTADO_ID" => $this->estadoId,
-                "ESTADO" => $this->estado,
-                "CIDADE_ID" => $this->cidadeId,
-                "CIDADE" => $this->cidade,
-                "TERMOS" => $this->termos,
-                "CATEGORIA_PROFISSIONAL" => $this->categoriaProfissional,
-                "TITULACAO_ACADEMICA" => $this->titulacaoAcademica,
-                "TIPO_CONTRATACAO" => $this->tipoContratacao,
-                "INSTITUICAO" => $this->instituicao,
-                "UNIDADE_SERVICO" => $this->unidadeServico
-            ]
+            'attributes' => [
+                'TELEFONE' => $this->phone,
+                'CPF' => $this->cpf,
+                'RG' => $this->rg,
+                'ESTADO_ID' => $this->estadoId,
+                'ESTADO' => $this->estado,
+                'CIDADE_ID' => $this->cidadeId,
+                'CIDADE' => $this->cidade,
+                'TERMOS' => $this->termos,
+                'CATEGORIA_PROFISSIONAL' => $this->categoriaProfissional,
+                'TITULACAO_ACADEMICA' => $this->titulacaoAcademica,
+                'TIPO_CONTRATACAO' => $this->tipoContratacao,
+                'INSTITUICAO' => $this->instituicao,
+                'UNIDADE_SERVICO' => $this->unidadeServico,
+            ],
         ];
     }
 }

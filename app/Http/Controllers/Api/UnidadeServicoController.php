@@ -21,11 +21,10 @@ class UnidadeServicoController extends Controller
             $unidadeServico = $this->unidadeServico->whereNotNull('pai')->get();
 
             return response()->json($unidadeServico->toArray(), 200);
-        } catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Não foi possivel retornar os dados',
             ], 500);
         }
-
     }
 }

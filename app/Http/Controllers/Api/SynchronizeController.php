@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
+use App\Model\Wordpress\Anexo;
 use App\Model\Wordpress\App;
-
 use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\Projeto;
-use App\Model\Wordpress\Anexo;
 use App\Model\Wordpress\CategoriaProjeto;
+use GuzzleHttp\Client;
 
 class SynchronizeController extends Controller
 {
-    const WORDPRESS_ENDPOINT = 'https://coronavirus.ceara.gov.br/wp-json/wp/v2/';
+    public const WORDPRESS_ENDPOINT = 'https://coronavirus.ceara.gov.br/wp-json/wp/v2/';
 
     public function index()
     {
