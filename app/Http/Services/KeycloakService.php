@@ -31,6 +31,10 @@ class KeycloakService
         $this->keycloakAdminIsusGranttype = env('KEYCLOAK_ADMIN_ISUS_GRANTTYPE');
     }
 
+    public function usuarioPorIdDoKeycloak($sub){
+        return User::where('id_keycloak', $sub)->first();
+    }
+
     public function login($email, $senha)
     {
         $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token", [

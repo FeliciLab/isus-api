@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\KeycloakService;
+use App\Model\UnidadeServico;
 use App\Model\User;
 use App\Model\UserKeycloak;
 use Exception;
@@ -28,20 +29,40 @@ class UserController extends Controller
         }
         $userKeycloak = new UserKeycloak($dados);
         $keyCloakService = new KeycloakService();
-        try {
-            $user = $keyCloakService->save($userKeycloak);
+        $user = $keyCloakService->save($userKeycloak);
 
-            if (!empty($user->id_keycloak)) {
-                return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário cadastrado com sucesso']);
-            }
-        } catch (Exception $error) {
-            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível cadastrar o usuário']);
+        if (!empty($user->id_keycloak)) {
+            return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário cadastrado com sucesso']);
         }
     }
 
     public function projetosPorProfissional(Request $request)
     {
-        dd($request);
+        $keyCloakService = new KeycloakService();
+        $usuario = $keyCloakService->usuarioPorIdDoKeycloak($request->usuario->sub);
+
+        if ($usuario) {
+            $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
+            $macroUnidadesDeSaude = UnidadeServico::pegarMacroUnidadeDeServico($unidadesDoUsuario);
+            $projetosDoProfissional = [];
+            foreach($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
+                $unidadeServicoCategoria = $macroUnidadeDeSaude->unidadesServicoCategoria()->first();
+                $categoria = $unidadeServicoCategoria->categoria()->first();
+                $categoriasProjetos = $categoria->categoriaProjetos()->get();
+                foreach($categoriasProjetos as $categoriaProjeto) {
+                    $projetosDoProfissional[] = $categoriaProjeto->projeto()->first();
+                }
+            }
+            return response()->json([[
+                'sucesso' => true,
+                'projetosDoProfissional' => $projetosDoProfissional
+            ]]);
+        }
+
+        return response()->json([
+            'sucesso' => false,
+            'mensagem' => 'Usuário não existe'
+        ]);
     }
 
     private function validarRequisicao($dados)
