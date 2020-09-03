@@ -23,8 +23,8 @@ class UserController extends Controller
     {
         $dados = $request->all();
         $validacao = $this->validarRequisicao($dados);
-        if($validacao->fails()) {
-            return response()->json([ 'sucesso' => false, 'erros' =>  $validacao->errors()]);
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
         }
         $userKeycloak = new UserKeycloak($dados);
         $keyCloakService = new KeycloakService();
@@ -32,10 +32,10 @@ class UserController extends Controller
             $user = $keyCloakService->save($userKeycloak);
 
             if (!empty($user->id_keycloak)) {
-                return response()->json([ 'sucesso' => true, 'mensagem' =>  "Usuário cadastrado com sucesso"]);
+                return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário cadastrado com sucesso']);
             }
         } catch (Exception $error) {
-            return response()->json([ 'sucesso' => false, 'erros' =>  "Não foi possível cadastrar o usuário"]);
+            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível cadastrar o usuário']);
         }
     }
 
@@ -50,7 +50,7 @@ class UserController extends Controller
             'cpf' => 'required|min:11|max:11|unique:users',
             'cidadeId' => 'required',
             'cidade' => 'required',
-            'termos' => 'accepted'
+            'termos' => 'accepted',
         ]);
     }
 }

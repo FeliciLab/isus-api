@@ -4,7 +4,6 @@ namespace App\Model;
 
 class UserKeycloak
 {
-
     private $id;
     private $enabled = true;
     private $email;
@@ -24,47 +23,6 @@ class UserKeycloak
     private $tipoContratacao;
     private $instituicao;
     private $unidadeServico;
-
-    private function pegarSobrenome($nomeCompleto) {
-        $sobrenome = "";
-        $nomeCompletoArr = explode(" ", $nomeCompleto);
-        for ($i = 0; $i < sizeof($nomeCompletoArr) ; $i++){
-            if ($i != 0) {
-                if ($i < sizeof($nomeCompletoArr)-1) {
-                    $sobrenome .= $nomeCompletoArr[$i] . ' ';
-                } else {
-                    $sobrenome .= $nomeCompletoArr[$i];
-                }
-            }
-        }
-        return $sobrenome;
-    }
-
-    private function pegarNome($nomeCompleto) {
-        return explode(' ', $nomeCompleto)[0];
-    }
-
-
-    public function getName()
-    {
-        return $this->firstName . " " . $this->lastName;
-    }
-
-
-    public function getCpf()
-    {
-        return $this->cpf;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
 
     public function __construct($dados)
     {
@@ -91,35 +49,77 @@ class UserKeycloak
         $this->unidadeServico = $dados['unidadeServico'] ?? null;
     }
 
+    public function getName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
     public function toKeycloak()
     {
         return [
-            "enabled" => $this->enabled,
-            "email" => $this->email,
-            "firstName" => $this->firstName,
-            "lastName" => $this->lastName,
-            "credentials" => [
+            'enabled' => $this->enabled,
+            'email' => $this->email,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'credentials' => [
                 [
-                    "type" => "password",
-                    "value" => $this->password,
-                    "temporary" => false
-                ]
+                    'type' => 'password',
+                    'value' => $this->password,
+                    'temporary' => false,
+                ],
             ],
-            "attributes" => [
-                "TELEFONE" => $this->phone,
-                "CPF" => $this->cpf,
-                "RG" => $this->rg,
-                "ESTADO_ID" => $this->estadoId,
-                "ESTADO" => $this->estado,
-                "CIDADE_ID" => $this->cidadeId,
-                "CIDADE" => $this->cidade,
-                "TERMOS" => $this->termos,
-                "CATEGORIA_PROFISSIONAL" => $this->categoriaProfissional,
-                "TITULACAO_ACADEMICA" => $this->titulacaoAcademica,
-                "TIPO_CONTRATACAO" => $this->tipoContratacao,
-                "INSTITUICAO" => $this->instituicao,
-                "UNIDADE_SERVICO" => $this->unidadeServico
-            ]
+            'attributes' => [
+                'TELEFONE' => $this->phone,
+                'CPF' => $this->cpf,
+                'RG' => $this->rg,
+                'ESTADO_ID' => $this->estadoId,
+                'ESTADO' => $this->estado,
+                'CIDADE_ID' => $this->cidadeId,
+                'CIDADE' => $this->cidade,
+                'TERMOS' => $this->termos,
+                'CATEGORIA_PROFISSIONAL' => $this->categoriaProfissional,
+                'TITULACAO_ACADEMICA' => $this->titulacaoAcademica,
+                'TIPO_CONTRATACAO' => $this->tipoContratacao,
+                'INSTITUICAO' => $this->instituicao,
+                'UNIDADE_SERVICO' => $this->unidadeServico,
+            ],
         ];
+    }
+
+    private function pegarSobrenome($nomeCompleto)
+    {
+        $sobrenome = '';
+        $nomeCompletoArr = explode(' ', $nomeCompleto);
+        for ($i = 0; $i < count($nomeCompletoArr); $i++) {
+            if ($i != 0) {
+                if ($i < count($nomeCompletoArr) - 1) {
+                    $sobrenome .= $nomeCompletoArr[$i] . ' ';
+                } else {
+                    $sobrenome .= $nomeCompletoArr[$i];
+                }
+            }
+        }
+
+        return $sobrenome;
+    }
+
+    private function pegarNome($nomeCompleto)
+    {
+        return explode(' ', $nomeCompleto)[0];
     }
 }

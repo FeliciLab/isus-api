@@ -3,9 +3,9 @@
 namespace App\Http\Services;
 
 use App\Model\User;
+use App\Model\UserKeycloak;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use App\Model\UserKeycloak;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,12 +22,12 @@ class KeycloakService
     public function __construct()
     {
         $this->keycloakClient = new Client();
-        $this->keycloakUri = env("KEYCLOAK_URI");
-        $this->keycloakAdminIsusRealm = env("KEYCLOAK_ADMIN_ISUS_REALM");
-        $this->keycloakAdminIsusUser = env("KEYCLOAK_ADMIN_ISUS_USER");
-        $this->keycloakAdminIsusPassword = env("KEYCLOAK_ADMIN_ISUS_PASSWORD");
-        $this->keycloakAdminIsusClientId = env("KEYCLOAK_ADMIN_ISUS_CLIENTID");
-        $this->keycloakAdminIsusGranttype = env("KEYCLOAK_ADMIN_ISUS_GRANTTYPE");
+        $this->keycloakUri = env('KEYCLOAK_URI');
+        $this->keycloakAdminIsusRealm = env('KEYCLOAK_ADMIN_ISUS_REALM');
+        $this->keycloakAdminIsusUser = env('KEYCLOAK_ADMIN_ISUS_USER');
+        $this->keycloakAdminIsusPassword = env('KEYCLOAK_ADMIN_ISUS_PASSWORD');
+        $this->keycloakAdminIsusClientId = env('KEYCLOAK_ADMIN_ISUS_CLIENTID');
+        $this->keycloakAdminIsusGranttype = env('KEYCLOAK_ADMIN_ISUS_GRANTTYPE');
     }
 
     public function login($email, $senha)
@@ -37,8 +37,8 @@ class KeycloakService
                 'username' => $email,
                 'password' => $senha,
                 'client_id' => 'isus',
-                'grant_type' => $this->keycloakAdminIsusGranttype
-            ]
+                'grant_type' => $this->keycloakAdminIsusGranttype,
+            ],
         ]);
 
         return $response;
@@ -49,8 +49,8 @@ class KeycloakService
         $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/logout", [
             'form_params' => [
                 'refresh_token' => $refreshToken,
-                'client_id' => 'isus'
-            ]
+                'client_id' => 'isus',
+            ],
         ]);
 
         return $response;
@@ -60,25 +60,9 @@ class KeycloakService
     {
         return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/userinfo", [
             'headers' => [
-                'Authorization' => "{$token}"
-            ]
+                'Authorization' => "{$token}",
+            ],
         ]);
-    }
-
-    private function getTokenAdmin()
-    {
-
-        $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/{$this->keycloakAdminIsusRealm}/protocol/openid-connect/token", [
-            'form_params' => [
-                'username' => $this->keycloakAdminIsusUser,
-                'password' => $this->keycloakAdminIsusPassword,
-                'client_id' => $this->keycloakAdminIsusClientId,
-                'grant_type' => $this->keycloakAdminIsusGranttype
-            ]
-        ]);
-
-        $body =  json_decode($response->getBody());
-        return $body->access_token;
     }
 
     public function save(UserKeycloak $userKeycloak)
@@ -87,16 +71,15 @@ class KeycloakService
             RequestOptions::JSON => $userKeycloak->toKeycloak(),
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization' => "Bearer {$this->getTokenAdmin()}"
-            ]
+                'Authorization' => "Bearer {$this->getTokenAdmin()}",
+            ],
         ]);
 
         if ($resposta->getStatusCode() == Response::HTTP_CREATED) {
-
             $location = $resposta->getHeader('Location');
 
             $locationArray = explode('/', $location[0]);
-            $idKeycloak = $locationArray[count($locationArray)-1];
+            $idKeycloak = $locationArray[count($locationArray) - 1];
 
             $user = new User();
             $user->name = $userKeycloak->getName();
@@ -110,5 +93,21 @@ class KeycloakService
         } else {
             throw new \Exception('Usuário não criado error keycloak');
         }
+    }
+
+    private function getTokenAdmin()
+    {
+        $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/{$this->keycloakAdminIsusRealm}/protocol/openid-connect/token", [
+            'form_params' => [
+                'username' => $this->keycloakAdminIsusUser,
+                'password' => $this->keycloakAdminIsusPassword,
+                'client_id' => $this->keycloakAdminIsusClientId,
+                'grant_type' => $this->keycloakAdminIsusGranttype,
+            ],
+        ]);
+
+        $body = json_decode($response->getBody());
+
+        return $body->access_token;
     }
 }

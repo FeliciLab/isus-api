@@ -3,27 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
+use App\Model\Wordpress\Anexo;
 use App\Model\Wordpress\App;
-
 use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\Projeto;
-use App\Model\Wordpress\Anexo;
+use GuzzleHttp\Client;
 
 class SynchronizeController extends Controller
 {
-    const WORDPRESS_ENDPOINT = 'https://coronavirus.ceara.gov.br/wp-json/wp/v2/';
+    public const WORDPRESS_ENDPOINT = 'https://coronavirus.ceara.gov.br/wp-json/wp/v2/';
 
     public function index()
     {
         $apps = App::APP;
 
-        \DB::statement("SET FOREIGN_KEY_CHECKS = 0");
-        \DB::statement("TRUNCATE TABLE projetos");
-        \DB::statement("TRUNCATE TABLE categorias");
-        \DB::statement("TRUNCATE TABLE anexos");
-        \DB::statement("SET FOREIGN_KEY_CHECKS = 1");
-
+        \DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        \DB::statement('TRUNCATE TABLE projetos');
+        \DB::statement('TRUNCATE TABLE categorias');
+        \DB::statement('TRUNCATE TABLE anexos');
+        \DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
@@ -36,7 +34,6 @@ class SynchronizeController extends Controller
                 $categoria->name = $categoriaAPI->name;
                 $categoria->slug = $categoriaAPI->slug;
                 $categoria->save();
-
 
                 $clientProjeto = new Client();
                 $resProjeto = $clientProjeto->get(self::WORDPRESS_ENDPOINT . 'project/?project_category=' . $categoriaId);
@@ -69,12 +66,10 @@ class SynchronizeController extends Controller
                         $anexo->save();
                     }
 
-
                     $projeto->categoria_id = $categoriaId;
                     $projeto->save();
                 }
             }
         }
-
     }
 }
