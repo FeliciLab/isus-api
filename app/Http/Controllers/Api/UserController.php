@@ -7,7 +7,6 @@ use App\Http\Services\KeycloakService;
 use App\Model\UnidadeServico;
 use App\Model\User;
 use App\Model\UserKeycloak;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -45,23 +44,24 @@ class UserController extends Controller
             $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
             $macroUnidadesDeSaude = UnidadeServico::pegarMacroUnidadeDeServico($unidadesDoUsuario);
             $projetosDoProfissional = [];
-            foreach($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
+            foreach ($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
                 $unidadeServicoCategoria = $macroUnidadeDeSaude->unidadesServicoCategoria()->first();
                 $categoria = $unidadeServicoCategoria->categoria()->first();
                 $categoriasProjetos = $categoria->categoriaProjetos()->get();
-                foreach($categoriasProjetos as $categoriaProjeto) {
+                foreach ($categoriasProjetos as $categoriaProjeto) {
                     $projetosDoProfissional[] = $categoriaProjeto->projeto()->first();
                 }
             }
+
             return response()->json([[
                 'sucesso' => true,
-                'projetosDoProfissional' => $projetosDoProfissional
+                'projetosDoProfissional' => $projetosDoProfissional,
             ]]);
         }
 
         return response()->json([
             'sucesso' => false,
-            'mensagem' => 'Usuário não existe'
+            'mensagem' => 'Usuário não existe',
         ]);
     }
 
