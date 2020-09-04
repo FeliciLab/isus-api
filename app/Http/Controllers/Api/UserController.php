@@ -51,7 +51,7 @@ class UserController extends Controller
 
             return response()->json([[
                 'sucesso' => true,
-                'projetosDoProfissional' => $projetosDoProfissional,
+                'projetosDoProfissional' => array_unique($projetosDoProfissional, SORT_REGULAR),
             ]]);
         }
 
@@ -67,10 +67,21 @@ class UserController extends Controller
         $categoria = $unidadeServicoCategoria->categoria()->first();
         $categoriasProjetos = $categoria->categoriaProjetos()->get();
         foreach ($categoriasProjetos as $categoriaProjeto) {
-            $projetosPorMacrounidades[] = $categoriaProjeto->projeto()->first();
+
+            $projeto = $categoriaProjeto->projeto()->first();
+            $projetosPorMacrounidades[] = [
+                'id' => $projeto->id,
+                'slug' => $projeto->slug,
+                'post_date' => $projeto->data,
+                'post_title' => $projeto->post_title,
+                'post_content' => $projeto->content,
+                'image' => $projeto->image,
+                'anexos' => $projeto->anexos()->get(),
+            ];
         }
         return $projetosPorMacrounidades;
     }
+
 
     private function validarRequisicao($dados)
     {
