@@ -12,17 +12,15 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    use DatabaseTransactions;
 
     protected $usuarioAutenticado;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->seed();
     }
 
-    public function registrarUsuario()
+    public function registrarUsuario($comUnidadesDeServico)
     {
         $fakerBrasil = new Generator();
         $fakerBrasil->addProvider(new \Faker\Provider\pt_BR\Person($fakerBrasil));
@@ -39,7 +37,7 @@ abstract class TestCase extends BaseTestCase
             'nomeCompleto' => $faker->name(),
             'senha' => '12345678',
             'repetirsenha' => '12345678',
-            'telefone' => $faker->randomNumber(9),
+            'telefone' => '123456789',
             'cpf' => $fakerBrasil->cpf(false),
             'rg' => $fakerBrasil->rg(false),
             'estadoId' => $estado->id,
@@ -47,7 +45,7 @@ abstract class TestCase extends BaseTestCase
             'cidadeId' => $municipio->id,
             'cidade' => $municipio->nome,
             'termos' => 'true',
-            'unidadeServico' =>  json_encode([$unidades]),
+            'unidadeServico' => $comUnidadesDeServico ? json_encode([$unidades]) : null,
         ];
 
         $response = $this->json('POST', 'api/user', $user);

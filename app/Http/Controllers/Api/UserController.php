@@ -61,27 +61,31 @@ class UserController extends Controller
         ]);
     }
 
-    private function projetosPorMacroUnidades($macroUnidadeDeSaude){
+    private function projetosPorMacroUnidades($macroUnidadeDeSaude)
+    {
         $projetosPorMacrounidades = [];
+
         $unidadeServicoCategoria = $macroUnidadeDeSaude->unidadesServicoCategoria()->first();
         $categoria = $unidadeServicoCategoria->categoria()->first();
-        $categoriasProjetos = $categoria->categoriaProjetos()->get();
-        foreach ($categoriasProjetos as $categoriaProjeto) {
 
-            $projeto = $categoriaProjeto->projeto()->first();
-            $projetosPorMacrounidades[] = [
-                'id' => $projeto->id,
-                'slug' => $projeto->slug,
-                'post_date' => $projeto->data,
-                'post_title' => $projeto->post_title,
-                'post_content' => $projeto->content,
-                'image' => $projeto->image,
-                'anexos' => $projeto->anexos()->get(),
-            ];
+        if (null !== $categoria) {
+            $categoriasProjetos = $categoria->categoriaProjetos()->get();
+            foreach ($categoriasProjetos as $categoriaProjeto) {
+                $projeto = $categoriaProjeto->projeto()->first();
+                $projetosPorMacrounidades[] = [
+                    'id' => $projeto->id,
+                    'slug' => $projeto->slug,
+                    'post_date' => $projeto->data,
+                    'post_title' => $projeto->post_title,
+                    'post_content' => $projeto->content,
+                    'image' => $projeto->image,
+                    'anexos' => $projeto->anexos()->get(),
+                ];
+            }
         }
+
         return $projetosPorMacrounidades;
     }
-
 
     private function validarRequisicao($dados)
     {

@@ -76,12 +76,11 @@ class UserKeycloak
 
     public function getCategoriaProfissionalId()
     {
-        if($this->categoriaProfissional) {
+        if ($this->categoriaProfissional) {
             $categoriaProfissional = json_decode($this->categoriaProfissional);
+
             return $categoriaProfissional->id;
         }
-
-        return null;
     }
 
     public function getUnidadesServicos()

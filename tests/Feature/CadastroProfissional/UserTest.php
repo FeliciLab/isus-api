@@ -37,7 +37,7 @@ class UserTest extends TestCase
             'nomeCompleto' => $faker->name(),
             'senha' => '12345678',
             'repetirsenha' => '12345678',
-            'telefone' => $faker->randomNumber(9),
+            'telefone' => '123456789',
             'cpf' => $fakerBrasil->cpf(false),
             'rg' => $fakerBrasil->rg(false),
             'estadoId' => $estado->id,

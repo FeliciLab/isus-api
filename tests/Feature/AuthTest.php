@@ -15,6 +15,12 @@ class AuthTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->seed();
+    }
+
     public function testLoginSemEmail()
     {
         $response = $this->json('POST', 'api/auth', []);
@@ -42,7 +48,7 @@ class AuthTest extends TestCase
 
     public function testLoginok()
     {
-        $usuario = $this->registrarUsuario();
+        $usuario = $this->registrarUsuario(false);
 
         $response = $this->json('POST', 'api/auth', ['email' => $usuario['email'], 'senha' => $usuario['senha']]);
         $response->assertOk();
