@@ -50,4 +50,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserUnidadeServico::class);
     }
+
+    public function titulacoesAcademicas()
+    {
+        return $this->hasMany(UserTitulacaoAcademica::class);
+    }
+
+    public function tiposContratacoes()
+    {
+        return $this->hasMany(UserTipoContratacao::class);
+    }
 }

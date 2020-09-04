@@ -86,6 +86,16 @@ class UserKeycloak
         return json_decode($this->unidadeServico);
     }
 
+    public function getTiposContratacoes()
+    {
+        return json_decode($this->tipoContratacao);
+    }
+
+    public function getTitulacoesAcademicas()
+    {
+        return json_decode($this->titulacaoAcademica);
+    }
+
     public function toKeycloak()
     {
         return [
@@ -109,11 +119,6 @@ class UserKeycloak
                 'CIDADE_ID' => $this->cidadeId,
                 'CIDADE' => $this->cidade,
                 'TERMOS' => $this->termos,
-                'CATEGORIA_PROFISSIONAL' => $this->categoriaProfissional,
-                'TITULACAO_ACADEMICA' => $this->titulacaoAcademica,
-                'TIPO_CONTRATACAO' => $this->tipoContratacao,
-                'INSTITUICAO' => $this->instituicao,
-                'UNIDADE_SERVICO' => $this->unidadeServico,
             ],
         ];
     }

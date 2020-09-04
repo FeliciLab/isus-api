@@ -4,6 +4,8 @@ namespace App\Http\Services;
 
 use App\Model\User;
 use App\Model\UserKeycloak;
+use App\Model\UserTipoContratacao;
+use App\Model\UserTitulacaoAcademica;
 use App\Model\UserUnidadeServico;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -102,11 +104,33 @@ class KeycloakService
             }
 
             $unidadesServicos = $userKeycloak->getUnidadesServicos();
-            foreach ($unidadesServicos as $servico) {
-                $userUnidadeServico = new UserUnidadeServico();
-                $userUnidadeServico->user_id = $user->id;
-                $userUnidadeServico->unidade_servico_id = $servico->id;
-                $userUnidadeServico->save();
+            if (null !== $unidadesServicos) {
+                foreach ($unidadesServicos as $servico) {
+                    $userUnidadeServico = new UserUnidadeServico();
+                    $userUnidadeServico->user_id = $user->id;
+                    $userUnidadeServico->unidade_servico_id = $servico->id;
+                    $userUnidadeServico->save();
+                }
+            }
+
+            $titulacoesAcademica = $userKeycloak->getTitulacoesAcademicas();
+            if (null !== $titulacoesAcademica) {
+                foreach ($titulacoesAcademica as $titulacao) {
+                    $userTitulacaoAcademica = new UserTitulacaoAcademica();
+                    $userTitulacaoAcademica->user_id = $user->id;
+                    $userTitulacaoAcademica->titulacao_academica_id = $titulacao->id;
+                    $userTitulacaoAcademica->save();
+                }
+            }
+
+            $tiposContratacoes = $userKeycloak->getTiposContratacoes();
+            if (null !== $tiposContratacoes) {
+                foreach ($tiposContratacoes as $tipoContratacao) {
+                    $userTipoContratacao = new UserTipoContratacao();
+                    $userTipoContratacao->user_id = $user->id;
+                    $userTipoContratacao->tipo_contratacao_id = $tipoContratacao->id;
+                    $userTipoContratacao->save();
+                }
             }
 
             return $user;
