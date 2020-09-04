@@ -8,17 +8,23 @@ use Tests\TestCase;
 
 class UnidadesServicoTest extends TestCase
 {
-    public function testRetornaTodasUnidadesServico()
+    use RefreshDatabase;
+
+    public function testRetornaTodasSubUnidadesServico()
     {
+        $this->seed();
+
         $response = $this->json('GET', 'api/unidades-servico');
         $response->assertOk();
         $response->assertJsonFragment([
-            'id' => 1,
+            'pai' => 1,
             'nome' => 'Pronto-socorro'
+
         ]);
         $response->assertJsonStructure([
             [
                 'id',
+                'pai',
                 'nome'
             ]
         ]);

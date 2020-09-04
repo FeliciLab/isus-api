@@ -8,12 +8,15 @@ use Tests\TestCase;
 
 class InstituicoesTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testRetornaTodasInstituicoes()
     {
+        $this->seed();
+
         $response = $this->json('GET', 'api/instituicoes');
         $response->assertOk();
         $response->assertJsonFragment([
-            'id' => 1,
             'nome' => 'Hospital Leonardo da Vinci'
         ]);
         $response->assertJsonStructure([

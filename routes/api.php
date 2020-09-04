@@ -39,6 +39,7 @@ Route::namespace('Api')->group(function () {
 
     Route::group(['middleware' => ['ApiProtectedRoute']], function () {
         Route::post('/logout', 'AuthController@logout');
+        Route::get('/projetos-por-profissional', 'UserController@projetosPorProfissional');
     });
 });
 

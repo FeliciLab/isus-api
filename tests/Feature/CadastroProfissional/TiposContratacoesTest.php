@@ -8,8 +8,12 @@ use Tests\TestCase;
 
 class TiposContratacoesTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testRetornaTodosTiposDeContratacoes()
     {
+        $this->seed();
+
         $response = $this->json('GET', 'api/tipos-contratacoes');
         $response->assertOk();
         $response->assertJsonFragment([

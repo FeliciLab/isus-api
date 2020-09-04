@@ -4,6 +4,9 @@ namespace App\Http\Services;
 
 use App\Model\User;
 use App\Model\UserKeycloak;
+use App\Model\UserTipoContratacao;
+use App\Model\UserTitulacaoAcademica;
+use App\Model\UserUnidadeServico;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Response;
@@ -28,6 +31,11 @@ class KeycloakService
         $this->keycloakAdminIsusPassword = env('KEYCLOAK_ADMIN_ISUS_PASSWORD');
         $this->keycloakAdminIsusClientId = env('KEYCLOAK_ADMIN_ISUS_CLIENTID');
         $this->keycloakAdminIsusGranttype = env('KEYCLOAK_ADMIN_ISUS_GRANTTYPE');
+    }
+
+    public function usuarioPorIdDoKeycloak($sub)
+    {
+        return User::where('id_keycloak', $sub)->first();
     }
 
     public function login($email, $senha)
@@ -87,7 +95,43 @@ class KeycloakService
             $user->email = $userKeycloak->getEmail();
             $user->password = Hash::make($userKeycloak->getPassword());
             $user->id_keycloak = $idKeycloak;
+            $user->municipio_id = $userKeycloak->getCidadeId();
+            $user->categoriaprofissional_id = $userKeycloak->getCategoriaProfissionalId();
             $user->save();
+
+            if (!$user->id) {
+                throw new \Exception('Usuário não criado na API');
+            }
+
+            $unidadesServicos = $userKeycloak->getUnidadesServicos();
+            if (null !== $unidadesServicos) {
+                foreach ($unidadesServicos as $servico) {
+                    $userUnidadeServico = new UserUnidadeServico();
+                    $userUnidadeServico->user_id = $user->id;
+                    $userUnidadeServico->unidade_servico_id = $servico->id;
+                    $userUnidadeServico->save();
+                }
+            }
+
+            $titulacoesAcademica = $userKeycloak->getTitulacoesAcademicas();
+            if (null !== $titulacoesAcademica) {
+                foreach ($titulacoesAcademica as $titulacao) {
+                    $userTitulacaoAcademica = new UserTitulacaoAcademica();
+                    $userTitulacaoAcademica->user_id = $user->id;
+                    $userTitulacaoAcademica->titulacao_academica_id = $titulacao->id;
+                    $userTitulacaoAcademica->save();
+                }
+            }
+
+            $tiposContratacoes = $userKeycloak->getTiposContratacoes();
+            if (null !== $tiposContratacoes) {
+                foreach ($tiposContratacoes as $tipoContratacao) {
+                    $userTipoContratacao = new UserTipoContratacao();
+                    $userTipoContratacao->user_id = $user->id;
+                    $userTipoContratacao->tipo_contratacao_id = $tipoContratacao->id;
+                    $userTipoContratacao->save();
+                }
+            }
 
             return $user;
         } else {

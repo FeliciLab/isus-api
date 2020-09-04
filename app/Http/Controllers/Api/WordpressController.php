@@ -19,8 +19,8 @@ class WordpressController extends Controller
         $projetosPublicados = [];
 
         if (isset($categoria)) {
-            foreach ($categoria->projetos as $projeto) {
-                $projetosPublicados[] = $projeto;
+            foreach ($categoria->categoriaProjetos as $categoriaProjeto) {
+                $projetosPublicados[] = $categoriaProjeto->projeto()->first();
             }
         }
 

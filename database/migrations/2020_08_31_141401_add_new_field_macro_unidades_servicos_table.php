@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoriasTable extends Migration
+class AddNewFieldMacroUnidadesServicosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateCategoriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('categorias', function (Blueprint $table) {
-            $table->id('term_id');
-            $table->string('name', 255);
-            $table->string('slug', 255);
-            $table->timestamps();
+        Schema::table('unidades_servico', function (Blueprint $table) {
+            $table->foreignId('pai')->nullable()->after('id')->references('id')->on('unidades_servico');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateCategoriasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categorias');
+        Schema::table('unidades_servico', function (Blueprint $table) {
+            $table->dropColumn('pai');
+        });
     }
 }

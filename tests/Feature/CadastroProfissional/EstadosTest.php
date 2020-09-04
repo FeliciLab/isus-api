@@ -8,8 +8,12 @@ use Tests\TestCase;
 
 class EstadosTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testRetornaTodosOsEstados()
     {
+        $this->seed();
+
         $response = $this->json('GET', 'api/estados');
         $response->assertOk();
         $response->assertJsonCount(27);

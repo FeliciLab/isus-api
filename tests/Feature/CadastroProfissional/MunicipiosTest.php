@@ -10,8 +10,12 @@ use Tests\TestCase;
 
 class MunicipiosTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testRetornaMunicipiosDeUmEstado()
     {
+        $this->seed();
+
         $estado = Estado::find(1);
 
         $response = $this->json('GET', "api/estados/{$estado->id}/municipios");

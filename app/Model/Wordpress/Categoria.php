@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Categoria extends Model
 {
-    public function projetos()
+    public function categoriaProjetos()
     {
-        return $this->hasMany('App\Model\Wordpress\Projeto', 'categoria_id', 'term_id');
+        return $this->hasMany(CategoriaProjeto::class, 'categoria_id', 'term_id');
     }
 }

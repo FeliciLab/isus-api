@@ -8,8 +8,12 @@ use Tests\TestCase;
 
 class TitulacoesAcademicaTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testRetornaTodasTitulacoesAcademica()
     {
+        $this->seed();
+
         $response = $this->json('GET', 'api/titulacoes-academica');
         $response->assertOk();
         $response->assertJsonFragment([
