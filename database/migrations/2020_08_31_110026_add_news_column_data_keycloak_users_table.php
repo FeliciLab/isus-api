@@ -15,7 +15,7 @@ class AddNewsColumnDataKeycloakUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('municipio_id')->references('id')->on('municipios');
-            $table->foreignId('categoriaprofissional_id')->references('id')->on('categorias_profissionais');
+            $table->foreignId('categoriaprofissional_id')->nullable()->references('id')->on('categorias_profissionais');
         });
     }
 

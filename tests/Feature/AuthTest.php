@@ -42,7 +42,7 @@ class AuthTest extends TestCase
 
     public function testLoginok()
     {
-        $usuario = $this->getUser();
+        $usuario = $this->registrarUsuario();
 
         $response = $this->json('POST', 'api/auth', ['email' => $usuario['email'], 'senha' => $usuario['senha']]);
         $response->assertOk();
@@ -52,46 +52,4 @@ class AuthTest extends TestCase
             ]
         ]);
     }
-
-
-    public function getUser()
-    {
-        $this->seed();
-
-        $fakerBrasil = new Generator();
-        $fakerBrasil->addProvider(new \Faker\Provider\pt_BR\Person($fakerBrasil));
-
-        $faker = Factory::create();
-        $estado = Estado::find($faker->numberBetween(1, 27));
-        $municipio = $estado->municipios()->first();
-
-        $unidadesDeServico = UnidadeServico::whereNotNull('pai');
-        $unidades = $unidadesDeServico->first();
-
-        $categoriasProfissional = CategoriaProfissional::all();
-        $categoriaProfissional = $categoriasProfissional->first();
-
-        $email = $faker->email;
-        $senha = '12345678';
-
-        $user = [
-            'email' => $email,
-            'nomeCompleto' => $faker->name(),
-            'senha' => $senha,
-            'repetirsenha' => '12345678',
-            'telefone' => $faker->randomNumber(9),
-            'cpf' => $fakerBrasil->cpf(false),
-            'rg' => $fakerBrasil->rg(false),
-            'estadoId' => $estado->id,
-            'estado' => $estado->nome,
-            'cidadeId' => $municipio->id,
-            'cidade' => $municipio->nome,
-            'termos' => 'true'
-        ];
-
-        $response = $this->json('POST', 'api/user', $user);
-
-        return $user;
-    }
-
 }
