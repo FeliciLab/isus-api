@@ -11,6 +11,6 @@ class UserUnidadeServico extends Model
 
     public function unidadeServico()
     {
-        return $this->hasOne(UnidadeServico::class);
+        return $this->hasOne(UnidadeServico::class, 'id', 'unidade_servico_id');
     }
 }

@@ -38,12 +38,12 @@ class User extends Authenticatable
 
     public function municipio()
     {
-        return $this->hasOne(Municipio::class);
+        return $this->hasOne(Municipio::class, 'id', 'municipio_id');
     }
 
     public function categoriaProfissional()
     {
-        return $this->hasOne(CategoriaProfissional::class);
+        return $this->hasOne(CategoriaProfissional::class, 'id', 'categoriaprofissional_id');
     }
 
     public function unidadesServicos()
@@ -59,5 +59,45 @@ class User extends Authenticatable
     public function tiposContratacoes()
     {
         return $this->hasMany(UserTipoContratacao::class);
+    }
+
+    public function dadosUsuario()
+    {
+        $municipio = $this->municipio()->first();
+        $estado = $municipio->estado()->first();
+        $categoriProfissional = $this->categoriaProfissional()->first();
+        $tiposContratacoes = [];
+
+        foreach ($this->tiposContratacoes()->get() as $tipoContratacao) {
+            $tiposContratacoes[] = $tipoContratacao->tipoContratacao()->first();
+        }
+
+        foreach ($this->titulacoesAcademicas()->get() as $titulacaoAcademica) {
+            $titulacoesAcademica[] = $titulacaoAcademica->titulacaoAcademica()->first();
+        }
+
+        foreach ($this->unidadesServicos()->get() as $unidadeDeServico) {
+            $unidadesDeServicos[] = $unidadeDeServico->unidadeServico()->first();
+        }
+
+        $dadosUsuario = [
+            'id' => $this->id,
+            'id' => $this->id_keycloak,
+            'name' => $this->name,
+            'email' => $this->email,
+            'cpf' => $this->cpf,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'municipio' => $municipio,
+            'estado' => $estado,
+            'profissional' => [
+                'categoria_profissional' => $categoriProfissional,
+                'tipos_contratacoes' => $tiposContratacoes,
+                'titulacoes_academica' => $titulacoesAcademica,
+                'unidades_servicos' => $unidadesDeServicos,
+            ],
+        ];
+
+        return $dadosUsuario;
     }
 }
