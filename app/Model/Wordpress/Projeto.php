@@ -3,13 +3,12 @@
 namespace App\Model\Wordpress;
 
 use Illuminate\Database\Eloquent\Model;
-use GuzzleHttp\Client;
 
 class Projeto extends Model
 {
-    public function categoria()
+    public function categoriaProjeto()
     {
-        return $this->belongsTo('App\Model\Wordpress\Categoria');
+        return $this->belongsTo(CategoriaProjeto::class);
     }
 
     public function anexos()

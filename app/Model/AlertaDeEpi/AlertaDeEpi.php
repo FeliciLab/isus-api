@@ -15,7 +15,7 @@ class AlertaDeEpi implements EnviavelPorEmail
     public $versaoAplicativo = "";
     public $plataforma = "";
 
-    function __construct(Request $request)
+    public function __construct(Request $request)
     {
         $dados = $request->all();
         $this->descricao = $dados['descricao'];
@@ -25,11 +25,13 @@ class AlertaDeEpi implements EnviavelPorEmail
         $this->plataforma = $dados['plataforma'];
     }
 
-    public function valido() {
+    public function valido()
+    {
         return !$this->validar()->fails();
     }
 
-    public function erros() {
+    public function erros()
+    {
         return $this->validar()->errors();
     }
 
@@ -47,10 +49,20 @@ class AlertaDeEpi implements EnviavelPorEmail
     public function enviarEmail()
     {
         $alertaDeEpi = (array) $this;
-        \Mail::send('email.alertaDeEpi', array('dados' => $alertaDeEpi), function ($mensagem) use ($alertaDeEpi) {
+        \Mail::send('email.alertaDeEpi', ['dados' => $alertaDeEpi], function ($mensagem) use ($alertaDeEpi) {
             $mensagem->from(env('MAIL_USERNAME'), $alertaDeEpi['email'])
             ->to('feedback.isus@esp.ce.gov.br')
-            ->subject('ISUS APP - ALERTA DE EPI - ' . $alertaDeEpi['unidadeDeSaude'].'. ' . date('d/m/Y H:i:s'));
+            ->subject('ISUS APP - ALERTA DE EPI - ' . $alertaDeEpi['unidadeDeSaude'] . '. ' . date('d/m/Y H:i:s'));
         });
+    }
+
+    protected function validar()
+    {
+        $alertaDeEpi = (array) $this;
+
+        return Validator::make($alertaDeEpi, [
+            'descricao' => 'required',
+            'unidadeDeSaude' => 'required',
+        ]);
     }
 }

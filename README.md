@@ -95,7 +95,7 @@ Em seguida acessar http://localhost:7000/api/categorias
 Endpoint: http://localhost:7000/api/categorias
 ```javascript
     {
-        "categoria": { 
+        "categoria": {
           "term_id": 5, // id da categoria
           "name": "Vídeos", // nome da categoria
           "slug": "videos", // slug subcategoria
@@ -182,6 +182,3 @@ Endpoint: http://localhost:7000/api/categoriasArquitetura
     "Minha Saúde": [...]
 }
 ```
-
-
-

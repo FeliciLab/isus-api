@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             TitulacoesAcademicaSeeder::class,
             InstituicoesSeeder::class,
             UnidadesServicoSeeder::class,
+            UnidadesServicoCategoriaSeeder::class,
         ]);
     }
 }

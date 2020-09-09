@@ -15,7 +15,7 @@ class Feedback implements EnviavelPorEmail
     public $versaoAplicativo = "";
     public $plataforma = "";
 
-    function __construct(Request $request)
+    public function __construct(Request $request)
     {
         $dados = $request->all();
         $this->email = $dados['email'];
@@ -25,17 +25,30 @@ class Feedback implements EnviavelPorEmail
         $this->plataforma = $dados['plataforma'];
     }
 
-    public function valido() {
+    public function valido()
+    {
         return !$this->validar()->fails();
     }
 
-    public function erros() {
+    public function erros()
+    {
         return $this->validar()->errors();
+    }
+
+    public function enviarEmail()
+    {
+        $feedback = (array) $this;
+        \Mail::send('email.feedback', ['dados' => $feedback], function ($mensagem) use ($feedback) {
+            $mensagem->from(env('MAIL_USERNAME'), $feedback['email'])
+            ->to('feedback.isus@esp.ce.gov.br')
+            ->subject('ISUS APP - FEEDBACK. ' . date('d/m/Y H:i:s'));
+        });
     }
 
     protected function validar()
     {
         $feedback = (array) $this;
+
         return Validator::make($feedback, [
             'email' => 'required',
             'tipoDeFeedback' => 'required',
@@ -43,15 +56,5 @@ class Feedback implements EnviavelPorEmail
             'versaoAplicativo' => 'required',
             'plataforma' => 'required'
         ]);
-    }
-
-    public function enviarEmail()
-    {
-        $feedback = (array) $this;
-        \Mail::send('email.feedback', array('dados' => $feedback), function ($mensagem) use ($feedback) {
-            $mensagem->from(env('MAIL_USERNAME'), $feedback['email'])
-            ->to('feedback.isus@esp.ce.gov.br')
-            ->subject('ISUS APP - FEEDBACK. ' . date('d/m/Y H:i:s'));
-        });
     }
 }
