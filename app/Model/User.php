@@ -66,8 +66,11 @@ class User extends Authenticatable
         $municipio = $this->municipio()->first();
         $estado = $municipio->estado()->first();
         $categoriProfissional = $this->categoriaProfissional()->first();
-        $tiposContratacoes = [];
 
+        $tiposContratacoes = [];
+        $titulacoesAcademica = [];
+        $unidadesDeServicos = [];
+        
         foreach ($this->tiposContratacoes()->get() as $tipoContratacao) {
             $tiposContratacoes[] = $tipoContratacao->tipoContratacao()->first();
         }
