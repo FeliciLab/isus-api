@@ -15,6 +15,8 @@ use Tests\TestCase;
 
 class ProjetosPorProfissionalTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -50,6 +52,8 @@ class ProjetosPorProfissionalTest extends TestCase
 
     public function testProjetosPorProfissionalComUnidadeDeServico()
     {
+        $this->seed();
+
         $comUnidadesDeServico = true;
         $usuario = $this->registrarUsuario($comUnidadesDeServico);
 

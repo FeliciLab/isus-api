@@ -37,7 +37,7 @@ class UserController extends Controller
 
     public function projetosPorProfissional(Request $request)
     {
-        $usuario = User::where('id_keycloak', $sub)->first();
+        $usuario = User::where('id_keycloak', $request->usuario->sub)->first();
 
         if ($usuario) {
             $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
