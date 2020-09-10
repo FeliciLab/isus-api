@@ -5,15 +5,14 @@ namespace App\Model\Feedback;
 use App\Model\EnviavelPorEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Mail;
 
 class Feedback implements EnviavelPorEmail
 {
-    public $email = "";
-    public $tipoDeFeedback = "";
-    public $texto = "";
-    public $versaoAplicativo = "";
-    public $plataforma = "";
+    public $email = '';
+    public $tipoDeFeedback = '';
+    public $texto = '';
+    public $versaoAplicativo = '';
+    public $plataforma = '';
 
     public function __construct(Request $request)
     {
@@ -54,7 +53,7 @@ class Feedback implements EnviavelPorEmail
             'tipoDeFeedback' => 'required',
             'texto' => 'required',
             'versaoAplicativo' => 'required',
-            'plataforma' => 'required'
+            'plataforma' => 'required',
         ]);
     }
 }
