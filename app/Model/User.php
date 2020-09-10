@@ -70,7 +70,7 @@ class User extends Authenticatable
         $tiposContratacoes = [];
         $titulacoesAcademica = [];
         $unidadesDeServicos = [];
-        
+
         foreach ($this->tiposContratacoes()->get() as $tipoContratacao) {
             $tiposContratacoes[] = $tipoContratacao->tipoContratacao()->first();
         }
