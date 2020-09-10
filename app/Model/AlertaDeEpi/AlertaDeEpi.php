@@ -55,14 +55,4 @@ class AlertaDeEpi implements EnviavelPorEmail
             ->subject('ISUS APP - ALERTA DE EPI - ' . $alertaDeEpi['unidadeDeSaude'] . '. ' . date('d/m/Y H:i:s'));
         });
     }
-
-    protected function validar()
-    {
-        $alertaDeEpi = (array) $this;
-
-        return Validator::make($alertaDeEpi, [
-            'descricao' => 'required',
-            'unidadeDeSaude' => 'required',
-        ]);
-    }
 }
