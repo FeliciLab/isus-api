@@ -37,8 +37,7 @@ class UserController extends Controller
 
     public function projetosPorProfissional(Request $request)
     {
-        $keyCloakService = new KeycloakService();
-        $usuario = $keyCloakService->usuarioPorIdDoKeycloak($request->usuario->sub);
+        $usuario = User::where('id_keycloak', $request->usuario->sub)->first();
 
         if ($usuario) {
             $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
@@ -58,6 +57,17 @@ class UserController extends Controller
         return response()->json([
             'sucesso' => false,
             'mensagem' => 'Usuário não existe',
+        ]);
+    }
+
+    public function perfil(Request $request)
+    {
+        $usuario = User::where('id_keycloak', $request->usuario->sub)->first();
+        $dadosUsuario = $usuario->dadosUsuario();
+
+        return response()->json([
+            'sucesso' => true,
+            'data' =>  $dadosUsuario,
         ]);
     }
 

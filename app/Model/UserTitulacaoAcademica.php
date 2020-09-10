@@ -11,6 +11,6 @@ class UserTitulacaoAcademica extends Model
 
     public function titulacaoAcademica()
     {
-        return $this->hasOne(TitulacaoAcademica::class);
+        return $this->hasOne(TitulacaoAcademica::class, 'id', 'titulacao_academica_id');
     }
 }

@@ -10,6 +10,7 @@ use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -80,6 +81,72 @@ class UserTest extends TestCase
         $response->assertJsonFragment([
             'sucesso' => true,
             'mensagem' => 'Usuário cadastrado com sucesso'
+        ]);
+    }
+
+    public function testConsultaPerfil()
+    {
+        $this->seed();
+
+        $comUnidadesDeServico = false;
+        $usuario = $this->registrarUsuario($comUnidadesDeServico);
+
+        $user = [
+            'email' => $usuario['email'],
+            'senha' => $usuario['senha']
+        ];
+
+        $response = $this->json('POST', 'api/auth', $user);
+        $data = $response->getData();
+        $access_token = $data->mensagem->access_token;
+
+        if (!is_null($access_token)) {
+            $response = $this->withHeaders([
+                'Authorization' => 'Bearer ' . $access_token,
+            ])->json('GET', "api/perfil");
+            $response->assertOk();
+            $response->assertJsonStructure([
+                'sucesso',
+                'data' => [
+                    'id',
+                    'id_keycloak',
+                    'name',
+                    'email',
+                    'cpf',
+                    'created_at',
+                    'updated_at',
+                    'municipio' => [
+                        'id',
+                        'estado_id',
+                        'nome'
+                    ],
+                    'estado' => [
+                        'id',
+                        'nome',
+                        'uf'
+                    ],
+                    'profissional' => [
+                        'categoria_profissional',
+                        'tipos_contratacoes',
+                        'titulacoes_academica',
+                        'unidades_servicos'
+                    ]
+                ]
+            ]);
+        }
+    }
+
+    public function testConsultaPerfilTokenInvalido()
+    {
+        $this->seed();
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer xyz',
+        ])->json('GET', "api/perfil");
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertJsonFragment([
+            'sucesso' => false,
+            'erros' => 'Token não autorizado'
         ]);
     }
 }

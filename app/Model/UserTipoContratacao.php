@@ -11,6 +11,6 @@ class UserTipoContratacao extends Model
 
     public function tipoContratacao()
     {
-        return $this->hasOne(TipoContratacao::class);
+        return $this->hasOne(TipoContratacao::class, 'id', 'tipo_contratacao_id');
     }
 }
