@@ -109,6 +109,7 @@ class UserTest extends TestCase
                 'sucesso',
                 'data' => [
                     'id',
+                    'id_keycloak',
                     'name',
                     'email',
                     'cpf',

@@ -85,7 +85,7 @@ class User extends Authenticatable
 
         $dadosUsuario = [
             'id' => $this->id,
-            'id' => $this->id_keycloak,
+            'id_keycloak' => $this->id_keycloak,
             'name' => $this->name,
             'email' => $this->email,
             'cpf' => $this->cpf,
