@@ -11,6 +11,8 @@ class AlertaDeEpi implements EnviavelPorEmail
     public $descricao = '';
     public $unidadeDeSaude = '';
     public $email = '';
+    public $versaoAplicativo = '';
+    public $plataforma = '';
 
     public function __construct(Request $request)
     {
@@ -18,6 +20,8 @@ class AlertaDeEpi implements EnviavelPorEmail
         $this->descricao = $dados['descricao'];
         $this->unidadeDeSaude = $dados['unidadeDeSaude'];
         $this->email = $dados['email'];
+        $this->versaoAplicativo = $dados['versaoAplicativo'];
+        $this->plataforma = $dados['plataforma'];
     }
 
     public function valido()
@@ -47,6 +51,8 @@ class AlertaDeEpi implements EnviavelPorEmail
         return Validator::make($alertaDeEpi, [
             'descricao' => 'required',
             'unidadeDeSaude' => 'required',
+            'versaoAplicativo' => 'required',
+            'plataforma' => 'required',
         ]);
     }
 }

@@ -11,6 +11,8 @@ class Feedback implements EnviavelPorEmail
     public $email = '';
     public $tipoDeFeedback = '';
     public $texto = '';
+    public $versaoAplicativo = '';
+    public $plataforma = '';
 
     public function __construct(Request $request)
     {
@@ -18,6 +20,8 @@ class Feedback implements EnviavelPorEmail
         $this->email = $dados['email'];
         $this->tipoDeFeedback = $dados['tipoDeFeedback'];
         $this->texto = $dados['texto'];
+        $this->versaoAplicativo = $dados['versaoAplicativo'];
+        $this->plataforma = $dados['plataforma'];
     }
 
     public function valido()
@@ -48,6 +52,8 @@ class Feedback implements EnviavelPorEmail
             'email' => 'required',
             'tipoDeFeedback' => 'required',
             'texto' => 'required',
+            'versaoAplicativo' => 'required',
+            'plataforma' => 'required',
         ]);
     }
 }
