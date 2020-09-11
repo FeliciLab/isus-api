@@ -71,6 +71,23 @@ class UserController extends Controller
         ]);
     }
 
+    public function update(Request $request)
+    {
+        $dados = $request->all();
+        $validacao = $this->validarRequisicaoUpdate($dados);
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
+        }
+
+        $userKeycloak = new UserKeycloak($dados);
+        $keyCloakService = new KeycloakService();
+        $user = $keyCloakService->update($userKeycloak, $request->usuario->sub);
+
+        if (!empty($user->id_keycloak)) {
+            return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário atualizado com sucesso']);
+        }
+    }
+
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
     {
         $projetosPorMacrounidades = [];
@@ -123,22 +140,5 @@ class UserController extends Controller
             'cidade' => 'required',
             'termos' => 'accepted',
         ]);
-    }
-
-    public function update(Request $request)
-    {
-        $dados = $request->all();
-        $validacao = $this->validarRequisicaoUpdate($dados);
-        if ($validacao->fails()) {
-            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
-        }
-
-        $userKeycloak = new UserKeycloak($dados);
-        $keyCloakService = new KeycloakService();
-        $user = $keyCloakService->update($userKeycloak, $request->usuario->sub);
-
-        if (!empty($user->id_keycloak)) {
-            return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário atualizado com sucesso']);
-        }
     }
 }

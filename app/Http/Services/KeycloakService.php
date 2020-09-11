@@ -135,9 +135,8 @@ class KeycloakService
         }
     }
 
-
     public function update(UserKeycloak $userKeycloak, $idKeycloak)
-    {   
+    {
         $semSenha = true;
         $dadosKeycloak = $userKeycloak->toKeycloak($semSenha);
 
@@ -163,13 +162,13 @@ class KeycloakService
             if (!$user->id) {
                 throw new \Exception('Usuário não atualizado na API');
             }
-            
+
             $unidadesServicos = $userKeycloak->getUnidadesServicos();
             if (null !== $unidadesServicos) {
                 foreach ($user->unidadesServicos()->get() as $userUnidadeServico_) {
                     $userUnidadeServico_->delete();
                 }
- 
+
                 foreach ($unidadesServicos as $servico) {
                     $userUnidadeServico = new UserUnidadeServico();
                     $userUnidadeServico->user_id = $user->id;
