@@ -113,6 +113,7 @@ class UserTest extends TestCase
                     'name',
                     'email',
                     'cpf',
+                    'telefone',
                     'created_at',
                     'updated_at',
                     'municipio' => [
