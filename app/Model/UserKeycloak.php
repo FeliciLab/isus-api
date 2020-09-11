@@ -10,7 +10,7 @@ class UserKeycloak
     private $firstName;
     private $lastName;
     private $password;
-    private $phone;
+    private $telefone;
     private $cpf;
     private $rg;
     private $estadoId;
@@ -34,7 +34,7 @@ class UserKeycloak
         $this->firstName = $nome ?? null;
         $this->lastName = $sobrenome ?? null;
         $this->password = $dados['senha'] ?? null;
-        $this->phone = $dados['telefone'] ?? null;
+        $this->telefone = $dados['telefone'] ?? null;
         $this->cpf = $dados['cpf'] ?? null;
         $this->rg = $dados['rg'] ?? null;
         $this->estadoId = $dados['estadoId'] ?? null;
@@ -62,6 +62,11 @@ class UserKeycloak
     public function getEmail()
     {
         return $this->email;
+    }
+
+    public function getTelefone()
+    {
+        return $this->telefone;
     }
 
     public function getPassword()
@@ -100,6 +105,9 @@ class UserKeycloak
 
     public function toKeycloak()
     {
+        $municipio = Municipio::find($this->cidadeId);
+        $estado = $municipio->estado()->first();
+
         return [
             'enabled' => $this->enabled,
             'email' => $this->email,
@@ -113,11 +121,11 @@ class UserKeycloak
                 ],
             ],
             'attributes' => [
-                'TELEFONE' => $this->phone,
+                'TELEFONE' => $this->telefone,
                 'CPF' => $this->cpf,
                 'RG' => $this->rg,
-                'ESTADO_ID' => $this->estadoId,
-                'ESTADO' => $this->estado,
+                'ESTADO_ID' => $estado->id,
+                'ESTADO' => $estado->nome,
                 'CIDADE_ID' => $this->cidadeId,
                 'CIDADE' => $this->cidade,
                 'TERMOS' => $this->termos,

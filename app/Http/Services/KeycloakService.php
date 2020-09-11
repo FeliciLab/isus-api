@@ -88,6 +88,7 @@ class KeycloakService
             $user->name = $userKeycloak->getName();
             $user->cpf = $userKeycloak->getCpf();
             $user->email = $userKeycloak->getEmail();
+            $user->telefone = $userKeycloak->getTelefone();
             $user->password = Hash::make($userKeycloak->getPassword());
             $user->id_keycloak = $idKeycloak;
             $user->municipio_id = $userKeycloak->getCidadeId();

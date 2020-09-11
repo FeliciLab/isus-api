@@ -89,6 +89,7 @@ class User extends Authenticatable
             'name' => $this->name,
             'email' => $this->email,
             'cpf' => $this->cpf,
+            'telefone' => $this->telefone,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'municipio' => $municipio,
