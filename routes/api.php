@@ -41,6 +41,7 @@ Route::namespace('Api')->group(function () {
         Route::post('/logout', 'AuthController@logout');
         Route::get('/projetos-por-profissional', 'UserController@projetosPorProfissional');
         Route::get('/perfil', 'UserController@perfil');
+        Route::put('/user', 'UserController@update');
     });
 });
 

@@ -4,7 +4,7 @@ namespace App\Model;
 
 class UserKeycloak
 {
-    private $id;
+    private $idKeycloak;
     private $enabled = true;
     private $email;
     private $firstName;
@@ -30,6 +30,7 @@ class UserKeycloak
         $nome = $this->pegarNome($nomeCompleto);
         $sobrenome = $this->pegarSobrenome($nomeCompleto);
 
+        $this->idKeycloak = $dados['idKeycloak'] ?? null;
         $this->email = $dados['email'] ?? null;
         $this->firstName = $nome ?? null;
         $this->lastName = $sobrenome ?? null;
@@ -47,6 +48,11 @@ class UserKeycloak
         $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
         $this->instituicao = $dados['instituicao'] ?? null;
         $this->unidadeServico = $dados['unidadeServico'] ?? null;
+    }
+
+    public function getIdKeycloak()
+    {
+        return $this->idKeycloak;
     }
 
     public function getName()
@@ -103,12 +109,12 @@ class UserKeycloak
         return json_decode($this->titulacaoAcademica);
     }
 
-    public function toKeycloak()
+    public function toKeycloak($semSenha = false)
     {
         $municipio = Municipio::find($this->cidadeId);
         $estado = $municipio->estado()->first();
 
-        return [
+        $dadosKeycloak = [
             'enabled' => $this->enabled,
             'email' => $this->email,
             'firstName' => $this->firstName,
@@ -131,6 +137,12 @@ class UserKeycloak
                 'TERMOS' => $this->termos,
             ],
         ];
+
+        if ($semSenha) {
+            unset($dadosKeycloak['credentials']);
+        }
+
+        return $dadosKeycloak;
     }
 
     private function pegarSobrenome($nomeCompleto)
