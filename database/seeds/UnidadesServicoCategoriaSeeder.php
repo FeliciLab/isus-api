@@ -24,5 +24,7 @@ class UnidadesServicoCategoriaSeeder extends Seeder
         'unidade_servico_id' => UnidadeServico::ISUS_CATEGORIA_APOIO_TECNICO]);
 
         DB::table('unidades_servico_categoria')->insert(['categoria_id' => UnidadesServicoCategoria::WORDPRESS_CATEGORIA_ADMINISTRACAO_E_GESTAO, 'unidade_servico_id' => UnidadeServico::ISUS_CATEGORIA_ADMINISTRACAO_E_GESTAO]);
+
+        DB::table('unidades_servico_categoria')->insert(['categoria_id' => UnidadesServicoCategoria::WORDPRESS_CATEGORIA_UTI, 'unidade_servico_id' => UnidadeServico::ISUS_CATEGORIA_UTI]);
     }
 }
