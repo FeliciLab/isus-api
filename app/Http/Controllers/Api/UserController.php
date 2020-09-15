@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Services\KeycloakService;
 use App\Model\UnidadeServico;
+use App\Model\UnidadesServicoCategoria;
 use App\Model\User;
 use App\Model\UserKeycloak;
 use Illuminate\Http\Request;
@@ -43,6 +44,9 @@ class UserController extends Controller
             $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
             $macroUnidadesDeSaude = UnidadeServico::pegarMacroUnidadeDeServico($unidadesDoUsuario);
             $projetosDoProfissional = [];
+            if ($unidadesDoUsuario->search(UnidadeServico::ISUS_CATEGORIA_UTI)) {
+                $macroUnidadesDeSaude->push(UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI));
+            }
             foreach ($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
                 $projetosPorMacrounidades = $this->projetosPorMacroUnidades($macroUnidadeDeSaude);
                 $projetosDoProfissional = array_merge($projetosDoProfissional, $projetosPorMacrounidades);
@@ -91,23 +95,25 @@ class UserController extends Controller
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
     {
         $projetosPorMacrounidades = [];
-
         $unidadeServicoCategoria = $macroUnidadeDeSaude->unidadesServicoCategoria()->first();
         $categoria = $unidadeServicoCategoria->categoria()->first();
 
         if (null !== $categoria) {
-            $categoriasProjetos = $categoria->categoriaProjetos()->get();
-            foreach ($categoriasProjetos as $categoriaProjeto) {
-                $projeto = $categoriaProjeto->projeto()->first();
-                $projetosPorMacrounidades[] = [
-                    'id' => $projeto->id,
-                    'slug' => $projeto->slug,
-                    'post_date' => $projeto->data,
-                    'post_title' => $projeto->post_title,
-                    'post_content' => $projeto->content,
-                    'image' => $projeto->image,
-                    'anexos' => $projeto->anexos()->get(),
-                ];
+            if (in_array($categoria->term_id, UnidadesServicoCategoria::WORDPRESS_CATEGORIAS_VALIDAS)) {
+                $categoriasProjetos = $categoria->categoriaProjetos()->get();
+
+                foreach ($categoriasProjetos as $categoriaProjeto) {
+                    $projeto = $categoriaProjeto->projeto()->first();
+                    $projetosPorMacrounidades[] = [
+                        'id' => $projeto->id,
+                        'slug' => $projeto->slug,
+                        'post_date' => $projeto->data,
+                        'post_title' => $projeto->post_title,
+                        'post_content' => $projeto->content,
+                        'image' => $projeto->image,
+                        'anexos' => $projeto->anexos()->get(),
+                    ];
+                }
             }
         }
 
