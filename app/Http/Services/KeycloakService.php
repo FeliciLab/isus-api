@@ -135,6 +135,82 @@ class KeycloakService
         }
     }
 
+    public function update(UserKeycloak $userKeycloak, $idKeycloak)
+    {
+        $semSenha = true;
+        $dadosKeycloak = $userKeycloak->toKeycloak($semSenha);
+
+        $resposta = $this->keycloakClient->put("{$this->keycloakUri}/auth/admin/realms/saude/users/{$idKeycloak}", [
+            RequestOptions::JSON => $dadosKeycloak,
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->getTokenAdmin()}",
+            ],
+        ]);
+
+        if ($resposta->getStatusCode() == Response::HTTP_NO_CONTENT) {
+            $user = User::where('id_keycloak', $idKeycloak)->first();
+            $user->name = $userKeycloak->getName();
+            $user->cpf = $userKeycloak->getCpf();
+            $user->email = $userKeycloak->getEmail();
+            $user->telefone = $userKeycloak->getTelefone();
+            $user->id_keycloak = $idKeycloak;
+            $user->municipio_id = $userKeycloak->getCidadeId();
+            $user->categoriaprofissional_id = $userKeycloak->getCategoriaProfissionalId();
+            $user->save();
+
+            if (!$user->id) {
+                throw new \Exception('Usuário não atualizado na API');
+            }
+
+            $unidadesServicos = $userKeycloak->getUnidadesServicos();
+            if (null !== $unidadesServicos) {
+                foreach ($user->unidadesServicos()->get() as $userUnidadeServico_) {
+                    $userUnidadeServico_->delete();
+                }
+
+                foreach ($unidadesServicos as $servico) {
+                    $userUnidadeServico = new UserUnidadeServico();
+                    $userUnidadeServico->user_id = $user->id;
+                    $userUnidadeServico->unidade_servico_id = $servico->id;
+                    $userUnidadeServico->save();
+                }
+            }
+
+            $titulacoesAcademica = $userKeycloak->getTitulacoesAcademicas();
+            if (null !== $titulacoesAcademica) {
+                foreach ($user->titulacoesAcademicas()->get() as $userTitulacoesAcademica_) {
+                    $userTitulacoesAcademica_->delete();
+                }
+
+                foreach ($titulacoesAcademica as $titulacao) {
+                    $userTitulacaoAcademica = new UserTitulacaoAcademica();
+                    $userTitulacaoAcademica->user_id = $user->id;
+                    $userTitulacaoAcademica->titulacao_academica_id = $titulacao->id;
+                    $userTitulacaoAcademica->save();
+                }
+            }
+
+            $tiposContratacoes = $userKeycloak->getTiposContratacoes();
+            if (null !== $tiposContratacoes) {
+                foreach ($user->tiposContratacoes()->get() as $userTiposContratacoes_) {
+                    $userTiposContratacoes_->delete();
+                }
+
+                foreach ($tiposContratacoes as $tipoContratacao) {
+                    $userTipoContratacao = new UserTipoContratacao();
+                    $userTipoContratacao->user_id = $user->id;
+                    $userTipoContratacao->tipo_contratacao_id = $tipoContratacao->id;
+                    $userTipoContratacao->save();
+                }
+            }
+
+            return $user;
+        } else {
+            throw new \Exception('Usuário não atualizado error keycloak');
+        }
+    }
+
     private function getTokenAdmin()
     {
         $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/{$this->keycloakAdminIsusRealm}/protocol/openid-connect/token", [
