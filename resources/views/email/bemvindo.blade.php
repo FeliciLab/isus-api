@@ -91,7 +91,7 @@
 										<td style="padding-bottom: 10px;">
 											<table width="100%" border="0" cellspacing="0" cellpadding="0">
 												<tr>
-													<td class="tbrr p30-15" style="padding: 60px 30px; border-radius:26px 26px 0px 0px;" bgcolor="#01b53e">
+													<td class="tbrr p30-15" style="padding: 40px 20px; border-radius:26px 26px 0px 0px;" bgcolor="#01b53e">
 														<table width="100%" border="0" cellspacing="0" cellpadding="0">
 															<tr>
 																<td class="h1 pb25" style="color:#ffffff; font-family:'Muli', Arial,sans-serif; font-size:28px; line-height:46px; text-align:center; padding-bottom:25px;"><div mc:edit="text_2">Seja bem-vindo(a) ao iSUS, {{ $usuario->name }}</div></td>
@@ -125,16 +125,11 @@
 																<td class="text pb20" style="color:#ffffff; font-family:Arial,sans-serif; font-size:14px; line-height:26px; text-align:left; padding-bottom:20px;"><div mc:edit="text_6" style="text-align: justify;">
 
 
-																	<p>Você acaba de se cadastrar no aplicativo desenvolvido para ajudá-lo em sua prática cotidiana, na rede de ações e serviços do Sistema Único de Saúde no Ceará.<p><br>
-
-																	<p>Nele você encontra conteúdos que vão de protocolos de manejos clínicos a orientações farmacológicas e artigos científicos, entre outros, escolhidos a partir de uma curadoria criteriosa e atualizada.</p><br>
-
-																	<p>Sabemos que existem diversos aplicativos que lhes dão suporte em suas tomadas de decisão e necessidades de atualização, e o iSUS está caminhando para se posicionar entre os melhores e mais necessários.</p><br>
-
-																	<p>O iSUS é um aplicativo do SUS, com muito orgulho pela sua universalidade, diversidade, integralidade e regionalização.</p><br>
-
-																	<p>Começamos a desenvolver esse projeto no início da pandemia de Covid-19, e agora estamos diante da oportunidade de torná-lo uma ferramenta única, feita a partir da experiência e do feedback de cada um de vocês.</p><br>
-
+																	<p>Você acaba de se cadastrar no aplicativo desenvolvido para ajudá-lo em sua prática cotidiana, na rede de ações e serviços do Sistema Único de Saúde no Ceará.<p>
+																	<p>Nele você encontra conteúdos que vão de protocolos de manejos clínicos a orientações farmacológicas e artigos científicos, entre outros, escolhidos a partir de uma curadoria criteriosa e atualizada.</p>
+																	<p>Sabemos que existem diversos aplicativos que lhes dão suporte em suas tomadas de decisão e necessidades de atualização, e o iSUS está caminhando para se posicionar entre os melhores e mais necessários.</p>
+																	<p>O iSUS é um aplicativo do SUS, com muito orgulho pela sua universalidade, diversidade, integralidade e regionalização.</p>
+																	<p>Começamos a desenvolver esse projeto no início da pandemia de Covid-19, e agora estamos diante da oportunidade de torná-lo uma ferramenta única, feita a partir da experiência e do feedback de cada um de vocês.</p>
 																	<p>O seu cadastro é o ponto de partida para entendermos quem é você, quais suas necessidades, seus projetos, e como podemos promover o bem estar e a felicidade dos trabalhadores e trabalhadoras da saúde no Ceará.</p><br>
 
 																	<p>Vamos juntes, fortalecer o SUS!</p>
@@ -146,7 +141,7 @@
 																<td align="center">
 																	<table border="0" cellspacing="0" cellpadding="0">
 																		<tr>
-																			<td class="blue-button text-button" style="background:#66c7ff; color:#c1cddc; font-family:'Muli', Arial,sans-serif; font-size:14px; line-height:18px; padding:12px 30px; text-align:center; border-radius:0px 22px 22px 22px; font-weight:bold;"><div mc:edit="text_7"><a href="https://coronavirus.ceara.gov.br/isus/" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none;"><span class="link-white" style="color:#ffffff; text-decoration:none;">Quer saber mais sobre o iSUS? (clique aqui)</span></a></div></td>
+																			<td class="blue-button text-button" style="background:#66c7ff; color:#c1cddc; font-family:'Muli', Arial,sans-serif; font-size:14px; line-height:18px; padding:12px 30px; text-align:center; border-radius:0px 22px 22px 22px; font-weight:bold;"><div mc:edit="text_7"><a href="https://coronavirus.ceara.gov.br/isus/" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none;"><span class="link-white" style="color:#ffffff; text-decoration:none;">Quero saber mais sobre o iSUS</span></a></div></td>
 																		</tr>
 																	</table>
 																</td>
