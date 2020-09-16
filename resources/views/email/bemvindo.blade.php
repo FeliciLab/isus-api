@@ -133,7 +133,7 @@
 
 																	<p>O iSUS é um aplicativo do SUS, com muito orgulho pela sua universalidade, diversidade, integralidade e regionalização.</p><br>
 
-																	<p>Começamos a desenvolver esse projeto no início da pandemia de Covid-19, e agora estamos - você que baixou o app e nós que trabalhamos em seu desenvolvimento - diante da oportunidade de torná-lo uma ferramenta única, feita a partir da experiência e do feedback de cada um de vocês.</p><br>
+																	<p>Começamos a desenvolver esse projeto no início da pandemia de Covid-19, e agora estamos diante da oportunidade de torná-lo uma ferramenta única, feita a partir da experiência e do feedback de cada um de vocês.</p><br>
 
 																	<p>O seu cadastro é o ponto de partida para entendermos quem é você, quais suas necessidades, seus projetos, e como podemos promover o bem estar e a felicidade dos trabalhadores e trabalhadoras da saúde no Ceará.</p><br>
 
