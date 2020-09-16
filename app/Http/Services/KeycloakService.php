@@ -129,6 +129,8 @@ class KeycloakService
                 }
             }
 
+            $this->enviarEmailCadastro($user);
+
             return $user;
         } else {
             throw new \Exception('Usuário não criado error keycloak');
@@ -209,6 +211,15 @@ class KeycloakService
         } else {
             throw new \Exception('Usuário não atualizado error keycloak');
         }
+    }
+
+    private function enviarEmailCadastro($user)
+    {
+        \Mail::send('email.bemvindo', ['usuario' => $user], function ($mensagem) use ($user) {
+            $mensagem->from(env('MAIL_USERNAME'), 'iSUS')
+            ->to($user->email)
+            ->subject('Seja bem-vindo(a) ao iSUS');
+        });
     }
 
     private function getTokenAdmin()
