@@ -44,18 +44,19 @@ class UserController extends Controller
             $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
             $macroUnidadesDeSaude = UnidadeServico::pegarMacroUnidadeDeServico($unidadesDoUsuario);
             $projetosDoProfissional = [];
-            if ($unidadesDoUsuario->search(UnidadeServico::ISUS_CATEGORIA_UTI)) {
-                $macroUnidadesDeSaude->push(UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI));
+
+            if ($unidadesDoUsuario->contains(UnidadeServico::ISUS_CATEGORIA_UTI)) {
+                $macroUnidadesDeSaude = $macroUnidadesDeSaude->push(UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI));
             }
             foreach ($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
                 $projetosPorMacrounidades = $this->projetosPorMacroUnidades($macroUnidadeDeSaude);
                 $projetosDoProfissional = array_merge($projetosDoProfissional, $projetosPorMacrounidades);
             }
 
-            return response()->json([[
+            return response()->json([
                 'sucesso' => true,
                 'projetosDoProfissional' => array_unique($projetosDoProfissional, SORT_REGULAR),
-            ]]);
+            ]);
         }
 
         return response()->json([
