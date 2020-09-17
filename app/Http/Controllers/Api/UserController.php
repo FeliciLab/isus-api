@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Services\KeycloakService;
 use App\Model\UnidadeServico;
+use App\Model\UnidadesServicoCategoria;
 use App\Model\User;
 use App\Model\UserKeycloak;
 use Illuminate\Http\Request;
@@ -43,15 +44,19 @@ class UserController extends Controller
             $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
             $macroUnidadesDeSaude = UnidadeServico::pegarMacroUnidadeDeServico($unidadesDoUsuario);
             $projetosDoProfissional = [];
+
+            if ($unidadesDoUsuario->contains(UnidadeServico::ISUS_CATEGORIA_UTI)) {
+                $macroUnidadesDeSaude = $macroUnidadesDeSaude->push(UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI));
+            }
             foreach ($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
                 $projetosPorMacrounidades = $this->projetosPorMacroUnidades($macroUnidadeDeSaude);
                 $projetosDoProfissional = array_merge($projetosDoProfissional, $projetosPorMacrounidades);
             }
 
-            return response()->json([[
+            return response()->json([
                 'sucesso' => true,
                 'projetosDoProfissional' => array_unique($projetosDoProfissional, SORT_REGULAR),
-            ]]);
+            ]);
         }
 
         return response()->json([
@@ -71,26 +76,45 @@ class UserController extends Controller
         ]);
     }
 
+    public function update(Request $request)
+    {
+        $dados = $request->all();
+        $validacao = $this->validarRequisicaoUpdate($dados);
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
+        }
+
+        $userKeycloak = new UserKeycloak($dados);
+        $keyCloakService = new KeycloakService();
+        $user = $keyCloakService->update($userKeycloak, $request->usuario->sub);
+
+        if (!empty($user->id_keycloak)) {
+            return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário atualizado com sucesso']);
+        }
+    }
+
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
     {
         $projetosPorMacrounidades = [];
-
         $unidadeServicoCategoria = $macroUnidadeDeSaude->unidadesServicoCategoria()->first();
         $categoria = $unidadeServicoCategoria->categoria()->first();
 
         if (null !== $categoria) {
-            $categoriasProjetos = $categoria->categoriaProjetos()->get();
-            foreach ($categoriasProjetos as $categoriaProjeto) {
-                $projeto = $categoriaProjeto->projeto()->first();
-                $projetosPorMacrounidades[] = [
-                    'id' => $projeto->id,
-                    'slug' => $projeto->slug,
-                    'post_date' => $projeto->data,
-                    'post_title' => $projeto->post_title,
-                    'post_content' => $projeto->content,
-                    'image' => $projeto->image,
-                    'anexos' => $projeto->anexos()->get(),
-                ];
+            if (in_array($categoria->term_id, UnidadesServicoCategoria::WORDPRESS_CATEGORIAS_VALIDAS)) {
+                $categoriasProjetos = $categoria->categoriaProjetos()->get();
+
+                foreach ($categoriasProjetos as $categoriaProjeto) {
+                    $projeto = $categoriaProjeto->projeto()->first();
+                    $projetosPorMacrounidades[] = [
+                        'id' => $projeto->id,
+                        'slug' => $projeto->slug,
+                        'post_date' => $projeto->data,
+                        'post_title' => $projeto->post_title,
+                        'post_content' => $projeto->content,
+                        'image' => $projeto->image,
+                        'anexos' => $projeto->anexos()->get(),
+                    ];
+                }
             }
         }
 
@@ -105,7 +129,20 @@ class UserController extends Controller
             'senha' => 'min:8|required|required_with:repetirsenha|same:repetirsenha',
             'repetirsenha' => 'min:8|required',
             'telefone' => 'required|min:9|max:11',
-            'cpf' => 'required|min:11|max:11|unique:users',
+            'cpf' => 'required|cpf|min:11|max:11|unique:users',
+            'cidadeId' => 'required',
+            'cidade' => 'required',
+            'termos' => 'accepted',
+        ]);
+    }
+
+    private function validarRequisicaoUpdate($dados)
+    {
+        return Validator::make($dados, [
+            'email' => 'required|email',
+            'nomeCompleto' => 'required',
+            'telefone' => 'required|min:9|max:11',
+            'cpf' => 'required|cpf|min:11|max:11',
             'cidadeId' => 'required',
             'cidade' => 'required',
             'termos' => 'accepted',

@@ -10,6 +10,7 @@ class UnidadeServico extends Model
     public const ISUS_CATEGORIA_APOIO_DIAGNOSTICO_OU_TERAPEUTICO = 2;
     public const ISUS_CATEGORIA_APOIO_TECNICO = 3;
     public const ISUS_CATEGORIA_ADMINISTRACAO_E_GESTAO = 4;
+    public const ISUS_CATEGORIA_UTI = 10;
     protected $table = 'unidades_servico';
 
     public function unidadesServicoCategoria()
