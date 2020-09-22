@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             InstituicoesSeeder::class,
             UnidadesServicoSeeder::class,
             UnidadesServicoCategoriaSeeder::class,
+            EspecialidadesSeeder::class,
         ]);
     }
 }
