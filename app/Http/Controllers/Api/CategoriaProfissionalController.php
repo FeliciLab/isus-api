@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Model\CategoriaProfissional;
-use App\Model\Especialidade;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -43,6 +42,4 @@ class CategoriaProfissionalController extends Controller
             ], Response::HTTP_NO_CONTENT);
         }
     }
-
-
 }
