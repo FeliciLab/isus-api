@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\CadastroProfissional;
 
+use App\Model\CategoriaProfissional;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -10,10 +11,15 @@ class CategoriaProfissionalTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed();
+    }
+
     public function testRetornaTodasCategoriaProfissionais()
     {
-        $this->seed();
-
         $response = $this->json('GET', 'api/categorias-profissionais');
         $response->assertOk();
         $response->assertJsonFragment([
@@ -23,6 +29,27 @@ class CategoriaProfissionalTest extends TestCase
         $response->assertJsonStructure([
             [
                 'id',
+                'nome'
+            ]
+        ]);
+    }
+
+    public function testRetornaTodasEspecialidadesPelaCategoriaMedicina()
+    {
+        $categoriaMedicina = CategoriaProfissional::CATEGORIA_PROFISSIONAL_MEDICINA;
+
+        $response = $this->json('GET', "api/categorias-profissionais/{$categoriaMedicina}/especialidades");
+
+        $response->assertOk();
+        $response->assertJsonCount(56);
+        $response->assertJsonFragment([
+            'categoriaprofissional_id' => 1,
+            'nome' => 'ACUPUNTURA'
+        ]);
+        $response->assertJsonStructure([
+            [
+                'id',
+                'categoriaprofissional_id',
                 'nome'
             ]
         ]);

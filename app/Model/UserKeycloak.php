@@ -23,6 +23,7 @@ class UserKeycloak
     private $tipoContratacao;
     private $instituicao;
     private $unidadeServico;
+    private $especialidades;
 
     public function __construct($dados)
     {
@@ -48,6 +49,7 @@ class UserKeycloak
         $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
         $this->instituicao = $dados['instituicao'] ?? null;
         $this->unidadeServico = $dados['unidadeServico'] ?? null;
+        $this->especialidades = $dados['especialidades'] ?? null;
     }
 
     public function getIdKeycloak()
@@ -107,6 +109,11 @@ class UserKeycloak
     public function getTitulacoesAcademicas()
     {
         return json_decode($this->titulacaoAcademica);
+    }
+
+    public function getEspecialidades()
+    {
+        return json_decode($this->especialidades);
     }
 
     public function toKeycloak($semSenha = false)
