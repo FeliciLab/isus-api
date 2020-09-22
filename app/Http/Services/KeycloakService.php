@@ -176,6 +176,20 @@ class KeycloakService
                 throw new \Exception('Usuário não atualizado na API');
             }
 
+            $especialidades = $userKeycloak->getEspecialidades();
+            if (null !== $especialidades) {
+                foreach ($user->especialidades()->get() as $userEspecialidade_) {
+                    $userEspecialidade_->delete();
+                }
+
+                foreach ($especialidades as $especialidade) {
+                    $userEspecialidade = new UserEspecialidade();
+                    $userEspecialidade->user_id = $user->id;
+                    $userEspecialidade->especialidade_id = $especialidade->id;
+                    $userEspecialidade->save();
+                }
+            }
+
             $unidadesServicos = $userKeycloak->getUnidadesServicos();
             if (null !== $unidadesServicos) {
                 foreach ($user->unidadesServicos()->get() as $userUnidadeServico_) {

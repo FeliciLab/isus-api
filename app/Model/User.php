@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(UserTipoContratacao::class);
     }
 
+    public function especialidades()
+    {
+        return $this->hasMany(UserEspecialidade::class);
+    }
+
     public function dadosUsuario()
     {
         $municipio = $this->municipio()->first();
