@@ -50,6 +50,7 @@ class UserTest extends TestCase
             'titulacaoAcademica' => '[{"id":1,"nome":"Titulação 1"},{"id":2,"nome":"Titulação 2"}]',
             'tipoContratacao' => '[{"id":1,"nome":"Estatutário"},{"id":2,"nome":"Cooperado"}]',
             'instituicao' => '[{"id":1,"nome":"ESP 1"},{"id":2,"nome":"HGF 2"}]',
+            'especialidades' => '[{"id":1},{"id":2}]',
             'unidadeServico' => json_encode([$unidades])
         ];
     }
@@ -130,7 +131,8 @@ class UserTest extends TestCase
                         'categoria_profissional',
                         'tipos_contratacoes',
                         'titulacoes_academica',
-                        'unidades_servicos'
+                        'unidades_servicos',
+                        'especialidades'
                     ]
                 ]
             ]);

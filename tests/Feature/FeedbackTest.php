@@ -15,6 +15,8 @@ class FeedbackTest extends TestCase
             'categoria' => 'Sugestão',
             'texto' => 'Realizando teste de feedback',
             'tipoDeFeedback' => 'Alerta',
+            'versaoAplicativo' => 1,
+            'plataforma' => 'android',
         ]);
         $response->assertOk();
         $response->assertJsonFragment([

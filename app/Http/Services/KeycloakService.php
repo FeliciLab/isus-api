@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Model\User;
+use App\Model\UserEspecialidade;
 use App\Model\UserKeycloak;
 use App\Model\UserTipoContratacao;
 use App\Model\UserTitulacaoAcademica;
@@ -99,6 +100,16 @@ class KeycloakService
                 throw new \Exception('Usuário não criado na API');
             }
 
+            $especialidades = $userKeycloak->getEspecialidades();
+            if (null !== $especialidades) {
+                foreach ($especialidades as $especialidade) {
+                    $userEspecialidade = new UserEspecialidade();
+                    $userEspecialidade->user_id = $user->id;
+                    $userEspecialidade->especialidade_id = $especialidade->id;
+                    $userEspecialidade->save();
+                }
+            }
+
             $unidadesServicos = $userKeycloak->getUnidadesServicos();
             if (null !== $unidadesServicos) {
                 foreach ($unidadesServicos as $servico) {
@@ -163,6 +174,20 @@ class KeycloakService
 
             if (!$user->id) {
                 throw new \Exception('Usuário não atualizado na API');
+            }
+
+            $especialidades = $userKeycloak->getEspecialidades();
+            if (null !== $especialidades) {
+                foreach ($user->especialidades()->get() as $userEspecialidade_) {
+                    $userEspecialidade_->delete();
+                }
+
+                foreach ($especialidades as $especialidade) {
+                    $userEspecialidade = new UserEspecialidade();
+                    $userEspecialidade->user_id = $user->id;
+                    $userEspecialidade->especialidade_id = $especialidade->id;
+                    $userEspecialidade->save();
+                }
             }
 
             $unidadesServicos = $userKeycloak->getUnidadesServicos();

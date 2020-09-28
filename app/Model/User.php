@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(UserTipoContratacao::class);
     }
 
+    public function especialidades()
+    {
+        return $this->hasMany(UserEspecialidade::class);
+    }
+
     public function dadosUsuario()
     {
         $municipio = $this->municipio()->first();
@@ -70,6 +75,7 @@ class User extends Authenticatable
         $tiposContratacoes = [];
         $titulacoesAcademica = [];
         $unidadesDeServicos = [];
+        $especialidades = [];
 
         foreach ($this->tiposContratacoes()->get() as $tipoContratacao) {
             $tiposContratacoes[] = $tipoContratacao->tipoContratacao()->first();
@@ -81,6 +87,10 @@ class User extends Authenticatable
 
         foreach ($this->unidadesServicos()->get() as $unidadeDeServico) {
             $unidadesDeServicos[] = $unidadeDeServico->unidadeServico()->first();
+        }
+
+        foreach ($this->especialidades()->get() as $especialidade) {
+            $especialidades[] = $especialidade->especialidade()->first();
         }
 
         $dadosUsuario = [
@@ -99,6 +109,7 @@ class User extends Authenticatable
                 'tipos_contratacoes' => $tiposContratacoes,
                 'titulacoes_academica' => $titulacoesAcademica,
                 'unidades_servicos' => $unidadesDeServicos,
+                'especialidades' => $especialidades,
             ],
         ];
 
