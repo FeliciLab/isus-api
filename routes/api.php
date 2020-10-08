@@ -39,7 +39,7 @@ Route::namespace('Api')->group(function () {
     Route::post('/user', 'UserController@save');
     Route::post('/auth', 'AuthController@auth');
 
-
+    Route::post('/refresh-token', 'AuthController@refreshToken');
 
     Route::group(['middleware' => ['ApiProtectedRoute']], function () {
         Route::post('/logout', 'AuthController@logout');

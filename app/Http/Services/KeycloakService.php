@@ -60,6 +60,19 @@ class KeycloakService
         return $response;
     }
 
+    public function refreshToken($refreshToken)
+    {
+        $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token", [
+            'form_params' => [
+                'refresh_token' => $refreshToken,
+                'client_id' => 'isus',
+                'grant_type' => 'refresh_token',
+            ],
+        ]);
+
+        return $response;
+    }
+
     public function userProfile($token)
     {
         return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/userinfo", [

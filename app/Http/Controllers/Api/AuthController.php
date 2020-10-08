@@ -51,6 +51,30 @@ class AuthController extends Controller
         }
     }
 
+    public function refreshToken(Request $request)
+    {
+        $dados = $request->all();
+        $validacao = Validator::make($dados, [
+            'refresh_token' => 'required',
+        ]);
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
+        }
+        $keyCloakService = new KeycloakService();
+
+        try {
+            $resposta = $keyCloakService->refreshToken($dados['refresh_token']);
+            $novoJwt = json_decode($resposta->getBody());
+            if ($resposta->getStatusCode() == Response::HTTP_OK) {
+                return response()->json(['sucesso' => true, 'mensagem' => $novoJwt], Response::HTTP_OK);
+            } else {
+                return response()->json(['sucesso' => false, 'mensagem' =>  ' Erro ao realizar o refresh token'], Response::HTTP_BAD_REQUEST);
+            }
+        } catch (Exception $error) {
+            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível gerar um novo refresh token']);
+        }
+    }
+
     private function validarRequisicao($dados)
     {
         return Validator::make($dados, [
