@@ -152,4 +152,40 @@ class UserTest extends TestCase
             'erros' => 'Token não autorizado'
         ]);
     }
+
+
+    public function testRefreshToken()
+    {
+        $this->seed();
+
+        $comUnidadesDeServico = false;
+        $usuario = $this->registrarUsuario($comUnidadesDeServico);
+
+        $user = [
+            'email' => $usuario['email'],
+            'senha' => $usuario['senha']
+        ];
+
+        $response = $this->json('POST', 'api/auth', $user);
+        $data = $response->getData();
+        $refresh_token = $data->mensagem->refresh_token;
+
+        if (!is_null($refresh_token)) {
+            $response = $this->json('POST', "api/refresh-token", ['refresh_token' => $refresh_token]);
+            $response->assertOk();
+            $response->assertJsonStructure([
+                'sucesso',
+                'mensagem' => [
+                    'access_token',
+                    'expires_in',
+                    'refresh_expires_in',
+                    'refresh_token',
+                    'token_type',
+                    'not-before-policy',
+                    'session_state',
+                    'scope'
+                ]
+            ]);
+        }
+    }
 }
