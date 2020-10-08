@@ -24,6 +24,7 @@ Route::namespace('Api')->group(function () {
     Route::get('/categoriasArquitetura', 'WordpressController@categoriasArquitetura');
     Route::post('/feedback', 'FeedbackController@enviarEmail');
     Route::post('/alertaDeEpi', 'AlertaDeEpiController@enviarEmail');
+    Route::post('/demanda-educacao', 'DemandaEducacaoController@enviarEmail');
 
     // cadastro profissional
     Route::get('/estados', 'EstadoController@index');
@@ -49,7 +50,6 @@ Route::namespace('Api')->group(function () {
 });
 
 
-Route::get('/delay-textit/{segundos?}', function($segundos = 1) {
+Route::get('/delay-textit/{segundos?}', function ($segundos = 1) {
     sleep($segundos);
 });
-
