@@ -64,6 +64,8 @@ class SynchronizeController extends Controller
                         $projeto->image = null;
                     }
 
+                    $projeto->save();
+
                     $clientAnexo = new Client();
                     $resAnexo = $clientAnexo->get($post->_links->{'wp:attachment'}[0]->href);
                     $anexosAPI = json_decode($resAnexo->getBody(), false);
@@ -73,7 +75,6 @@ class SynchronizeController extends Controller
                         $anexo->link = $anexoAPI->guid->rendered;
                         $anexo->save();
                     }
-                    $projeto->save();
 
                     foreach ($post->project_category as $projetoCategoria) {
                         $categoriasProjetosTemp[] = [
