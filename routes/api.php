@@ -38,6 +38,7 @@ Route::namespace('Api')->group(function () {
 
     Route::post('/user', 'UserController@save');
     Route::get('/user/cpf-cadastrado/{cpf}', 'UserController@cpfCadastrado');
+    Route::get('/user/email-cadastrado/{email}', 'UserController@emailCadastrado');
     Route::post('/auth', 'AuthController@auth');
 
     Route::post('/refresh-token', 'AuthController@refreshToken');
