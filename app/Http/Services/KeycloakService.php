@@ -73,6 +73,36 @@ class KeycloakService
         return $response;
     }
 
+    
+    public function verificarSeCpfEstaCadastrado($cpf)
+    {
+        $respostaUsuarios = $this->keyCloakUsers();
+        $usuarios = json_decode($respostaUsuarios->getBody());
+
+        foreach ($usuarios as $usuario) {
+            if (isset($usuario->attributes) && 
+                isset($usuario->attributes->CPF) && 
+                $cpf == $usuario->attributes->CPF[0]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function keyCloakUsers()
+    {
+        $response = $this->keycloakClient->get("{$this->keycloakUri}/auth/admin/realms/saude/users?max=999999", [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->getTokenAdmin()}",
+            ],
+        ]);
+
+        return $response;
+    }
+
+
     public function userProfile($token)
     {
         return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/userinfo", [
