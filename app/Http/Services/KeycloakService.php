@@ -101,6 +101,18 @@ class KeycloakService
         return $response;
     }
 
+    public function keyCloakRetornaUsuarioPorUsername($username)
+    {
+        $response = $this->keycloakClient->get("{$this->keycloakUri}/auth/admin/realms/saude/users?username=" . $username, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->getTokenAdmin()}",
+            ],
+        ]);
+
+        return json_decode($response->getBody());
+    }
+
     public function userProfile($token)
     {
         return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/userinfo", [

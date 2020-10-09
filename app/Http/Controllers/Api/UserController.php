@@ -113,6 +113,27 @@ class UserController extends Controller
         return response()->json(['cpf_existe' => false]);
     }
 
+    public function emailCadastrado($email)
+    {
+        $dados = ['email' => $email];
+        $validacao = Validator::make($dados, [
+            'email' => 'required|email',
+        ]);
+
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => true, 'mensagem' =>  $validacao->errors()]);
+        }
+
+        $keycloakService = new KeycloakService();
+        $username = $email;
+        $emailCadastrado = $keycloakService->keyCloakRetornaUsuarioPorUsername($username);
+        if ($emailCadastrado) {
+            return response()->json(['email_existe' => true, 'mensagem' =>  'EMAIL já cadastrado no ID Saúde']);
+        }
+
+        return response()->json(['email_existe' => false]);
+    }
+
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
     {
         $projetosPorMacrounidades = [];
