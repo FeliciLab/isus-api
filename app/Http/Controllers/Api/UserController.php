@@ -105,7 +105,7 @@ class UserController extends Controller
         }
 
         $keycloakService = new KeycloakService();
-        $cpfCadastrado = $keycloakService->verificarSeCpfEstaCadastrado($cpf);
+        $cpfCadastrado = $keycloakService->verificarSeExisteDadoNaPropriedade('CPF', $cpf);
         if ($cpfCadastrado) {
             return response()->json(['cpf_existe' => true, 'mensagem' =>  'CPF já cadastrado no ID Saúde']);
         }

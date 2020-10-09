@@ -73,15 +73,15 @@ class KeycloakService
         return $response;
     }
 
-    public function verificarSeCpfEstaCadastrado($cpf)
+    public function verificarSeExisteDadoNaPropriedade($propriedade, $valor)
     {
         $respostaUsuarios = $this->keyCloakUsers();
         $usuarios = json_decode($respostaUsuarios->getBody());
 
         foreach ($usuarios as $usuario) {
             if (isset($usuario->attributes) &&
-                isset($usuario->attributes->CPF) &&
-                $cpf == $usuario->attributes->CPF[0]) {
+                isset($usuario->attributes->$propriedade) &&
+                $valor == $usuario->attributes->$propriedade[0]) {
                 return true;
             }
         }
