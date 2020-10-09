@@ -93,6 +93,20 @@ class UserController extends Controller
         }
     }
 
+    public function cpfCadastrado($cpf)
+    {
+        $dados = ['cpf' => $cpf];
+        $validacao = Validator::make($dados, [
+            'cpf' => 'required|cpf|min:11|max:11|unique:users',
+        ]);
+
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => false, 'mensagem' =>  $validacao->errors()]);
+        }
+
+        return response()->json(['sucesso' => true]);
+    }
+
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
     {
         $projetosPorMacrounidades = [];
@@ -119,20 +133,6 @@ class UserController extends Controller
         }
 
         return $projetosPorMacrounidades;
-    }
-
-    public function cpfCadastrado($cpf)
-    {
-        $dados = ['cpf' => $cpf];
-        $validacao = Validator::make($dados, [
-            'cpf' => 'required|cpf|min:11|max:11|unique:users',
-        ]);
-
-        if ($validacao->fails()) {
-            return response()->json(['sucesso' => false, 'mensagem' =>  $validacao->errors()]);
-        }
-
-        return response()->json(['sucesso' => true]);
     }
 
     private function validarRequisicao($dados)
