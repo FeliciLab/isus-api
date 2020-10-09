@@ -93,6 +93,26 @@ class UserController extends Controller
         }
     }
 
+    public function cpfCadastrado($cpf)
+    {
+        $dados = ['cpf' => $cpf];
+        $validacao = Validator::make($dados, [
+            'cpf' => 'required|cpf|min:11|max:11',
+        ]);
+
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => true, 'mensagem' =>  $validacao->errors()]);
+        }
+
+        $keycloakService = new KeycloakService();
+        $cpfCadastrado = $keycloakService->verificarSeExisteDadoNaPropriedade('CPF', $cpf);
+        if ($cpfCadastrado) {
+            return response()->json(['cpf_existe' => true, 'mensagem' =>  'CPF já cadastrado no ID Saúde']);
+        }
+
+        return response()->json(['cpf_existe' => false]);
+    }
+
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
     {
         $projetosPorMacrounidades = [];
