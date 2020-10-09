@@ -37,7 +37,7 @@ Route::namespace('Api')->group(function () {
     Route::get('/categorias-profissionais/{categoriaProfissionalId}/especialidades', 'CategoriaProfissionalController@especialidades');
 
     Route::post('/user', 'UserController@save');
-    Route::post('/user/cpf-cadastrado', 'UserController@cpfCadastrado');
+    Route::get('/user/cpf-cadastrado/{cpf}', 'UserController@cpfCadastrado');
     Route::post('/auth', 'AuthController@auth');
 
     Route::post('/refresh-token', 'AuthController@refreshToken');

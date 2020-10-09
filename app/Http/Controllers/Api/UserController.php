@@ -121,9 +121,9 @@ class UserController extends Controller
         return $projetosPorMacrounidades;
     }
 
-    public function cpfCadastrado(Request $request)
+    public function cpfCadastrado($cpf)
     {
-        $dados = $request->all();
+        $dados = ['cpf' => $cpf];
         $validacao = Validator::make($dados, [
             'cpf' => 'required|cpf|min:11|max:11|unique:users',
         ]);
