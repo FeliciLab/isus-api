@@ -37,9 +37,11 @@ Route::namespace('Api')->group(function () {
     Route::get('/categorias-profissionais/{categoriaProfissionalId}/especialidades', 'CategoriaProfissionalController@especialidades');
 
     Route::post('/user', 'UserController@save');
+    Route::get('/user/cpf-cadastrado/{cpf}', 'UserController@cpfCadastrado');
+    Route::get('/user/email-cadastrado/{email}', 'UserController@emailCadastrado');
     Route::post('/auth', 'AuthController@auth');
 
-
+    Route::post('/refresh-token', 'AuthController@refreshToken');
 
     Route::group(['middleware' => ['ApiProtectedRoute']], function () {
         Route::post('/logout', 'AuthController@logout');

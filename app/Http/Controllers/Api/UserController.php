@@ -93,6 +93,47 @@ class UserController extends Controller
         }
     }
 
+    public function cpfCadastrado($cpf)
+    {
+        $dados = ['cpf' => $cpf];
+        $validacao = Validator::make($dados, [
+            'cpf' => 'required|cpf|min:11|max:11',
+        ]);
+
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => true, 'mensagem' =>  $validacao->errors()]);
+        }
+
+        $keycloakService = new KeycloakService();
+        $cpfCadastrado = $keycloakService->verificarSeExisteDadoNaPropriedade('CPF', $cpf);
+        if ($cpfCadastrado) {
+            return response()->json(['cpf_existe' => true, 'mensagem' =>  'CPF já cadastrado no ID Saúde']);
+        }
+
+        return response()->json(['cpf_existe' => false]);
+    }
+
+    public function emailCadastrado($email)
+    {
+        $dados = ['email' => $email];
+        $validacao = Validator::make($dados, [
+            'email' => 'required|email',
+        ]);
+
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => true, 'mensagem' =>  $validacao->errors()]);
+        }
+
+        $keycloakService = new KeycloakService();
+        $username = $email;
+        $emailCadastrado = $keycloakService->keyCloakRetornaUsuarioPorUsername($username);
+        if ($emailCadastrado) {
+            return response()->json(['email_existe' => true, 'mensagem' =>  'EMAIL já cadastrado no ID Saúde']);
+        }
+
+        return response()->json(['email_existe' => false]);
+    }
+
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
     {
         $projetosPorMacrounidades = [];

@@ -60,6 +60,59 @@ class KeycloakService
         return $response;
     }
 
+    public function refreshToken($refreshToken)
+    {
+        $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token", [
+            'form_params' => [
+                'refresh_token' => $refreshToken,
+                'client_id' => 'isus',
+                'grant_type' => 'refresh_token',
+            ],
+        ]);
+
+        return $response;
+    }
+
+    public function verificarSeExisteDadoNaPropriedade($propriedade, $valor)
+    {
+        $respostaUsuarios = $this->keyCloakUsers();
+        $usuarios = json_decode($respostaUsuarios->getBody());
+
+        foreach ($usuarios as $usuario) {
+            if (isset($usuario->attributes) &&
+                isset($usuario->attributes->$propriedade) &&
+                $valor == $usuario->attributes->$propriedade[0]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function keyCloakUsers()
+    {
+        $response = $this->keycloakClient->get("{$this->keycloakUri}/auth/admin/realms/saude/users?max=999999", [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->getTokenAdmin()}",
+            ],
+        ]);
+
+        return $response;
+    }
+
+    public function keyCloakRetornaUsuarioPorUsername($username)
+    {
+        $response = $this->keycloakClient->get("{$this->keycloakUri}/auth/admin/realms/saude/users?username=" . $username, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->getTokenAdmin()}",
+            ],
+        ]);
+
+        return json_decode($response->getBody());
+    }
+
     public function userProfile($token)
     {
         return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/userinfo", [
