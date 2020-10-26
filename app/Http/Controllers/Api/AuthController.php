@@ -30,7 +30,7 @@ class AuthController extends Controller
                 return response()->json(['sucesso' => false, 'mensagem' => 'Erro ao realizar o login do usuário'], Response::HTTP_BAD_REQUEST);
             }
         } catch (Exception $error) {
-            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível realizar o login do usuário']);
+            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível realizar o login do usuário'], Response::HTTP_BAD_REQUEST);
         }
     }
 
