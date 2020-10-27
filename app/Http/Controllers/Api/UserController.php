@@ -159,10 +159,10 @@ class UserController extends Controller
                     return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
                 }
             } else {
-                return response()->json(['sucesso' => false, 'mensagem' => 'Senha inválida'], Response::HTTP_BAD_REQUEST);
+                return response()->json(['sucesso' => false, 'mensagem' => 'Senha inválida'], Response::HTTP_UNAUTHORIZED);
             }
         } catch (Exception $error) {
-            return response()->json(['sucesso' => false, 'erros' =>  'Senha inválida'], Response::HTTP_BAD_REQUEST);
+            return response()->json(['sucesso' => false, 'erros' =>  'Senha inválida'], Response::HTTP_UNAUTHORIZED);
         }
     }
 
