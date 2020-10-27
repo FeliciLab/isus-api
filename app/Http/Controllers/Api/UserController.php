@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Service\KeycloakService;
 use App\Model\UnidadeServico;
 use App\Model\UnidadesServicoCategoria;
 use App\Model\User;
 use App\Model\UserKeycloak;
+use App\Service\KeycloakService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
