@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\KeycloakService;
 use App\Model\UnidadeServico;
 use App\Model\UnidadesServicoCategoria;
 use App\Model\User;
 use App\Model\UserKeycloak;
+use App\Service\KeycloakService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -132,6 +134,36 @@ class UserController extends Controller
         }
 
         return response()->json(['email_existe' => false]);
+    }
+
+    public function delete(Request $request)
+    {
+        $dados = $request->all();
+        $validacao = Validator::make($dados, [
+            'senha' => 'required',
+        ]);
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
+        }
+        $keyCloakService = new KeycloakService();
+        try {
+            $resposta = $keyCloakService->login($request->usuario->email, $dados['senha']);
+
+            if ($resposta->getStatusCode() == Response::HTTP_UNAUTHORIZED) {
+                return response()->json(['sucesso' => false, 'erros' =>  'Senha inválida'], Response::HTTP_UNAUTHORIZED);
+            } elseif ($resposta->getStatusCode() == Response::HTTP_OK) {
+                $idKeycloak = $request->usuario->sub;
+                $keycloakService = new KeycloakService();
+
+                if ($keycloakService->delete($idKeycloak)) {
+                    return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
+                }
+            } else {
+                return response()->json(['sucesso' => false, 'mensagem' => 'Senha inválida'], Response::HTTP_UNAUTHORIZED);
+            }
+        } catch (Exception $error) {
+            return response()->json(['sucesso' => false, 'erros' =>  'Senha inválida'], Response::HTTP_UNAUTHORIZED);
+        }
     }
 
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Service;
 
 use App\Model\User;
 use App\Model\UserEspecialidade;
@@ -286,6 +286,24 @@ class KeycloakService
             }
 
             return $user;
+        } else {
+            throw new \Exception('Usuário não atualizado error keycloak');
+        }
+    }
+
+    public function delete($idKeycloak)
+    {
+        $resposta = $this->keycloakClient->delete("{$this->keycloakUri}/auth/admin/realms/saude/users/{$idKeycloak}", [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->getTokenAdmin()}",
+            ],
+        ]);
+
+        if ($resposta->getStatusCode() == Response::HTTP_NO_CONTENT) {
+            $user = User::where('id_keycloak', $idKeycloak)->first();
+
+            return $user->remover();
         } else {
             throw new \Exception('Usuário não atualizado error keycloak');
         }
