@@ -8,7 +8,9 @@ use App\Model\UnidadeServico;
 use App\Model\UnidadesServicoCategoria;
 use App\Model\User;
 use App\Model\UserKeycloak;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -136,14 +138,32 @@ class UserController extends Controller
 
     public function delete(Request $request)
     {
-        $idKeycloak = $request->usuario->sub;
-        $keycloakService = new KeycloakService();
-
-        if ($keycloakService->delete($idKeycloak)) {
-            return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
+        $dados = $request->all();
+        $validacao = Validator::make($dados, [
+            'senha' => 'required',
+        ]);
+        if ($validacao->fails()) {
+            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
         }
+        $keyCloakService = new KeycloakService();
+        try {
+            $resposta = $keyCloakService->login($request->usuario->email, $dados['senha']);
 
-        return response()->json(['sucesso' => false]);
+            if ($resposta->getStatusCode() == Response::HTTP_UNAUTHORIZED) {
+                return response()->json(['sucesso' => false, 'erros' =>  'Senha inválida'], Response::HTTP_UNAUTHORIZED);
+            } elseif ($resposta->getStatusCode() == Response::HTTP_OK) {
+                $idKeycloak = $request->usuario->sub;
+                $keycloakService = new KeycloakService();
+
+                if ($keycloakService->delete($idKeycloak)) {
+                    return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
+                }
+            } else {
+                return response()->json(['sucesso' => false, 'mensagem' => 'Senha inválida'], Response::HTTP_BAD_REQUEST);
+            }
+        } catch (Exception $error) {
+            return response()->json(['sucesso' => false, 'erros' =>  'Senha inválida'], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
