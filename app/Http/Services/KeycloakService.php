@@ -291,6 +291,24 @@ class KeycloakService
         }
     }
 
+    public function delete($idKeycloak)
+    {
+        $resposta = $this->keycloakClient->delete("{$this->keycloakUri}/auth/admin/realms/saude/users/{$idKeycloak}", [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => "Bearer {$this->getTokenAdmin()}",
+            ],
+        ]);
+
+        if ($resposta->getStatusCode() == Response::HTTP_NO_CONTENT) {
+            $user = User::where('id_keycloak', $idKeycloak)->first();
+
+            return $user->remover();
+        } else {
+            throw new \Exception('Usuário não atualizado error keycloak');
+        }
+    }
+
     private function enviarEmailCadastro($user)
     {
         \Mail::send('email.bemvindo', ['usuario' => $user], function ($mensagem) use ($user) {

@@ -134,6 +134,18 @@ class UserController extends Controller
         return response()->json(['email_existe' => false]);
     }
 
+    public function delete(Request $request)
+    {
+        $idKeycloak = $request->usuario->sub;
+        $keycloakService = new KeycloakService();
+
+        if ($keycloakService->delete($idKeycloak)) {
+            return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
+        }
+
+        return response()->json(['sucesso' => false]);
+    }
+
     private function projetosPorMacroUnidades($macroUnidadeDeSaude)
     {
         $projetosPorMacrounidades = [];
