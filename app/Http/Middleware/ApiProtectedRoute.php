@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Services\KeycloakService;
+use App\Service\KeycloakService;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\KeycloakService;
+use App\Service\KeycloakService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

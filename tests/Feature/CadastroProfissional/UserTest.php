@@ -208,7 +208,7 @@ class UserTest extends TestCase
         if (!is_null($access_token)) {
             $response = $this->withHeaders([
                 'Authorization' => 'Bearer ' . $access_token,
-            ])->json('DELETE', "api/user/delete");
+            ])->json('DELETE', "api/user/delete", ['senha' => $user['senha']]);
             $response->assertOk();
             $response->assertJsonStructure([
                 'sucesso',
