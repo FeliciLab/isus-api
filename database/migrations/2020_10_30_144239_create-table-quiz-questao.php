@@ -15,8 +15,10 @@ class CreateTableQuizQuestao extends Migration
     {
         Schema::create('qquiz_questoes', function (Blueprint $table) {
             $table->id();
+
             $table->text('questao');
             $table->text('url_imagem');
+
             $table->timestamps();
             $table->softDeletes();
         });
