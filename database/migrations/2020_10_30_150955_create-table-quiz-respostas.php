@@ -17,13 +17,13 @@ class CreateTableQuizRespostas extends Migration
             $table->id();
 
             $table->unsignedBigInteger('quiz_id');
-            $table->foreing('quiz_id')->references('qquiz_quiz')->on('id');
+            $table->foreign('quiz_id')->references('id')->on('qquiz_quiz');
 
             $table->unsignedBigInteger('questao_id');
-            $table->foreing('questao_id')->references('qquiz_questao')->on('id');
+            $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
 
             $table->unsignedBigInteger('questao_alternativa_id');
-            $table->foreing('questao_alternativa_id')->references('qquiz_questao_alternativa')->on('id');
+            $table->foreign('questao_alternativa_id')->references('id')->on('qquiz_alternativas_questoes');
 
             $table->text('identificacao');
             $table->text('tipo_identificacao');

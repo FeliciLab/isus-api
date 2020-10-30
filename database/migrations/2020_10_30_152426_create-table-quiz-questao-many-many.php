@@ -15,10 +15,10 @@ class CreateTableQuizQuestaoManyMany extends Migration
     {
         Schema::create('qquiz_quiz_questoes', function (Blueprint $table) {
             $table->unsignedBigInteger('quiz_id');
-            $table->foreing('quiz_id')->references('qquiz_quiz')->on('id');
+            $table->foreign('quiz_id')->references('id')->on('qquiz_quiz');
 
             $table->unsignedBigInteger('questao_id');
-            $table->foreing('questao_id')->references('qquiz_questao')->on('id');
+            $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
         });
     }
 
@@ -29,6 +29,6 @@ class CreateTableQuizQuestaoManyMany extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('qquiz_quiz_questoes');
     }
 }

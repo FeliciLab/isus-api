@@ -13,14 +13,16 @@ class CreateTableQuizQuestaoAlternativas extends Migration
      */
     public function up()
     {
-        Schema::create('qquiz_questoes_alternativas', function (Blueprint $table) {
+        Schema::create('qquiz_alternativas_questoes', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('ordem_alternativa');
             $table->text('alternativa');
             $table->text('url_imagem');
             $table->unsignedInteger('pontuacao');
+
             $table->unsignedBigInteger('questao_id');
-            $table->foreing('questao_id')->references('qquiz_questoes')->on('id');
+            $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +35,6 @@ class CreateTableQuizQuestaoAlternativas extends Migration
      */
     public function down()
     {
-        Schema::drop('qquiz_questoes_alternativas');
+        Schema::drop('qquiz_alternativas_questoes');
     }
 }
