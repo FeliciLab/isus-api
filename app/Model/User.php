@@ -115,4 +115,25 @@ class User extends Authenticatable
 
         return $dadosUsuario;
     }
+
+    public function remover()
+    {
+        foreach ($this->tiposContratacoes()->get() as $tipoContratacao) {
+            $tipoContratacao->delete();
+        }
+
+        foreach ($this->titulacoesAcademicas()->get() as $titulacaoAcademica) {
+            $titulacaoAcademica->delete();
+        }
+
+        foreach ($this->unidadesServicos()->get() as $unidadeDeServico) {
+            $unidadeDeServico->delete();
+        }
+
+        foreach ($this->especialidades()->get() as $especialidade) {
+            $especialidade->delete();
+        }
+
+        return $this->delete();
+    }
 }

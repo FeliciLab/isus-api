@@ -42,10 +42,6 @@ class CategoriaProfissionalTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonCount(56);
-        $response->assertJsonFragment([
-            'categoriaprofissional_id' => 1,
-            'nome' => 'ACUPUNTURA'
-        ]);
         $response->assertJsonStructure([
             [
                 'id',

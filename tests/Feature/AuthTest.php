@@ -10,6 +10,7 @@ use Faker\Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Http\Response;
 
 class AuthTest extends TestCase
 {
@@ -39,10 +40,10 @@ class AuthTest extends TestCase
     public function testFalhaLogin()
     {
         $response = $this->json('POST', 'api/auth', ['email' => 'user@mail.com', 'senha' => '987654']);
-        $response->assertOk();
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJsonFragment([
             'sucesso' => false,
-            'erros' => 'Não foi possível realizar o login do usuário'
+            'erros' => 'Usuário ou senha inválidos'
         ]);
     }
 
