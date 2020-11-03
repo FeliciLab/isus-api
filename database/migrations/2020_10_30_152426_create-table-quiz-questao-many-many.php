@@ -14,7 +14,7 @@ class CreateTableQuizQuestaoManyMany extends Migration
     public function up()
     {
         Schema::create('qquiz_quiz_questoes', function (Blueprint $table) {
-            $table-id();
+            $table->id();
             $table->unsignedBigInteger('quiz_id');
             $table->foreign('quiz_id')->references('id')->on('qquiz_quiz');
 
