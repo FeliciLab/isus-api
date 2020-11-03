@@ -18,6 +18,7 @@ class CreateTableQuizQuestao extends Migration
 
             $table->text('questao');
             $table->text('url_imagem');
+            $table->unsignedTinyInteger('ordem');
 
             $table->timestamps();
             $table->softDeletes();
