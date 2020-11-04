@@ -21,6 +21,9 @@ class CreateTableQuizQuestaoManyMany extends Migration
             $table->unsignedBigInteger('questao_id');
             $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
             $table->unsignedTinyInteger('ordem');
+
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
