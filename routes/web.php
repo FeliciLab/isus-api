@@ -18,4 +18,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/qualiquiz/quiz/{codQuiz}');
+Route::get(
+    '/qualiquiz/quiz/{codQuiz}',
+    '\App\Domains\QualiQualiz\Controllers\BuscarQuizController@buscarQuiz'
+);
