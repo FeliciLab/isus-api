@@ -6,9 +6,9 @@ use App\Domains\QualiQualiz\Models\Questao;
 use App\Domains\QualiQualiz\Models\QuizQuestao;
 use App\Domains\QualiQualiz\Models\AlternativaQuestao;
 
-class avaliacao_digital_da_forca_de_trabalho_em_saude_pt1 extends Seeder
+class AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1 extends Seeder
 {
-    /**
+ /**
      * Run the database seeds.
      *
      * @return void
