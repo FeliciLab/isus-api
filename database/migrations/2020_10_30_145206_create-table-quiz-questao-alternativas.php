@@ -19,7 +19,7 @@ class CreateTableQuizQuestaoAlternativas extends Migration
             $table->unsignedTinyInteger('ordem')->nullable();
 
             $table->text('alternativa');
-            $table->text('url_imagem')->nullabel();
+            $table->text('url_imagem')->nullable();
             $table->unsignedInteger('pontuacao');
             $table->unsignedTinyInteger('ordem')->nullable();
 
