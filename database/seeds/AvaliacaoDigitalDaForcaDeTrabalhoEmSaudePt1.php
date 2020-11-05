@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Domains\QualiQualiz\Models\Quiz;
-use App\Domains\QualiQualiz\Models\Questao;
-use App\Domains\QualiQualiz\Models\QuizQuestao;
-use App\Domains\QualiQualiz\Models\AlternativaQuestao;
+use App\Domains\QualiQuiz\Models\Quiz;
+use App\Domains\QualiQuiz\Models\Questao;
+use App\Domains\QualiQuiz\Models\QuizQuestao;
+use App\Domains\QualiQuiz\Models\AlternativaQuestao;
 
 class AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1 extends Seeder
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\QualiQualiz\Models;
+namespace App\Domains\QualiQuiz\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,16 +22,16 @@ class Questao extends Model
 
     public function alternativasQuestao()
     {
-        return $this->hasMany('App\Domains\QualiQualiz\Models\AlterrnativaQuestao');
+        return $this->hasMany('App\Domains\QualiQuiz\Models\AlterrnativaQuestao');
     }
 
     public function respostas()
     {
-        return $this->hasMany('App\Domains\QualiQualiz\Models\Resposta');
+        return $this->hasMany('App\Domains\QualiQuiz\Models\Resposta');
     }
 
     public function quizQuestoes()
     {
-        return $this->belongsToMany('App\Domains\QualiQualiz\Models\QuizQuestao');
+        return $this->belongsToMany('App\Domains\QualiQuiz\Models\QuizQuestao');
     }
 }

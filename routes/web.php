@@ -20,5 +20,5 @@ Route::get('/', function () {
 
 Route::get(
     '/qualiquiz/quiz/{codQuiz}',
-    '\App\Domains\QualiQualiz\Controllers\BuscarQuizController@buscarQuiz'
+    '\App\Domains\QualiQuiz\Controllers\BuscarQuizController@buscarQuiz'
 );
