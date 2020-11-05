@@ -85,55 +85,55 @@ class AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1 extends Seeder
                     ['alternativa' => 'Igualdade da assistência à saúde, sem preconceitos ou privilégios de qualquer espécie.', 'pontuacao' => 0],
                 ],
             ],
-        ],
-        [
-            'questao' => 'Gabriel, enfermeiro, ex-residente em saúde, atualmente é concursado da equipe básica de saúde do município. Na sua prática profissional reconhece que o direito à saúde passa pelas diferenciações sociais e que atende à diversidade, sem qualquer tipo de exclusão ou estigmatização. Assinale a opção que apresenta o princípio da atenção básica que Gabriel aplica na sua prática profissional:',
-            'url_imagem' => '',
-            'alternativas' => [
-                ['alternativa' => 'Integralidade', 'pontuacao' => 0],
-                ['alternativa' => 'Igualdade', 'pontuacao' => 0],
-                ['alternativa' => 'Universalidade', 'pontuacao' => 0],
-                ['alternativa' => 'Equidade', 'pontuacao' => 100],
+            [
+                'questao' => 'Gabriel, enfermeiro, ex-residente em saúde, atualmente é concursado da equipe básica de saúde do município. Na sua prática profissional reconhece que o direito à saúde passa pelas diferenciações sociais e que atende à diversidade, sem qualquer tipo de exclusão ou estigmatização. Assinale a opção que apresenta o princípio da atenção básica que Gabriel aplica na sua prática profissional:',
+                'url_imagem' => '',
+                'alternativas' => [
+                    ['alternativa' => 'Integralidade', 'pontuacao' => 0],
+                    ['alternativa' => 'Igualdade', 'pontuacao' => 0],
+                    ['alternativa' => 'Universalidade', 'pontuacao' => 0],
+                    ['alternativa' => 'Equidade', 'pontuacao' => 100],
+                ],
             ],
-        ],
-        [
-            'questao' => 'A Política Nacional da Atenção Básica (Portaria n. 2436 de 21/09/2017) estabelece a revisão das diretrizes para organização da Atenção Básica no SUS e elenca o conjunto de ações que a equipe multiprofissional deve dirigir à população sob sua responsabilidade sanitária. Tomando como base este documento assinale a opção CORRETA sobre estas ações:',
-            'url_imagem' => '',
-            'alternativas' => [
-                ['alternativa' => 'Envolvem principalmente ações de promoção da saúde.', 'pontuacao' => 0],
-                ['alternativa' => 'As ações de saúde devem ser individuais, familiares e coletivas.', 'pontuacao' => 100],
-                ['alternativa' => 'Incluem ações por meio de práticas de cuidados individuais em Policlínicas.', 'pontuacao' => 0],
-                ['alternativa' => 'Não envolvem ações de vigilância em saúde.', 'pontuacao' => 0],
+            [
+                'questao' => 'A Política Nacional da Atenção Básica (Portaria n. 2436 de 21/09/2017) estabelece a revisão das diretrizes para organização da Atenção Básica no SUS e elenca o conjunto de ações que a equipe multiprofissional deve dirigir à população sob sua responsabilidade sanitária. Tomando como base este documento assinale a opção CORRETA sobre estas ações:',
+                'url_imagem' => '',
+                'alternativas' => [
+                    ['alternativa' => 'Envolvem principalmente ações de promoção da saúde.', 'pontuacao' => 0],
+                    ['alternativa' => 'As ações de saúde devem ser individuais, familiares e coletivas.', 'pontuacao' => 100],
+                    ['alternativa' => 'Incluem ações por meio de práticas de cuidados individuais em Policlínicas.', 'pontuacao' => 0],
+                    ['alternativa' => 'Não envolvem ações de vigilância em saúde.', 'pontuacao' => 0],
+                ],
             ],
-        ],
-        [
-            'questao' => 'São quatro os atributos da atenção primária á saúde. Os profissionais que atuam nas Equipes de Saúde da Família do Município de Esperança passaram a reconhecer os problemas que requerem seguimento constante e a organizarem seu processo de trabalho de modo a garantir a continuidade da atenção. Assinale a alternativa corresponde ao atributo descrito acima?',
-            'url_imagem' => '',
-            'alternativas' => [
-                ['alternativa' => 'Coordenação do Cuidado', 'pontuacao' => 100],
-                ['alternativa' => 'Primeiro contato', 'pontuacao' => 0],
-                ['alternativa' => 'Longitudinalidade da Atenção', 'pontuacao' => 0],
-                ['alternativa' => 'Integralidade', 'pontuacao' => 0],
+            [
+                'questao' => 'São quatro os atributos da atenção primária á saúde. Os profissionais que atuam nas Equipes de Saúde da Família do Município de Esperança passaram a reconhecer os problemas que requerem seguimento constante e a organizarem seu processo de trabalho de modo a garantir a continuidade da atenção. Assinale a alternativa corresponde ao atributo descrito acima?',
+                'url_imagem' => '',
+                'alternativas' => [
+                    ['alternativa' => 'Coordenação do Cuidado', 'pontuacao' => 100],
+                    ['alternativa' => 'Primeiro contato', 'pontuacao' => 0],
+                    ['alternativa' => 'Longitudinalidade da Atenção', 'pontuacao' => 0],
+                    ['alternativa' => 'Integralidade', 'pontuacao' => 0],
+                ],
             ],
-        ],
-        [
-            'questao' => 'Os trabalhadores de saúde do Município de Bonança estão desenvolvendo ações que proporcionam o conhecimento, a detecção ou prevenção de qualquer mudança nos fatores determinantes e condicionantes de saúde individual ou coletiva, com a finalidade de recomendar e adotar as medidas de prevenção e controle das doenças ou agravos. Nesse caso, estão fazendo que tipo de Vigilância, segundo o artigo 6º, § 2º da Lei Orgânica da Saúde?',
-            'url_imagem' => '',
-            'alternativas' => [
-                ['alternativa' => 'Vigilância Epidemiológica', 'pontuacao' => 100],
-                ['alternativa' => 'Vigilância Imunológica', 'pontuacao' => 0],
-                ['alternativa' => 'Vigilância Terapêutica', 'pontuacao' => 0],
-                ['alternativa' => 'Vigilância Sanitária', 'pontuacao' => 0],
+            [
+                'questao' => 'Os trabalhadores de saúde do Município de Bonança estão desenvolvendo ações que proporcionam o conhecimento, a detecção ou prevenção de qualquer mudança nos fatores determinantes e condicionantes de saúde individual ou coletiva, com a finalidade de recomendar e adotar as medidas de prevenção e controle das doenças ou agravos. Nesse caso, estão fazendo que tipo de Vigilância, segundo o artigo 6º, § 2º da Lei Orgânica da Saúde?',
+                'url_imagem' => '',
+                'alternativas' => [
+                    ['alternativa' => 'Vigilância Epidemiológica', 'pontuacao' => 100],
+                    ['alternativa' => 'Vigilância Imunológica', 'pontuacao' => 0],
+                    ['alternativa' => 'Vigilância Terapêutica', 'pontuacao' => 0],
+                    ['alternativa' => 'Vigilância Sanitária', 'pontuacao' => 0],
+                ],
             ],
-        ],
-        [
-            'questao' => 'Telma, médica de uma Unidade Básica de Saúde, está atuando de forma integrada com profissionais de diferentes especialidades no acompanhamento do estado geral e clínico da Ana, gestante de 4 meses, que na gravidez anterior perdeu o bebê no sexto mês gestacional. A médica está promovendo ainda encontros singulares com Ana e seus familiares para a busca conjunta de cuidados complementares no controle da ansiedade e da hipertensão que a gestante está desenvolvendo. Qual das opções abaixo apresenta a diretriz da Política Nacional de Humanização que a médica está utilizando?',
-            'url_imagem' => '',
-            'alternativas' => [
-                ['alternativa' => 'Clínica Ampliada', 'pontuacao' => 100],
-                ['alternativa' => 'Consulta Compartilhada', 'pontuacao' => 0],
-                ['alternativa' => 'Interação com o Nasf', 'pontuacao' => 0],
-                ['alternativa' => 'Integração serviço-comunidade', 'pontuacao' => 0],
+            [
+                'questao' => 'Telma, médica de uma Unidade Básica de Saúde, está atuando de forma integrada com profissionais de diferentes especialidades no acompanhamento do estado geral e clínico da Ana, gestante de 4 meses, que na gravidez anterior perdeu o bebê no sexto mês gestacional. A médica está promovendo ainda encontros singulares com Ana e seus familiares para a busca conjunta de cuidados complementares no controle da ansiedade e da hipertensão que a gestante está desenvolvendo. Qual das opções abaixo apresenta a diretriz da Política Nacional de Humanização que a médica está utilizando?',
+                'url_imagem' => '',
+                'alternativas' => [
+                    ['alternativa' => 'Clínica Ampliada', 'pontuacao' => 100],
+                    ['alternativa' => 'Consulta Compartilhada', 'pontuacao' => 0],
+                    ['alternativa' => 'Interação com o Nasf', 'pontuacao' => 0],
+                    ['alternativa' => 'Integração serviço-comunidade', 'pontuacao' => 0],
+                ],
             ],
         ],
     ];

@@ -30,8 +30,13 @@ class Questao extends Model
         return $this->hasMany('App\Domains\QualiQuiz\Models\Resposta');
     }
 
-    public function quizQuestoes()
+    public function quiz()
     {
-        return $this->belongsToMany('App\Domains\QualiQuiz\Models\QuizQuestao');
+        return $this->belongsToMany(
+            'App\Domains\QualiQuiz\Models\Quiz',
+            'qquiz_quiz_questoes',
+            'questao_id',
+            'quiz_id'
+        );
     }
 }

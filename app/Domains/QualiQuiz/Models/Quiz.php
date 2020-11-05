@@ -24,8 +24,13 @@ class Quiz extends Model
         return $this->hasMany('App\Domains\QualiQuiz\Models\Resposta');
     }
 
-    public function quizQuestoes()
+    public function questoes()
     {
-        return $this->belongsToMany('App\Domains\QualiQuiz\Models\QuizQuestao');
+        return $this->belongsToMany(
+            'App\Domains\QualiQuiz\Models\Questao',
+            'qquiz_quiz_questoes',
+            'quiz_id',
+            'questao_id'
+        );
     }
 }

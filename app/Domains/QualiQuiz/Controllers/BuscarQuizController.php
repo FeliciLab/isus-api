@@ -5,7 +5,7 @@ namespace App\Domains\QualiQuiz\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domains\QualiQuiz\Repository\QuizRepository.php
+use App\Domains\QualiQuiz\Repository\QuizRepository;
 
 class BuscarQuizController extends Controller
 {
