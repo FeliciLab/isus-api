@@ -15,9 +15,9 @@ class CreateTableQuiz extends Migration
     {
         Schema::create('qquiz_quiz', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nome');
             $table->string('area_tematica')->nullable();
-            $table->string('public_alvo')->nullable();
+            $table->string('publico_alvo')->nullable();
             $table->text('descricao')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -5,7 +5,7 @@ namespace App\Domains\QualiQualiz\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AlterrnativaQuestao extends Model
+class AlternativaQuestao extends Model
 {
     use SoftDeletes;
 
