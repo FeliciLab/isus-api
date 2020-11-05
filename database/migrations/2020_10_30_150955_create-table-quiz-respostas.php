@@ -16,6 +16,9 @@ class CreateTableQuizRespostas extends Migration
         Schema::create('qquiz_respostas', function (Blueprint $table) {
             $table->id();
 
+            $table->text('identificacao');
+            $table->text('tipo_identificacao');
+
             $table->unsignedBigInteger('quiz_id');
             $table->foreign('quiz_id')->references('id')->on('qquiz_quiz');
 
@@ -24,9 +27,6 @@ class CreateTableQuizRespostas extends Migration
 
             $table->unsignedBigInteger('questao_alternativa_id');
             $table->foreign('questao_alternativa_id')->references('id')->on('qquiz_alternativas_questoes');
-
-            $table->text('identificacao');
-            $table->text('tipo_identificacao');
 
             $table->timestamps();
             $table->softDeletes();

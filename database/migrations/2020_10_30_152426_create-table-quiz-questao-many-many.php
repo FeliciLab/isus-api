@@ -15,12 +15,14 @@ class CreateTableQuizQuestaoManyMany extends Migration
     {
         Schema::create('qquiz_quiz_questoes', function (Blueprint $table) {
             $table->id();
+
             $table->unsignedBigInteger('quiz_id');
             $table->foreign('quiz_id')->references('id')->on('qquiz_quiz');
 
             $table->unsignedBigInteger('questao_id');
             $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
-            $table->unsignedTinyInteger('ordem');
+
+            $table->unsignedTinyInteger('ordem')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

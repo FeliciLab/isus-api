@@ -17,7 +17,7 @@ class CreateTableQuizQuestao extends Migration
             $table->id();
 
             $table->text('questao');
-            $table->text('url_imagem');
+            $table->text('url_imagem')->nullabel();
 
             $table->timestamps();
             $table->softDeletes();
