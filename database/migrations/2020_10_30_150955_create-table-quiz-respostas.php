@@ -18,6 +18,7 @@ class CreateTableQuizRespostas extends Migration
 
             $table->text('identificacao');
             $table->text('tipo_identificacao');
+            $table->text('token')->nullable();
 
             $table->unsignedBigInteger('quiz_id');
             $table->foreign('quiz_id')->references('id')->on('qquiz_quiz');
