@@ -13,7 +13,6 @@ class AlterrnativaQuestao extends Model
 
     protected $fillabel = [
         'id',
-        'ordem_alternativa',
         'alternativa',
         'url_imagem',
         'pontuacao',

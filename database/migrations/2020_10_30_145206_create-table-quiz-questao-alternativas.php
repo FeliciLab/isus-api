@@ -15,15 +15,13 @@ class CreateTableQuizQuestaoAlternativas extends Migration
     {
         Schema::create('qquiz_alternativas_questoes', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('ordem_alternativa');
+            $table->tinyInteger('ordem');
             $table->text('alternativa');
             $table->text('url_imagem');
             $table->unsignedInteger('pontuacao');
 
             $table->unsignedBigInteger('questao_id');
             $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
-
-            $table->unsignedTinyInteger('ordem');
 
             $table->timestamps();
             $table->softDeletes();
