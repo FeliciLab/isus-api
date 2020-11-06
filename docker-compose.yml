@@ -27,3 +27,8 @@ services:
       environment:
         - MYSQL_ROOT_PASSWORD=12345678
         - MYSQL_DATABASE=isus
+      command:
+        - 'mysqld'
+        - '--character-set-server=utf8mb4'
+        - '--collation-server=utf8mb4_unicode_ci'
+
