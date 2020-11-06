@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get(
+    '/qualiquiz/quiz/{codQuiz}',
+    '\App\Domains\QualiQuiz\Controllers\BuscarQuizController@buscarQuiz'
+);
