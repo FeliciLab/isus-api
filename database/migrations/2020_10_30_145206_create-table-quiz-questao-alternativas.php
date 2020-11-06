@@ -15,7 +15,6 @@ class CreateTableQuizQuestaoAlternativas extends Migration
     {
         Schema::create('qquiz_alternativas_questoes', function (Blueprint $table) {
             $table->id();
-
             $table->text('alternativa');
             $table->text('url_imagem')->nullable();
             $table->unsignedInteger('pontuacao');
