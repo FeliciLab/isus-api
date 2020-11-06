@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post(
+    '/qualiquiz/respostas',
+    '\App\Domains\QualiQuiz\Controllers\RespostasQuizController@registrar'
+);
 
 Route::namespace('Api')->group(function () {
     Route::get('/synchronize', 'SynchronizeController@index');

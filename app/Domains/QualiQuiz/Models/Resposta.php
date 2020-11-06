@@ -9,8 +9,14 @@ class Resposta extends Model
 {
     use SoftDeletes;
 
+    const DEFAULT_TYPE = 'email';
+
     protected $table = 'qquiz_respostas';
     protected $fillable = [
+        'id',
+        'quiz_id',
+        'questao_id',
+        'questao_alternativa_id',
         'identificacao',
         'tipo_identificacao',
     ];
