@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_mode=1);
 
 namespace App\Domains\QualiQuiz\Repository;
 
-use App\Domains\QualiQuiz\Models\Quiz;
-use App\Domains\QualiQuiz\Models\Questao;
-use App\Domains\QualiQuiz\Models\QuizQuestao;
 use App\Domains\QualiQuiz\Models\AlternativaQuestao;
+use App\Domains\QualiQuiz\Models\Questao;
+use App\Domains\QualiQuiz\Models\Quiz;
+use App\Domains\QualiQuiz\Models\QuizQuestao;
 use Illuminate\Support\Collection;
 
 class QuizRepository
@@ -23,12 +24,16 @@ class QuizRepository
 
         $questoes = (new Questao())
             ->select('id', 'questao')
-            ->whereIn('id', $quizQuestoes->map(function($item) { return $item->questao_id; }))
+            ->whereIn('id', $quizQuestoes->map(function ($item) {
+                return $item->questao_id;
+            }))
             ->get();
 
         $alternativas = (new AlternativaQuestao())
             ->select('alternativa', 'ordem', 'questao_id')
-            ->whereIn('questao_id', $questoes->map(function($item) { return $item->id; }))
+            ->whereIn('questao_id', $questoes->map(function ($item) {
+                return $item->id;
+            }))
             ->get();
 
         return collect([
@@ -37,16 +42,16 @@ class QuizRepository
                 return [
                     'ordem' => $quizQuestoes->get($questao->id)->ordem,
                     'questao' => $questao->questao,
-                    'alternativas' => $alternativas->filter(function($alternativa) use ($questao) {
+                    'alternativas' => $alternativas->filter(function ($alternativa) use ($questao) {
                         return $alternativa->questao_id === $questao->id;
                     })->map(function ($item) {
                         return [
                             'alternativa' => $item->alternativa,
                             'ordem' => $item->ordem,
                         ];
-                    })
+                    }),
                 ];
-            })
+            }),
         ]);
     }
 }

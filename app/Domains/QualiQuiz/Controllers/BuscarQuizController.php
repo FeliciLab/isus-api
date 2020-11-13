@@ -1,11 +1,12 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Domains\QualiQuiz\Controllers;
 
+use App\Domains\QualiQuiz\Repository\QuizRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domains\QualiQuiz\Repository\QuizRepository;
 
 class BuscarQuizController extends Controller
 {
