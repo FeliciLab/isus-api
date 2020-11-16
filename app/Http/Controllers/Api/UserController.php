@@ -147,7 +147,7 @@ class UserController extends Controller
                 return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
             }
         } catch (Exception $error) {
-            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível excluir usuário'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível excluir usuário'], Response::HTTP_BAD_REQUEST);
         }
     }
 
