@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\QualiQuiz\Controllers;
 
+
 use App\Domains\QualiQuiz\Service\BuscarQuizService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
