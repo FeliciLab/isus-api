@@ -26,6 +26,7 @@ class BuscarQuizController extends Controller
      * @param $request        Request
      * @param $quizRepository QuizRepository
      * @param $codQuiz        Int
+     * @param BuscarQuizService $buscarQuizService
      *
      * @return mix
      */

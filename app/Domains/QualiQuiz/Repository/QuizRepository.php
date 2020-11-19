@@ -4,13 +4,10 @@ declare(strict_mode=1);
 
 namespace App\Domains\QualiQuiz\Repository;
 
+use App\Domains\QualiQuiz\Models\Quiz;
+use App\Domains\QualiQuiz\Models\Resposta;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use App\Domains\QualiQuiz\Models\AlternativaQuestao;
-use App\Domains\QualiQuiz\Models\Questao;
-use App\Domains\QualiQuiz\Models\Quiz;
-use App\Domains\QualiQuiz\Models\QuizQuestao;
-use App\Domains\QualiQuiz\Models\Resposta;
 
 /**
  * Conjunto de consultas para a tabela Quiz.
@@ -24,6 +21,13 @@ use App\Domains\QualiQuiz\Models\Resposta;
  */
 class QuizRepository
 {
+    /**
+     * Busca na base o quiz pelo id.
+     *
+     * @param int $codQuiz
+     *
+     * @return Quiz|null
+     */
     public function buscarQuiz(int $codQuiz)
     {
         return (new Quiz())
