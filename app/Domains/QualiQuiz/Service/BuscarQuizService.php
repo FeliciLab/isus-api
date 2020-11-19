@@ -111,7 +111,7 @@ class BuscarQuizService
                 function ($item) {
                     return $item->questao_id;
                 }
-            )
+            )->toArray()
         );
 
         $alternativas = $this->alternativaQuestaoRepository
@@ -120,7 +120,7 @@ class BuscarQuizService
                     function ($item) {
                         return $item->id;
                     }
-                )
+                )->toArray()
             );
 
         return collect(

@@ -4,7 +4,6 @@
 version: "3.1"
 services:
   webserver:
-    container_name: api_isus_web
     image: nginx:alpine
     working_dir: /application
     volumes:
@@ -14,14 +13,12 @@ services:
       - "7000:80"
 
   php-fpm:
-    container_name: api_isus_fpm
     build: phpdocker/php-fpm
     working_dir: /application
     volumes:
       - .:/application
       - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
   db:
-    container_name: api_isus_mysql
     image: mysql:5.6
     ports:
       - "3307:3306"

@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get(
+    '/qualiquiz/quiz/{codQuiz}',
+    '\App\Domains\QualiQuiz\Controllers\BuscarQuizController@buscarQuiz'
+);
 Route::post(
     '/qualiquiz/respostas',
     '\App\Domains\QualiQuiz\Controllers\RespostasQuizController@registrar'

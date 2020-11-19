@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\QualiQuiz\Controllers;
 
-use App\Domains\QualiQuiz\Repository\QuizRepository;
+use App\Domains\QualiQuiz\Service\BuscarQuizService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -31,11 +31,11 @@ class BuscarQuizController extends Controller
      */
     public function buscarQuiz(
         Request $request,
-        QuizRepository $quizRepository,
+        BuscarQuizService $buscarQuizService,
         int $codQuiz
     ) {
         return response()->json(
-            $quizRepository->buscarQuizCompleto($codQuiz),
+            $buscarQuizService->buscarQuizCompleto($codQuiz),
             200
         );
     }
