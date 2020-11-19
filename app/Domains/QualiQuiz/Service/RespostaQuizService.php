@@ -5,7 +5,7 @@ declare(strict_mode=1);
 namespace App\Domains\QualiQuiz\Service;
 
 use App\Domains\QualiQuiz\Models\Resposta;
-use App\Domains\QualiQuiz\Repository\QuizRepository;
+use App\Domains\QualiQuiz\Repository\RespostaRepository;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -14,10 +14,10 @@ use Illuminate\Support\Collection;
  *
  * @category QualiQuiz
  *
- * @author   Chicão Thiago <fthiagogv@gmail.com>
- * @license  GPL3 http://www.gnu.org/licenses/gpl-3.0.en.html
+ * @author  Chicão Thiago <fthiagogv@gmail.com>
+ * @license GPL3 http://www.gnu.org/licenses/gpl-3.0.en.html
  *
- * @link     https://github.com/EscolaDeSaudePublica/isus-api
+ * @link https://github.com/EscolaDeSaudePublica/isus-api
  */
 class RespostaQuizService
 {
@@ -26,7 +26,7 @@ class RespostaQuizService
      */
     public function __construct()
     {
-        $this->repository = new QuizRepository();
+        $this->repository = new RespostaRepository();
     }
 
     /**
@@ -49,14 +49,13 @@ class RespostaQuizService
                 ->buscarResposta(
                     $resposta['quizId'],
                     $resposta['questaoId'],
-                    $resposta['alternativaId'],
                     $autenticacao->get('email')
                 );
 
             if ($validacao) {
                 return [
-                    'msg' => 'Existem respostas já existente nas nossa'
-                        . ' base de dados. Remova elas, ou verifica sua'
+                    'msg' => 'Existe uma questão já respondidad por este usuário.'
+                        . 'Remova elas, ou verifica sua'
                         . ' consistência.',
                     'status' => 409,
                 ];
@@ -81,7 +80,8 @@ class RespostaQuizService
         }
 
         return [
-            'msg' => 'Houve falha ao salvar na base de dados.', 'status' => 400,
+            'msg' => 'Houve falha ao salvar na base de dados.',
+            'status' => 400,
         ];
     }
 }
