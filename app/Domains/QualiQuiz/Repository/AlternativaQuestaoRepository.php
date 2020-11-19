@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\QualiQuiz\Repository;
 
 use App\Domains\QualiQuiz\Models\AlternativaQuestao;
+use Illuminate\Support\Collection;
 
 /**
  * Conjunto de consultas para a tabela Quiz.
@@ -23,7 +24,7 @@ class AlternativaQuestaoRepository
      *
      * @param array $idsQuestoes
      *
-     * @return mix
+     * @return Collection
      */
     public function buscarAlternativasPelosIdsQuestoes(array $idsQuestoes)
     {

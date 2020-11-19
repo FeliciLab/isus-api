@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\QualiQuiz\Service;
 
+use App\Domains\QualiQuiz\Models\Questao;
 use App\Domains\QualiQuiz\Repository\AlternativaQuestaoRepository;
 use App\Domains\QualiQuiz\Repository\QuestaoRepository;
 use App\Domains\QualiQuiz\Repository\QuizQuestaoRepository;
@@ -41,13 +42,15 @@ class BuscarQuizService
     /**
      * Mapear as altertivas para as questões e formatar o array.
      *
-     * @param $alternativas
-     * @param $questao
+     * @param Collection $alternativas Lista de alternativas
+     * @param Questao    $questao      Questão correspondente a alternativa
      *
      * @return array
      */
-    public function mapearFormatarAlternativasQuestoes($alternativas, $questao)
-    {
+    public function mapearFormatarAlternativasQuestoes(
+        Collection $alternativas,
+        Questao $questao
+    ) {
         return $alternativas->filter(
             function ($alternativa) use ($questao) {
                 return $alternativa->questao_id === $questao->id;
@@ -66,14 +69,17 @@ class BuscarQuizService
     /**
      * Mapeia as questões para o formato desejado no front.
      *
-     * @param $questoes array
-     * @param $quizQuestoes QuizQuestoes
-     * @param $alternativas array
+     * @param Collection $questoes     Lista de questoes
+     * @param Collection $quizQuestoes Lista de questoes do quiz
+     * @param Collection $alternativas Lista de alternativas
      *
      * @return mix
      */
-    public function mapearFormatarQuestoes($questoes, $quizQuestoes, $alternativas)
-    {
+    public function mapearFormatarQuestoes(
+        Collection $questoes,
+        Collection $quizQuestoes,
+        Collection $alternativas
+    ) {
         return $questoes->map(
             function ($questao) use ($quizQuestoes, $alternativas) {
                 return [
@@ -92,7 +98,7 @@ class BuscarQuizService
     /**
      * Efetua a consulta na base de dados.
      *
-     * @param $codQuiz Int número do id do quiz
+     * @param int $codQuiz número do id do quiz
      *
      * @return Collection
      */

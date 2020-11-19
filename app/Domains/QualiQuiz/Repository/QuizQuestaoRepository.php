@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\QualiQuiz\Repository;
 
 use App\Domains\QualiQuiz\Models\QuizQuestao;
+use Illuminate\Support\Collection;
 
 /**
  * Conjunto de funções para consulta na tabela quiz_questoes.

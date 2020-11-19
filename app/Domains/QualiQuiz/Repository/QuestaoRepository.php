@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\QualiQuiz\Repository;
 
 use App\Domains\QualiQuiz\Models\Questao;
+use Illuminate\Support\Collection;
 
 /**
  * Conjunto de consultas para a tabela Quiz.
@@ -21,9 +22,9 @@ class QuestaoRepository
     /**
      * Buscar questões através de uma lista de Ids.
      *
-     * @param $idsQuestao array
+     * @param array $idsQuestao
      *
-     * @return mix
+     * @return Collection
      */
     public function buscarQuestao(array $idsQuestao)
     {
