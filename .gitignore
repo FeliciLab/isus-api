@@ -13,3 +13,4 @@ npm-debug.log
 yarn-error.log
 .idea
 .php_cs.cache
+/storage/api-docs/api-docs.json
