@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace App\Domains\QualiQuiz\Controllers;
 
+use App\Domains\QualiQuiz\Service\RespostaQuizService;
+use App\Domains\QualiQuiz\Utils\JWTDecoder;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Domains\QualiQuiz\Repository\QuizRepository;
-use App\Domains\QualiQuiz\Utils\JWTDecoder;
 
 /**
- * Classe controller para rotas de salvar as respostas do quiz
+ * Classe controller para rotas de salvar as respostas do quiz.
  *
  * @category Qualiquiz
- * @package  Domain\Qualiquiz
+ *
  * @author   Chicão Thiago <fthiagogv@gmail.com>
  * @license  GPL-3 http://www.gnu.org/licenses/gpl-3.0.en.html
+ *
  * @link     https://github.com/EscolaDeSaudePublica/isus-api/issues/121
  */
 class RespostasQuizController extends Controller
@@ -31,18 +32,18 @@ class RespostasQuizController extends Controller
      *        "alternativaId": "number",
      *      }
      *    ]
-     * }
+     * }.
      *
      * @param $request        Request
      * @param $jwtDecoder     JWTDecoder
-     * @param $quizRepository QuizRepository
+     * @param $respostaQuizService RespostaQuizService
      *
      * @return mix
      */
     public function registrar(
         Request $request,
         JWTDecoder $jwtDecoder,
-        QuizRepository $quizRepository
+        RespostaQuizService $respostaQuizService
     ) {
         if (!$request->header('Authorization')) {
             return response()->json(['message' => 'Token não enviado'], 403);
@@ -73,7 +74,7 @@ class RespostasQuizController extends Controller
             );
         }
 
-        $resultado = $quizRepository->registrarRespostas(
+        $resultado = $respostaQuizService->registrarRespostas(
             collect($request->respostas),
             $autenticacao
         );

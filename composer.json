@@ -65,6 +65,9 @@
         "php-cs:check": [
           "php-cs-fixer fix --dry-run --diff ./app"
         ],
+        "php-cs:checknodry": [
+            "php-cs-fixer fix ./app"
+        ],
         "php-cs:fix": [
           "php-cs-fixer fix ./app"
         ]

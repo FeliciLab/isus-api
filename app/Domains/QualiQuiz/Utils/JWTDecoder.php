@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_mode=1);
 
 namespace App\Domains\QualiQuiz\Utils;

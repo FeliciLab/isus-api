@@ -1,11 +1,22 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Domains\QualiQuiz\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Modelo para a tabela quiz.
+ *
+ * @category QualiQuiz
+ *
+ * @author   Chicão Thiago <fthiagogv@gmail.com>
+ * @license  GPL3 http://www.gnu.org/licenses/gpl-3.0.en.html
+ *
+ * @link     https://github.com/EscolaDeSaudePublica/isus-api
+ */
 class Quiz extends Model
 {
     use SoftDeletes;
@@ -19,11 +30,21 @@ class Quiz extends Model
         'nome' => 'string',
     ];
 
+    /**
+     * Relacionamento com o modelo Resposta.
+     *
+     * @return mix
+     */
     public function respostas()
     {
         return $this->hasMany('App\Domains\QualiQuiz\Models\Resposta');
     }
 
+    /**
+     * Relacionamento com o modelo Questoes.
+     *
+     * @return mix
+     */
     public function questoes()
     {
         return $this->belongsToMany(
