@@ -13,15 +13,19 @@ class CreateTableQuiz extends Migration
      */
     public function up()
     {
-        Schema::create('qquiz_quiz', function (Blueprint $table) {
-            $table->id();
-            $table->string('nome');
-            $table->string('area_tematica')->nullable();
-            $table->string('publico_alvo')->nullable();
-            $table->text('descricao')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        Schema::create(
+            'qquiz_quiz',
+            function (Blueprint $table) {
+                $table->id();
+                $table->string('nome');
+                $table->string('area_tematica')->nullable();
+                $table->string('publico_alvo')->nullable();
+                $table->text('descricao')->nullable();
+                $table->unsignedInteger('tempo_limite')->default(10);
+                $table->timestamps();
+                $table->softDeletes();
+            }
+        );
     }
 
     /**

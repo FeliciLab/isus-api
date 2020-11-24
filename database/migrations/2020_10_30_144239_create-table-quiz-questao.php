@@ -13,15 +13,18 @@ class CreateTableQuizQuestao extends Migration
      */
     public function up()
     {
-        Schema::create('qquiz_questoes', function (Blueprint $table) {
-            $table->id();
+        Schema::create(
+            'qquiz_questoes',
+            function (Blueprint $table) {
+                $table->id();
 
-            $table->text('questao');
-            $table->text('url_imagem')->nullable();
+                $table->text('questao');
+                $table->text('url_imagem')->nullable();
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->timestamps();
+                $table->softDeletes();
+            }
+        );
     }
 
     /**

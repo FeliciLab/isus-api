@@ -13,19 +13,22 @@ class CreateTableQuizQuestaoAlternativas extends Migration
      */
     public function up()
     {
-        Schema::create('qquiz_alternativas_questoes', function (Blueprint $table) {
-            $table->id();
-            $table->text('alternativa');
-            $table->text('url_imagem')->nullable();
-            $table->unsignedInteger('pontuacao');
-            $table->unsignedTinyInteger('ordem')->nullable();
+        Schema::create(
+            'qquiz_alternativas_questoes',
+            function (Blueprint $table) {
+                $table->id();
+                $table->text('alternativa');
+                $table->text('url_imagem')->nullable();
+                $table->unsignedInteger('pontuacao');
+                $table->unsignedTinyInteger('ordem')->nullable();
 
-            $table->unsignedBigInteger('questao_id');
-            $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
+                $table->unsignedBigInteger('questao_id');
+                $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
 
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                $table->timestamps();
+                $table->softDeletes();
+            }
+        );
     }
 
     /**

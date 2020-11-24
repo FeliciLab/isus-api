@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableQuizQuestaoManyMany extends Migration
+class CreateTableQuizExplicacoes extends Migration
 {
     /**
      * Run the migrations.
@@ -14,17 +14,20 @@ class CreateTableQuizQuestaoManyMany extends Migration
     public function up()
     {
         Schema::create(
-            'qquiz_quiz_questoes',
+            'qquiz_explicacoes',
             function (Blueprint $table) {
                 $table->id();
-
-                $table->unsignedBigInteger('quiz_id');
-                $table->foreign('quiz_id')->references('id')->on('qquiz_quiz');
+                $table->text('descricao');
 
                 $table->unsignedBigInteger('questao_id');
-                $table->foreign('questao_id')->references('id')->on('qquiz_questoes');
+                $table->foreign('questao_id')
+                    ->references('id')
+                    ->on('qquiz_questoes');
 
-                $table->unsignedTinyInteger('ordem')->nullable();
+                $table->unsignedBigInteger('alternativa_correta_id');
+                $table->foreign('alternativa_correta_id')
+                    ->references('id')
+                    ->on('qquiz_alternativas_questoes');
 
                 $table->timestamps();
                 $table->softDeletes();
@@ -39,6 +42,6 @@ class CreateTableQuizQuestaoManyMany extends Migration
      */
     public function down()
     {
-        Schema::drop('qquiz_quiz_questoes');
+        Schema::dropIfExists('qquiz_explicacoes');
     }
 }
