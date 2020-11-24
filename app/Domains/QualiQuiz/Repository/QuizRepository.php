@@ -28,7 +28,6 @@ class QuizRepository
     public function buscarQuiz(int $codQuiz)
     {
         return (new Quiz())
-            ->select('id', 'nome')
             ->where('id', $codQuiz)
             ->first();
     }
