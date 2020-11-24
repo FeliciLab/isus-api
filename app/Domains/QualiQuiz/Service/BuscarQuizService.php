@@ -133,6 +133,7 @@ class BuscarQuizService
             [
                 'id' => $quiz->id,
                 'quiz' => $quiz->nome,
+                'tempo_limite' => $quiz->tempo_limite,
                 'questoes' => $this->mapearFormatarQuestoes(
                     $questoes,
                     $quizQuestoes,

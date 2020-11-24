@@ -24,10 +24,18 @@ class Quiz extends Model
     protected $table = 'qquiz_quiz';
     protected $fillabel = [
         'nome',
+        'tempo_limite',
+        'area_tematica',
+        'publico_alvo',
+        'descricao'
     ];
 
     protected $cast = [
         'nome' => 'string',
+        'tempo_limite' => 'integer',
+        'area_tematica' => 'string',
+        'publico_alvo' => 'string',
+        'descricao' => 'string'
     ];
 
     /**

@@ -18,6 +18,7 @@ class AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1 extends Seeder
     {
         $quiz = (new Quiz([
             'nome' => $this->avaliacao['quiz']['nome'],
+            'tempo_limite' => $this->avaliacao['quiz']['tempo_limite'],
             'area_tematica' => $this->avaliacao['quiz']['area_tematica'],
             'publico_alvo' => $this->avaliacao['quiz']['publico_alvo'],
             'descricao' => $this->avaliacao['quiz']['descricao'],
@@ -75,6 +76,7 @@ class AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1 extends Seeder
             'nome' => 'AVALIAÇÃO DIGITAL DA FORÇA DE TRABALHO EM SAÚDE',
             'area_tematica' => 'SUS – PARTE I',
             'publico_alvo' => 'TRABALHADORES DA SAÚDE DE NÍVEL SUPERIOR',
+            'tempo_limite' => 10,
             'descricao' => '<p>Caro trabalhador da saúde,</p>
                 <p>Este teste tem o objetivo de prover uma oportunidade para você fazer uma autoavaliação dos seus conhecimentos sobre a área temática do SUS. Ele faz parte de uma avaliação digital da força de trabalho em saúde. Os resultados serão utilizados para o desenvolvimento de programas de educação permanente dos trabalhadores em saúde. Só você e a equipe avaliadora terão acesso aos resultados. O próprio sistema dará uma devolutiva se você acertou ou não o item, bem como oferecerá comentários sobre os itens correto e errados e fará sugestões de referências para você aprofundar o tema. Assim, você já começa a aprimorar seus conhecimentos na área. Contamos com sua participação e boa sorte! Este teste tem 10 questões e aborda conhecimentos relacionados às seguintes competências:</p>
                 <ul>
