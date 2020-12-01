@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UnidadesServicoSeeder::class,
             UnidadesServicoCategoriaSeeder::class,
             EspecialidadesSeeder::class,
+            AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1::class
         ]);
     }
 }
