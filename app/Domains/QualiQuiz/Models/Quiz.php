@@ -27,7 +27,7 @@ class Quiz extends Model
         'tempo_limite',
         'area_tematica',
         'publico_alvo',
-        'descricao'
+        'descricao',
     ];
 
     protected $cast = [
@@ -35,7 +35,7 @@ class Quiz extends Model
         'tempo_limite' => 'integer',
         'area_tematica' => 'string',
         'publico_alvo' => 'string',
-        'descricao' => 'string'
+        'descricao' => 'string',
     ];
 
     /**
