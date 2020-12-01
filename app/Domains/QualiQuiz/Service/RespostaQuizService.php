@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_mode=1);
+declare(strict_types=1);
 
 namespace App\Domains\QualiQuiz\Service;
 
