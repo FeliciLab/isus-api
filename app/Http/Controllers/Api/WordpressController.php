@@ -78,6 +78,44 @@ class WordpressController extends Controller
         return response()->json($paginate);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/categoriasArquitetura",
+     *      operationId="categoriasArquitetura",
+     *      tags={"Wordpress"},
+     *      summary="Macro projetos",
+     *      description="Retorna arquitetura de macro projetos",
+     *      @OA\Response(
+     *          response=200,
+     *          description="",
+     *          content={
+     *              @OA\MediaType(
+     *                  mediaType="application/json",
+     *                  @OA\Schema(
+     *                      example={
+     *                          "Educação": {
+     *                               {
+     *                                  "term_id": 451,
+     *                                  "name": "Cursos on-line",
+     *                                  "slug": "cursos-on-line",
+     *                                  "created_at": "2020-09-17T18:39:21.000000Z",
+     *                                  "updated_at": "2020-09-17T18:39:21.000000Z"
+     *                               },
+     *                              {
+     *                               "term_id": 452,
+     *                               "name": "Tutoriais",
+     *                               "slug": "tutoriais",
+     *                               "created_at": "2020-09-17T18:42:28.000000Z",
+     *                               "updated_at": "2020-09-17T18:42:28.000000Z"
+     *                               },
+     *                          },
+     *                      }
+     *                  )
+     *              )
+     *          }
+     *       )
+     * )
+     */
     public function categoriasArquitetura()
     {
         $arquitetura = [];

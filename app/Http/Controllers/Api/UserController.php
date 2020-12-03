@@ -138,31 +138,16 @@ class UserController extends Controller
 
     public function delete(Request $request)
     {
-        $dados = $request->all();
-        $validacao = Validator::make($dados, [
-            'senha' => 'required',
-        ]);
-        if ($validacao->fails()) {
-            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
-        }
         $keyCloakService = new KeycloakService();
         try {
-            $resposta = $keyCloakService->login($request->usuario->email, $dados['senha']);
+            $idKeycloak = $request->usuario->sub;
+            $keycloakService = new KeycloakService();
 
-            if ($resposta->getStatusCode() == Response::HTTP_UNAUTHORIZED) {
-                return response()->json(['sucesso' => false, 'erros' =>  'Senha inválida'], Response::HTTP_UNAUTHORIZED);
-            } elseif ($resposta->getStatusCode() == Response::HTTP_OK) {
-                $idKeycloak = $request->usuario->sub;
-                $keycloakService = new KeycloakService();
-
-                if ($keycloakService->delete($idKeycloak)) {
-                    return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
-                }
-            } else {
-                return response()->json(['sucesso' => false, 'mensagem' => 'Senha inválida'], Response::HTTP_UNAUTHORIZED);
+            if ($keycloakService->delete($idKeycloak)) {
+                return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
             }
         } catch (Exception $error) {
-            return response()->json(['sucesso' => false, 'erros' =>  'Senha inválida'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível excluir usuário'], Response::HTTP_BAD_REQUEST);
         }
     }
 
