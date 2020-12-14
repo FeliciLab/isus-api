@@ -11,7 +11,6 @@
         "php": "^7.2.5",
         "darkaonline/l5-swagger": "^8.0",
         "fideloper/proxy": "^4.2",
-        "friendsofphp/php-cs-fixer": "^2.16",
         "fruitcake/laravel-cors": "^1.0",
         "geekcom/validator-docs": "^3.4",
         "guzzlehttp/guzzle": "^6.3",
@@ -19,6 +18,7 @@
         "laravel/tinker": "^2.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
         "mockery/mockery": "^1.3.1",
