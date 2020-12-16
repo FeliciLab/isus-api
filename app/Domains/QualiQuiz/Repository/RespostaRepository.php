@@ -27,12 +27,13 @@ class RespostaRepository
      *
      * @return Resposta|null
      */
-    public function buscarResposta(
+    public function verificarRespostaExiste(
         int $quizId,
         int $questaoId,
         string $identificador
     ) {
-        return Resposta::where('quiz_id', $quizId)
+        return Resposta::select('id')
+            ->where('quiz_id', $quizId)
             ->where('questao_id', $questaoId)
             ->where('identificacao', $identificador)
             ->first();

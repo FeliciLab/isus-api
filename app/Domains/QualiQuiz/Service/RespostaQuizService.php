@@ -30,33 +30,48 @@ class RespostaQuizService
     }
 
     /**
+     * Verifica se a resposta existe no banco.
+     *
+     * @param $resposta     array      Matriz com as respostas
+     * @param $autenticacao Collection dados de autenticação
+     *
+     * @return bool
+     */
+    public function verificarExisteResposta(
+        array $resposta,
+        Collection $autenticacao
+    ): bool {
+        return $this
+            ->repository
+            ->verificarRespostaExiste(
+                $resposta['quizId'],
+                $resposta['questaoId'],
+                $autenticacao->get('email')
+            ) !== null;
+    }
+
+    /**
      * Regra de negócio que salvar na base de dados a resposta.
      *
      * @param $respostas    Collection
      * @param $autenticacao Collection
+     * @param $token        string
      *
      * @return array
      */
     public function registrarRespostas(
         Collection $respostas,
-        Collection $autenticacao
+        Collection $autenticacao,
+        string $token
     ): array {
         $respostasInserir = [];
 
         foreach ($respostas as $resposta) {
-            $validacao = $this
-                ->repository
-                ->buscarResposta(
-                    $resposta['quizId'],
-                    $resposta['questaoId'],
-                    $autenticacao->get('email')
-                );
-
-            if ($validacao) {
+            if ($this->verificarExisteResposta($resposta, $autenticacao)) {
                 return [
-                    'msg' => 'Existe uma questão já respondidad por este usuário.'
-                        . 'Remova elas, ou verifica sua'
-                        . ' consistência.',
+                    'msg' => 'Existe uma questão já respondida para esta pessoa
+                        usuária. '
+                        . 'Remova elas, ou verifica sua consistência.',
                     'status' => 409,
                 ];
             }
@@ -67,6 +82,8 @@ class RespostaQuizService
                 'questao_alternativa_id' => $resposta['alternativaId'],
                 'identificacao' => $autenticacao->get('email'),
                 'tipo_identificacao' => Resposta::DEFAULT_TYPE,
+                'tempo' => $resposta['tempo'],
+                'token' => $token,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ];
