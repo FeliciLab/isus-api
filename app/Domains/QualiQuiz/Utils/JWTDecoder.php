@@ -27,10 +27,16 @@ class JWTDecoder
      */
     public function getJWTFromBearerHeader(string $header): string
     {
-        return explode(
+        $token = explode(
             ' ',
             $header
-        )[1];
+        );
+
+        if (count($token) < 2) {
+            return '';
+        }
+
+        return $token[1];
     }
 
     /**
@@ -42,10 +48,16 @@ class JWTDecoder
      */
     public function getPayloadFromJWT(string $jwt): string
     {
-        return explode(
+        $payload = explode(
             '.',
             $jwt
-        )[1];
+        );
+
+        if (count($payload) < 2) {
+            return '';
+        }
+
+        return $payload[1];
     }
 
     /**
