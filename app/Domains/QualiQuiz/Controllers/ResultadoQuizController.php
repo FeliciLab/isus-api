@@ -22,22 +22,20 @@ use Illuminate\Support\Facades\Validator;
  *
  * @link https://github.com/EscolaDeSaudePublica/isus-api/issues/120
  */
-class BuscarQuizController extends Controller
+class ResultadoQuizController extends Controller
 {
     /**
      * Busca o quiz a partir do código id do quiz.
      *
      * @param $request             Request
-     * @param $buscarQuizService   BuscarQuizService
      * @param $feedbackQuizService FeedbackQuizService
      * @param $jwtDecoder          JWTDecoder
      * @param $codQuiz             Int
      *
      * @return JsonResponse
      */
-    public function buscarQuiz(
+    public function buscarResultado(
         Request $request,
-        BuscarQuizService $buscarQuizService,
         FeedbackQuizService $feedbackQuizService,
         JWTDecoder $jwtDecoder,
         string $codQuiz
@@ -61,22 +59,11 @@ class BuscarQuizController extends Controller
             );
         }
 
-        $jaRespondeu = $buscarQuizService->verificarSeJaRespondeu(
-            (int) $codQuiz,
-            $autenticacao
-        );
-
-        if ($jaRespondeu && env('QQUIZ_BLOQUEAR_REFAZER')) {
-            return response()->json(
-                $feedbackQuizService->buscarFeedback(
-                    (int) $codQuiz,
-                    $autenticacao
-                )
-            );
-        }
-
         return response()->json(
-            $buscarQuizService->buscarQuizCompleto((int) $codQuiz)
+            $feedbackQuizService->buscarFeedback(
+                (int) $codQuiz,
+                $autenticacao->get('email')
+            )
         );
     }
 }
