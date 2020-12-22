@@ -65,12 +65,13 @@ class RespostaQuizService
         string $token
     ): array {
         $respostasInserir = [];
-
         foreach ($respostas as $resposta) {
-            if ($this->verificarExisteResposta($resposta, $autenticacao)) {
+            if (env('QQUIZ_BLOQUEAR_OUTRAS_RESPOSTAS')
+                && $this->verificarExisteResposta($resposta, $autenticacao)
+            ) {
                 return [
-                    'msg' => 'Existe uma questão já respondida para esta pessoa
-                        usuária. '
+                    'msg' => 'Existe uma questão já respondida para esta pessoa'
+                        . 'usuária. '
                         . 'Remova elas, ou verifica sua consistência.',
                     'status' => 409,
                 ];

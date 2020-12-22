@@ -9,6 +9,7 @@ use App\Domains\QualiQuiz\Repository\AlternativaQuestaoRepository;
 use App\Domains\QualiQuiz\Repository\QuestaoRepository;
 use App\Domains\QualiQuiz\Repository\QuizQuestaoRepository;
 use App\Domains\QualiQuiz\Repository\QuizRepository;
+use App\Domains\QualiQuiz\Repository\RespostaRepository;
 use Illuminate\Support\Collection;
 
 /**
@@ -37,6 +38,7 @@ class BuscarQuizService
         $this->quizQuestaoRepository = new QuizQuestaoRepository();
         $this->questaoRepository = new QuestaoRepository();
         $this->alternativaQuestaoRepository = new AlternativaQuestaoRepository();
+        $this->respostaRepository = new RespostaRepository();
     }
 
     /**
@@ -106,7 +108,13 @@ class BuscarQuizService
     {
         $quiz = $this->quizRepository->buscarQuiz($codQuiz);
         if (!$quiz) {
-            return false;
+            return collect(
+                [
+                    'mensagem' => 'Quiz não encontrado',
+                    'status' => 404,
+                    'ok' => false,
+                ]
+            );
         }
 
         $quizQuestoes = $this->quizQuestaoRepository
@@ -141,5 +149,20 @@ class BuscarQuizService
                 ),
             ]
         );
+    }
+
+    /**
+     * Verifica se a usuária solicitante do quiz já o efetuou.
+     *
+     * @param $quizId       int
+     * @param $autenticacao Collection
+     *
+     * @return bool
+     */
+    public function verificarSeJaRespondeu(
+        int $quizId,
+        Collection $autenticacao
+    ): bool {
+        return $this->respostaRepository->verificaSeJaRespondeu($quizId, $autenticacao->get('email'));
     }
 }
