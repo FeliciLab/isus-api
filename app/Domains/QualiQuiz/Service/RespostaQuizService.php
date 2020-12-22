@@ -66,7 +66,8 @@ class RespostaQuizService
     ): array {
         $respostasInserir = [];
         foreach ($respostas as $resposta) {
-            if (env('QQUIZ_BLOQUEAR_OUTRAS_RESPOSTAS')
+            if (
+                env('QQUIZ_BLOQUEAR_OUTRAS_RESPOSTAS')
                 && $this->verificarExisteResposta($resposta, $autenticacao)
             ) {
                 return [

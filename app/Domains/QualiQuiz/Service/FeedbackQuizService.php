@@ -47,7 +47,7 @@ class FeedbackQuizService
     }
 
     /**
-     * Busca o feedback com a resposta e os comentários das questões
+     * Busca o feedback com a resposta e os comentários das questões.
      *
      * @param $codQuiz      int
      * @param $autenticacao Collection
