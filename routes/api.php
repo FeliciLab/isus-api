@@ -18,6 +18,12 @@ Route::get(
     '/qualiquiz/quiz/{codQuiz}',
     '\App\Domains\QualiQuiz\Controllers\BuscarQuizController@buscarQuiz'
 );
+
+Route::get(
+    '/qualiquiz/resultado/{codQuiz}',
+    '\App\Domains\QualiQuiz\Controllers\ResultadoQuizController@buscarResultado'
+);
+
 Route::post(
     '/qualiquiz/respostas',
     '\App\Domains\QualiQuiz\Controllers\RespostasQuizController@registrar'

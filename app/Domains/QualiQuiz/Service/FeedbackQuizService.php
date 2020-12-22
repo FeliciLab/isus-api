@@ -24,14 +24,14 @@ class FeedbackQuizService
      * Busca a pontuacao da pessoa no quiz.
      *
      * @param $idQuiz       int
-     * @param $autenticacao Collection
+     * @param $autenticacao string
      *
      * @return Collection
      */
-    public function buscarResultado(int $idQuiz, Collection $autenticacao): Collection
+    public function buscarResultado(int $idQuiz, string $autenticacao): Collection
     {
         return (new RespostaRepository)
-            ->buscarResultado($idQuiz, $autenticacao->get('email'));
+            ->buscarResultado($idQuiz, $autenticacao);
     }
 
     /**
@@ -44,5 +44,27 @@ class FeedbackQuizService
     public function buscarExplicacoesQuestoesQuiz(int $idQuiz): Collection
     {
         return (new ExplicacoesRepository)->buscarExplicacoesDoQuiz($idQuiz);
+    }
+
+    /**
+     * Busca o feedback com a resposta e os comentários das questões.
+     *
+     * @param $codQuiz      int
+     * @param $autenticacao Collection
+     *
+     * @return array
+     */
+    public function buscarFeedback(int $codQuiz, Collection $autenticacao): array
+    {
+        return [
+            'resultado' => $this->buscarResultado(
+                $codQuiz,
+                $autenticacao->get('email')
+            ),
+            'comentarioQuestoes' => $this
+                ->buscarExplicacoesQuestoesQuiz(
+                    (int) $codQuiz
+                ),
+        ];
     }
 }
