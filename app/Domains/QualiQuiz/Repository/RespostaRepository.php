@@ -79,6 +79,11 @@ class RespostaRepository
      */
     public function buscarResultado(int $idQuiz, string $identificacao): Collection
     {
+        $ultimoQuiz = DB::table('qquiz_respostas')
+            ->selectRaw('MAX(created_at) as data')
+            ->where('identificacao', '=', $identificacao)
+            ->first();
+
         return collect(
             DB::table('qquiz_respostas as qr')
                 ->selectRaw(
@@ -90,9 +95,10 @@ class RespostaRepository
                 )
                 ->rightJoin(
                     'qquiz_quiz_questoes as qqq',
-                    function ($join) use ($identificacao) {
+                    function ($join) use ($identificacao, $ultimoQuiz) {
                         $join->on('qr.questao_id', '=', 'qqq.questao_id')
-                            ->where('qr.identificacao', '=', $identificacao);
+                            ->where('qr.identificacao', '=', $identificacao)
+                            ->where('qr.created_at', '=', $ultimoQuiz->data);
                     }
                 )
                 ->join(

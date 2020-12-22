@@ -61,7 +61,9 @@ class BuscarQuizController extends Controller
             );
         }
 
-        if ($buscarQuizService->verificarSeJaRespondeu((int) $codQuiz, $autenticacao)) {
+        if ($buscarQuizService->verificarSeJaRespondeu((int) $codQuiz, $autenticacao)
+            && env('QQUIZ_BLOQUEAR_REFAZER')
+        ) {
             return response()->json(
                 [
                     'resultado' => $feedbackQuizService->buscarResultado(
