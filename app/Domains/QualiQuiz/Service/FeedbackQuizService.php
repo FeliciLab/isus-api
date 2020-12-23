@@ -61,6 +61,7 @@ class FeedbackQuizService
                 $codQuiz,
                 $autenticacao->get('email')
             ),
+            'respostas' => (new RespostaRepository())->buscarUltimasRespostasQuiz($codQuiz, $autenticacao->get('email')),
             'comentarioQuestoes' => $this
                 ->buscarExplicacoesQuestoesQuiz(
                     (int) $codQuiz

@@ -61,7 +61,7 @@ class ResultadoQuizController extends Controller
         return response()->json(
             $feedbackQuizService->buscarFeedback(
                 (int) $codQuiz,
-                $autenticacao->get('email')
+                $autenticacao
             )
         );
     }
