@@ -112,4 +112,52 @@ class RespostaRepository
                 ->first()
         );
     }
+
+    /**
+     * Busca as respostas da ultima tentativa.
+     *
+     * @param $codQuiz       int
+     * @param $identificacao string
+     *
+     * @return Collection
+     */
+    public function buscarUltimasRespostasQuiz(int $codQuiz, string $identificacao): Collection
+    {
+        $ultimoQuiz = DB::table('qquiz_respostas')
+            ->selectRaw('MAX(created_at) as data')
+            ->where('identificacao', '=', $identificacao)
+            ->first();
+
+        return collect(
+            DB::table('qquiz_respostas as qr')
+                ->selectRaw(
+                    'qr.quiz_id as cod_quiz,
+                    qr.questao_id as cod_questao,
+                    qqq.ordem as ordem_questao,
+                    qr.questao_alternativa_id as cod_altertiva_marcada,
+                    (SELECT ordem FROM qquiz_alternativas_questoes qaq2 WHERE qaq2.id = qr.questao_alternativa_id) as ordem_alternativa_marcada,
+                    qaq.id as cod_alternativa_correta,
+                    qaq.ordem as ordem_alternativa,
+                    qr.created_at as data_resposta,
+                    CASE WHEN qr.questao_alternativa_id = qaq.id THEN true ELSE false END as acerto'
+                )
+                ->rightJoin(
+                    'qquiz_quiz_questoes as qqq',
+                    function ($join) use ($identificacao, $ultimoQuiz) {
+                        $join->on('qr.questao_id', '=', 'qqq.questao_id')
+                            ->where('qr.identificacao', '=', $identificacao)
+                            ->where('qr.created_at', '=', $ultimoQuiz->data);
+                    }
+                )
+                ->join(
+                    'qquiz_alternativas_questoes as qaq',
+                    function ($join) {
+                        $join->on('qaq.questao_id', '=', 'qqq.questao_id')
+                            ->where('qaq.pontuacao', '=', 100);
+                    }
+                )
+                ->where('qqq.quiz_id', '=', $codQuiz)
+                ->get()
+        );
+    }
 }
