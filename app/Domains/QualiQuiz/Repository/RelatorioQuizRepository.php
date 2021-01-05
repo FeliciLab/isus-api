@@ -47,7 +47,11 @@ class RelatorioQuizRepository
                     $join->on('qaq.questao_id', '=', 'qqq.questao_id')
                         ->where('qaq.pontuacao', '=', 100);
                 }
-            );
+            )
+            ->orderBy('qr.quiz_id')
+            ->orderBy('data_resposta')
+            ->orderBy('identificacao')
+            ->orderBy('questao');
     }
 
     /**
