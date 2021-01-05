@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domains\QualiQuiz\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Modelo para a tabela quiz_questoes.
+ * Modelo para a tabela qquiz_resposta.
  *
  * @category QualiQuiz
  *
- * @author   Chicão Thiago <fthiagogv@gmail.com>
- * @license  GPL3 http://www.gnu.org/licenses/gpl-3.0.en.html
+ * @author  Chicão Thiago <fthiagogv@gmail.com>
+ * @license GPL3 http://www.gnu.org/licenses/gpl-3.0.en.html
  *
- * @link     https://github.com/EscolaDeSaudePublica/isus-api
+ * @link https://github.com/EscolaDeSaudePublica/isus-api
  */
 class Resposta extends Model
 {
@@ -29,6 +31,18 @@ class Resposta extends Model
         'questao_alternativa_id',
         'identificacao',
         'tipo_identificacao',
+        'tempo',
+        'token',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    protected $cast = [
+        'tempo' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**

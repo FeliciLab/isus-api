@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Validator;
  *
  * @category Qualiquiz
  *
- * @author   Chicão Thiago <fthiagogv@gmail.com>
- * @license  GPL-3 http://www.gnu.org/licenses/gpl-3.0.en.html
+ * @author  Chicão Thiago <fthiagogv@gmail.com>
+ * @license GPL-3 http://www.gnu.org/licenses/gpl-3.0.en.html
  *
- * @link     https://github.com/EscolaDeSaudePublica/isus-api/issues/121
+ * @link https://github.com/EscolaDeSaudePublica/isus-api/issues/121
  */
 class RespostasQuizController extends Controller
 {
@@ -34,8 +34,8 @@ class RespostasQuizController extends Controller
      *    ]
      * }.
      *
-     * @param $request        Request
-     * @param $jwtDecoder     JWTDecoder
+     * @param $request             Request
+     * @param $jwtDecoder          JWTDecoder
      * @param $respostaQuizService RespostaQuizService
      *
      * @return mix
@@ -46,7 +46,7 @@ class RespostasQuizController extends Controller
         RespostaQuizService $respostaQuizService
     ) {
         if (!$request->header('Authorization')) {
-            return response()->json(['message' => 'Token não enviado'], 403);
+            return response()->json(['messagem' => 'Token não enviado'], 401);
         }
 
         $autenticacao = $jwtDecoder->decoderPayload(
@@ -54,7 +54,7 @@ class RespostasQuizController extends Controller
         );
 
         if (Validator::make($autenticacao->toArray(), ['email' => 'required'])->fails()) {
-            return response()->json(['message' => 'Token inválido'], 403);
+            return response()->json(['messagem' => 'Token inválido'], 400);
         }
 
         $validacao = Validator::make(
@@ -64,23 +64,25 @@ class RespostasQuizController extends Controller
                 'respostas.*.quizId' => 'required',
                 'respostas.*.questaoId' => 'required',
                 'respostas.*.alternativaId' => 'required',
+                'respostas.*.tempo' => 'required',
             ]
         );
 
         if ($validacao->fails()) {
             return response()->json(
-                ['message' => $validacao->errors()->toArray()],
+                ['messagem' => $validacao->errors()->toArray()],
                 400
             );
         }
 
         $resultado = $respostaQuizService->registrarRespostas(
             collect($request->respostas),
-            $autenticacao
+            $autenticacao,
+            $jwtDecoder->getJWTFromBearerHeader($request->header('Authorization'))
         );
 
         return response()->json(
-            ['message' => $resultado['msg']],
+            ['messagem' => $resultado['msg']],
             $resultado['status']
         );
     }

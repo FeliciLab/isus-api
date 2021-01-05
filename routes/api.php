@@ -18,9 +18,24 @@ Route::get(
     '/qualiquiz/quiz/{codQuiz}',
     '\App\Domains\QualiQuiz\Controllers\BuscarQuizController@buscarQuiz'
 );
+
+Route::get(
+    '/qualiquiz/resultado/{codQuiz}',
+    '\App\Domains\QualiQuiz\Controllers\ResultadoQuizController@buscarResultado'
+);
+
 Route::post(
     '/qualiquiz/respostas',
     '\App\Domains\QualiQuiz\Controllers\RespostasQuizController@registrar'
+);
+
+Route::get(
+    '/qualiquiz/relatorio/respostas/tudo',
+    '\App\Domains\QualiQuiz\Controllers\RelatorioQuizController@todasRespostasQuiz'
+);
+Route::get(
+    '/qualiquiz/relatorio/respostas/cod/{codQuiz}',
+    '\App\Domains\QualiQuiz\Controllers\RelatorioQuizController@respostasCodQuiz'
 );
 
 Route::namespace('Api')->group(function () {
