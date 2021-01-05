@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @category QualiQuiz
  *
- * @author   Chicão Thiago <fthiagogv@gmail.com>
- * @license  GPL3 http://www.gnu.org/licenses/gpl-3.0.en.html
+ * @author  Chicão Thiago <fthiagogv@gmail.com>
+ * @license GPL3 http://www.gnu.org/licenses/gpl-3.0.en.html
  *
- * @link     https://github.com/EscolaDeSaudePublica/isus-api
+ * @link https://github.com/EscolaDeSaudePublica/isus-api
  */
 class Quiz extends Model
 {
@@ -23,6 +23,7 @@ class Quiz extends Model
 
     protected $table = 'qquiz_quiz';
     protected $fillabel = [
+        'cod_quiz',
         'nome',
         'tempo_limite',
         'area_tematica',

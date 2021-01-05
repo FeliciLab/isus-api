@@ -16,13 +16,16 @@ class AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1 extends Seeder
      */
     public function run()
     {
-        $quiz = (new Quiz([
-            'nome' => $this->avaliacao['quiz']['nome'],
-            'tempo_limite' => $this->avaliacao['quiz']['tempo_limite'],
-            'area_tematica' => $this->avaliacao['quiz']['area_tematica'],
-            'publico_alvo' => $this->avaliacao['quiz']['publico_alvo'],
-            'descricao' => $this->avaliacao['quiz']['descricao'],
-        ]));
+        $quiz = (new Quiz(
+            [
+                'cod_quiz' => $this->avaliacao['quiz']['cod_quiz'],
+                'nome' => $this->avaliacao['quiz']['nome'],
+                'tempo_limite' => $this->avaliacao['quiz']['tempo_limite'],
+                'area_tematica' => $this->avaliacao['quiz']['area_tematica'],
+                'publico_alvo' => $this->avaliacao['quiz']['publico_alvo'],
+                'descricao' => $this->avaliacao['quiz']['descricao'],
+            ]
+        ));
         $quiz->save();
 
         foreach ($this->avaliacao['questoes'] as $index => $questao) {
@@ -73,6 +76,7 @@ class AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1 extends Seeder
 
     public $avaliacao = [
         'quiz' => [
+            'cod_quiz' => 'ADFTS-SUS-P1',
             'nome' => 'AVALIAÇÃO DIGITAL DA FORÇA DE TRABALHO EM SAÚDE',
             'area_tematica' => 'SUS – PARTE I',
             'publico_alvo' => 'TRABALHADORES DA SAÚDE DE NÍVEL SUPERIOR',
