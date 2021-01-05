@@ -29,6 +29,15 @@ Route::post(
     '\App\Domains\QualiQuiz\Controllers\RespostasQuizController@registrar'
 );
 
+Route::get(
+    '/qualiquiz/relatorio/respostas/tudo',
+    '\App\Domains\QualiQuiz\Controllers\RelatorioQuizController@todasRespostasQuiz'
+);
+Route::get(
+    '/qualiquiz/relatorio/respostas/cod/{codQuiz}',
+    '\App\Domains\QualiQuiz\Controllers\RelatorioQuizController@respostasCodQuiz'
+);
+
 Route::namespace('Api')->group(function () {
     Route::get('/synchronize', 'SynchronizeController@index');
 
