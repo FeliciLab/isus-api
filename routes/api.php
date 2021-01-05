@@ -30,11 +30,11 @@ Route::post(
 );
 
 Route::get(
-    '/qualiquiz/relatorio/tudo',
+    '/qualiquiz/relatorio/respostas/tudo',
     '\App\Domains\QualiQuiz\Controllers\RelatorioQuizController@todasRespostasQuiz'
 );
 Route::get(
-    '/qualiquiz/relatorio/cod/{codQuiz}',
+    '/qualiquiz/relatorio/respostas/cod/{codQuiz}',
     '\App\Domains\QualiQuiz\Controllers\RelatorioQuizController@respostasCodQuiz'
 );
 
