@@ -48,6 +48,7 @@ Route::namespace('Api')->group(function () {
     Route::post('/feedback', 'FeedbackController@enviarEmail');
     Route::post('/alertaDeEpi', 'AlertaDeEpiController@enviarEmail');
     Route::post('/demanda-educacao', 'DemandaEducacaoController@enviarEmail');
+    Route::post('/duvidas-elmo', 'DuvidasElmoController@enviarEmail');
 
     // cadastro profissional
     Route::get('/estados', 'EstadoController@index');
