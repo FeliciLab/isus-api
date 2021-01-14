@@ -20,7 +20,7 @@ class DuvidasElmoController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Mensagem enviada com sucesso!'
+            'message' => 'Mensagem enviada com sucesso!',
             ]);
     }
 }
