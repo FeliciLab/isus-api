@@ -9,5 +9,8 @@ class App
         'Pesquisa Científica' => [443, 450, 448, 446, 445, 449],
         'Minha Saúde' => [486, 487, 488],
         'Boletins Epidemiológicos' => [2],
+        'Notícias' => [4],
+        'Biblioteca' => [13],
+        'Instruções' => [40],
     ];
 }
