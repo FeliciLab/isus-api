@@ -29,6 +29,7 @@ class UserController extends Controller
         if ($validacao->fails()) {
             return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
         }
+
         $userKeycloak = new UserKeycloak($dados);
         $keyCloakService = new KeycloakService();
         $user = $keyCloakService->save($userKeycloak);
@@ -182,12 +183,12 @@ class UserController extends Controller
     private function validarRequisicao($dados)
     {
         return Validator::make($dados, [
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email',
+            'cpf' => 'required|cpf|min:11|max:11',
             'nomeCompleto' => 'required',
             'senha' => 'min:8|required|required_with:repetirsenha|same:repetirsenha',
             'repetirsenha' => 'min:8|required',
             'telefone' => 'required|min:9|max:11',
-            'cpf' => 'required|cpf|min:11|max:11|unique:users',
             'cidadeId' => 'required',
             'cidade' => 'required',
             'termos' => 'accepted',
