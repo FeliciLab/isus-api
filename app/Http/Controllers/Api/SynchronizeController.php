@@ -13,8 +13,8 @@ use GuzzleHttp\Client;
 class SynchronizeController extends Controller
 {
     public const WORDPRESS_ENDPOINT = [
-        'https://coronavirus.ceara.gov.br/wp-json/wp/v2/',
-        'https://sus.ce.gov.br/elmo/wp-json/wp/v2/'
+        'https://coronavirus.ceara.gov.br/wp-json/wp/v2/' => 0,
+        'https://sus.ce.gov.br/elmo/wp-json/wp/v2/' => 1,
     ];
 
     public function index()
@@ -27,29 +27,24 @@ class SynchronizeController extends Controller
         \DB::statement('TRUNCATE TABLE categorias');
         \DB::statement('TRUNCATE TABLE anexos');
         \DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-        
 
-        foreach (self::WORDPRESS_ENDPOINT as $ENDPOINT) {
-            echo "$ENDPOINT\n";
+        foreach (self::WORDPRESS_ENDPOINT as $ENDPOINT => $index) {
             $client = new Client();
             $res = $client->get($ENDPOINT . 'project_category/?per_page=100');
             $categoriasAPI = json_decode($res->getBody(), false);
+            $categoriaId = null;
             foreach ($categoriasAPI as $categoria) {
                 $categoriaId = $categoria->id;
 
-                echo "categoriaId:$categoriaId slug:$categoria->slug\n";
-
                 $client = new Client();
-                $res = $client->get($ENDPOINT . 'project_category/' . $categoriaId);
+                $res = $client->get($ENDPOINT . 'project_category/' . $categoria->id);
                 $categoriaAPI = json_decode($res->getBody(), false);
-    
-                $this->atualizaCategoriasDosProjetos($categoriaAPI);
+                $this->atualizaCategoriasDosProjetos($categoriaAPI, $index);
 
                 $clientProjeto = new Client();
                 $resProjeto = $clientProjeto->get($ENDPOINT . 'project/?project_category=' . $categoriaId);
                 $projetosAPI = json_decode($resProjeto->getBody(), false);
-                
-                $categoriasProjetosTemp = $this->atualizaProjetosPorCategorias($projetosAPI);
+                $categoriasProjetosTemp = $this->atualizaProjetosPorCategorias($projetosAPI, $index);
             }
 
             foreach ($categoriasProjetosTemp as $categoriaProjetoTemp) {
@@ -61,18 +56,50 @@ class SynchronizeController extends Controller
         }
     }
 
-    private function atualizaCategoriasDosProjetos($categoriaAPI) {
+    private function atualizaCategoriasDosProjetos($categoriaAPI, $index)
+    {
+        $categoriaId = null;
+        if ($index === 0) {
+            $categoriaId = $categoriaAPI->id;
+            $categoriaId_length = strlen((string) $categoriaId);
+            $expo10 = 10 ** (2 + $categoriaId_length);
+            $categoriaId = $categoriaId + $expo10;
+        } else {
+            $categoriaId = $categoriaAPI->id;
+            $categoriaId_length = strlen((string) $categoriaId);
+            $expo10 = 2 * (10 ** (2 + $categoriaId_length));
+            $categoriaId = $categoriaId + $expo10;
+        }
         $categoria = new Categoria();
-        $categoria->term_id = $categoriaAPI->id;
+        $categoria->term_id = $categoriaId;
         $categoria->name = $categoriaAPI->name;
         $categoria->slug = $categoriaAPI->slug;
         $categoria->save();
     }
 
-    private function atualizaProjetosPorCategorias($projetosAPI) {
+    private function atualizaProjetosPorCategorias($projetosAPI, $index)
+    {
         foreach ($projetosAPI as $post) {
             $projetoExiste = Projeto::find($post->id);
             if (!isset($projetoExiste)) {
+                $categoriaId = null;
+                foreach ($post->project_category as &$valueId) {
+                    if ($index === 0) {
+                        $categoriaId = $valueId;
+                        $categoriaId_length = strlen((string) $categoriaId);
+                        $expo10 = 10 ** (2 + $categoriaId_length);
+                        $categoriaId = $categoriaId + $expo10;
+                        $valueId = $categoriaId;
+                    } else {
+                        $categoriaId = $valueId;
+                        $categoriaId_length = strlen((string) $categoriaId);
+                        $expo10 = 2 * (10 ** (2 + $categoriaId_length));
+                        $categoriaId = $categoriaId + $expo10;
+                        $valueId = $categoriaId;
+                    }
+                }
+                unset($valueId);
+
                 $projeto = new Projeto();
                 $projeto->id = $post->id;
                 $projeto->data = $post->date;
@@ -107,6 +134,7 @@ class SynchronizeController extends Controller
                         'projeto_id' => $projeto->id,
                     ];
                 }
+
                 return $categoriasProjetosTemp;
             }
         }
