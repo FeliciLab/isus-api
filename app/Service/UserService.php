@@ -37,7 +37,7 @@ class UserService
     public function fetchUserByEmailOrCpf(string $email, string $cpf)
     {
         return User::where('email', '=', $email)
-            ->orWhere('cpf', '=', $cpf)
+            // ->where('cpf', '=', $cpf)
             ->select('id')
             ->first();
     }
