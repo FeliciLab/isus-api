@@ -31,7 +31,7 @@ class AuthController extends Controller
                 return response()->json(
                     [
                         'sucesso' => false,
-                        'erros' =>  'Usuário ou senha inválidos'
+                        'erros' =>  'Usuário ou senha inválidos',
                     ],
                     Response::HTTP_UNAUTHORIZED
                 );
@@ -40,7 +40,7 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'sucesso' => false,
-                    'erros' => $exception->getMessage()
+                    'erros' => $exception->getMessage(),
                 ],
                 $exception->getCode()
             );
@@ -48,7 +48,7 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'sucesso' => false,
-                    'erros' => 'Problema interno. Contate o time de suporte para solucionar avaliar o problema.'
+                    'erros' => 'Problema interno. Contate o time de suporte para solucionar avaliar o problema.',
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );

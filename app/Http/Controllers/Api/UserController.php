@@ -30,7 +30,7 @@ class UserController extends Controller
             return response()->json(
                 [
                     'sucesso' => false,
-                    'erros' =>  $validacao->errors()
+                    'erros' =>  $validacao->errors(),
                 ],
                 Response::HTTP_BAD_REQUEST
             );
@@ -44,7 +44,7 @@ class UserController extends Controller
             return response()->json(
                 [
                     'sucesso' => true,
-                    'mensagem' =>  'Usuário cadastrado com sucesso'
+                    'mensagem' =>  'Usuário cadastrado com sucesso',
                 ]
             );
         }
