@@ -50,9 +50,12 @@ abstract class TestCase extends BaseTestCase
 
         $response = $this->json('POST', 'api/user', $user);
         $data = $response->getData();
-        if($data->sucesso) {
+
+        if ($data->sucesso) {
             return $user;
         }
+
+        return null;
     }
 
 
