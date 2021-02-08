@@ -27,7 +27,13 @@ class UserController extends Controller
         $dados = $request->all();
         $validacao = $this->validarRequisicao($dados);
         if ($validacao->fails()) {
-            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
+            return response()->json(
+                [
+                    'sucesso' => false,
+                    'erros' =>  $validacao->errors()
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
         $userKeycloak = new UserKeycloak($dados);
@@ -35,7 +41,12 @@ class UserController extends Controller
         $user = $keyCloakService->save($userKeycloak);
 
         if (!empty($user->id_keycloak)) {
-            return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário cadastrado com sucesso']);
+            return response()->json(
+                [
+                    'sucesso' => true,
+                    'mensagem' =>  'Usuário cadastrado com sucesso'
+                ]
+            );
         }
     }
 
