@@ -10,10 +10,10 @@ class SynchronizeTest extends TestCase
 {
     /**
      * A basic feature test example.
-     *
+     * @test
      * @return void
      */
-    public function testSynchronize()
+    public function Synchronize()
     {
         $response = $this->get(env('APP_URL') . '/api/synchronize');
 

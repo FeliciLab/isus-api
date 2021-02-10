@@ -37,7 +37,7 @@ class ProjetosPorCategoriaTest extends TestCase
 
     public function testProjetosPorCategoriaComProjetoExistente()
     {
-        $apps = App::APP;
+        $apps = App::getApp();
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
                 $categoria = factory(Categoria::class)->create([

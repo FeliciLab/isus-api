@@ -20,7 +20,7 @@ class CategoriaArquiteturaTest extends TestCase
 
     public function testListaCategoriaCadastrada()
     {
-        $apps = App::APP;
+        $apps = App::getApp();
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
                 $categoria = factory(Categoria::class)->create([
