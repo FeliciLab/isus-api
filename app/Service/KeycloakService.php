@@ -35,7 +35,7 @@ class KeycloakService
 
     public function login($email, $senha)
     {
-        $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token", [
+        return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token", [
             'form_params' => [
                 'username' => $email,
                 'password' => $senha,
@@ -43,8 +43,6 @@ class KeycloakService
                 'grant_type' => $this->keycloakAdminIsusGranttype,
             ],
         ]);
-
-        return $response;
     }
 
     public function logout($refreshToken)

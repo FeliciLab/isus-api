@@ -23,14 +23,12 @@ class AuthController extends Controller
         }
 
         $keyCloakService = new KeycloakService();
-
         try {
             $resposta = $keyCloakService->login($dados['email'], $dados['senha']);
         } catch (\GuzzleHttp\Exception\ClientException $exception) {
             if ($exception->getCode() === Response::HTTP_UNAUTHORIZED) {
                 return response()->json(
                     [
-                        'sucesso' => false,
                         'erros' =>  'Usuário ou senha inválidos',
                     ],
                     Response::HTTP_UNAUTHORIZED
@@ -39,7 +37,6 @@ class AuthController extends Controller
 
             return response()->json(
                 [
-                    'sucesso' => false,
                     'erros' => $exception->getMessage(),
                 ],
                 $exception->getCode()
@@ -47,20 +44,20 @@ class AuthController extends Controller
         } catch (\GuzzleHttp\Exception\ServerException $exception) {
             return response()->json(
                 [
-                    'sucesso' => false,
                     'erros' => 'Problema interno. Contate o time de suporte para solucionar avaliar o problema.',
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         } catch (Exception $error) {
-            return response()->json(['sucesso' => false, 'erros' =>  'Usuário ou senha inválidos'], Response::HTTP_BAD_REQUEST);
+            return response()->json(['sucesso' => false, 'mensagem' => 'Erro ao realizar o login do usuário. Contate o time de suporte para solucionar avaliar o problema.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        if ($resposta->getStatusCode() === Response::HTTP_OK) {
-            return response()->json(['sucesso' => true, 'mensagem' => json_decode($resposta->getBody())], Response::HTTP_OK);
+        if ($resposta->getStatusCode() !== Response::HTTP_OK) {
+            return response()->json(['sucesso' => false, 'mensagem' => 'Erro ao realizar o login do usuário. Contate o time de suporte para solucionar avaliar o problema.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return response()->json(['sucesso' => false, 'mensagem' => 'Erro ao realizar o login do usuário'], Response::HTTP_BAD_REQUEST);
+        return response()->json(['sucesso' => true, 'mensagem' => json_decode($resposta->getBody())], Response::HTTP_OK);
+
     }
 
     public function logout(Request $request)

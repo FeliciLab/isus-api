@@ -32,7 +32,6 @@ class AuthTest extends TestCase
             ->assertStatus(400)
             ->assertJson(
                 [
-                    "sucesso" => false,
                     "erros" => [
                         "email" => [
                             "O campo email é obrigatório."
@@ -57,7 +56,6 @@ class AuthTest extends TestCase
             ->assertStatus(400)
             ->assertJson(
                 [
-                    "sucesso" => false,
                     "erros" => [
                         "email" => [
                             "O campo email é obrigatório."
@@ -80,7 +78,6 @@ class AuthTest extends TestCase
             ->assertStatus(400)
             ->assertJson(
                 [
-                    "sucesso" => false,
                     "erros" => [
                         "email" => [
                             "O campo email deve ser um endereço de e-mail válido."
@@ -102,7 +99,6 @@ class AuthTest extends TestCase
             ->assertStatus(400)
             ->assertJson(
                 [
-                    "sucesso" => false,
                     "erros" => [
                         "senha" => [
                             "O campo senha é obrigatório."
@@ -126,7 +122,6 @@ class AuthTest extends TestCase
             ->assertUnauthorized()
             ->assertJson(
                 [
-                    'sucesso' => false,
                     'erros' => 'Usuário ou senha inválidos'
                 ]
             );
