@@ -57,7 +57,6 @@ class AuthController extends Controller
         }
 
         return response()->json(['sucesso' => true, 'mensagem' => json_decode($resposta->getBody())], Response::HTTP_OK);
-
     }
 
     public function logout(Request $request)
