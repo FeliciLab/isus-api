@@ -49,7 +49,13 @@ class AuthController extends Controller
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         } catch (Exception $error) {
-            return response()->json(['sucesso' => false, 'mensagem' => 'Erro ao realizar o login do usuário. Contate o time de suporte para solucionar avaliar o problema.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(
+                [
+                    'mensagem' => 'Erro ao realizar o login do usuário. Contate o time de suporte para solucionar avaliar o problema.',
+                    'erro' => $error->getMessage(),
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
 
         if ($resposta->getStatusCode() !== Response::HTTP_OK) {
