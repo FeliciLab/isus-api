@@ -1,184 +1,83 @@
-API para prover os dados do Wordpress
+# iSUS API
 
-## Tecnologias
-### Ambiente
+Projeto destinado a implementar as regras de negócio que envolvem o aplicativo
+do iSUS, vai desde a autenticação com o projeto ID Saúde a sincronização de dados
+com o Wordpress
+
+# Dependências
 - Docker
-### API
-- REST
 - PHP 7.4 (FPM)
 - Laravel 7
 
-# Servidor de desenvolvimento 🚀🚀
+# Instalação
 
-Clonando o projeto
+## Servidor de desenvolvimento 🚀🚀
 
-```
-git clone https://github.com/EscolaDeSaudePublica/isus-api.git
-```
-
-
-Entrar o diretório
+### 1. Clone o projeto na branch develop
 
 ```
-cd isus-api
+$ git clone https://github.com/EscolaDeSaudePublica/isus-api.git -b develop
 ```
 
-Em seguida executar o comando
+### 2. Inicialize a infra com o docker
 
-```
-docker-compose up
-```
+```sh
+# Acesse a pasta
+$ cd isus-api
 
-Ao executar o comando acima, será criado 3 containers
-- anticorona-corcel-php-fpm
-- isusapi_db_1
-- anticorona-corcel-webserver
-
-Acessar o container 'cearacoronaapi_php-fpm'
-```
-docker exec -it cearacoronaapi_php-fpm bash
+# Inicialize os containeres
+$ docker-compose up
 ```
 
-Dentro do container acessar o diretório o /application
-```
-cd /application
+Serão criados 3 containeres:
+
+- **api-isus-web**: nginx
+- **api-isus-fpm**: php-fpm onde o código é executado
+- **api-isus-db**: Mysql database
+
+### 3. Configurações da API
+
+Faça uma cópia do arquivo .env.example para `.env`.
+
+Altere as configurações no arquivo `.env` de acordo com a necessidade do projeto, como configurações de banco de dados para o isus e o banco de dados do wordpress.
+
+### 4. Instalando dependências
+
+Execute o comando abaixo para instalar as dependencias e executar as *migrations* e os *seeds*
+
+```sh
+$ docker exec -it api-isus-fpm composer install && php artisan key:generate && php artisan migrate --seed
 ```
 
-Instalar dependência do Laravel
-```
-composer install
-```
+Libere permissão para as views acessarem os storage
 
-Configurar os parametros no arquivo .env (banco [WP_*], token) https://laravel.com/docs/7.x#configuration
-
-```
-cp .env.example .env
-```
-
-Gerar Application Key
-```
-php artisan key:generate
-```
-
-Será necessário da permissão para as views acessar os storage
 ```
 sudo chgrp -R www-data storage bootstrap/cache
 sudo chmod -R ug+rwx storage bootstrap/cache`
 ```
 
+> Para realizar os testes automatizados será preciso criar o banco de teste e executar a migration para banco de teste
 
-O banco será criado vazio, nesse caso é necessário solicitar o backup do banco ao responsável pela aplicação
+### 4.1. Configurando para testes automatizados
 
-Em seguida com backup, simplismente realizar o backup
+> As configurações abaixo são necessária caso seja desejado não utilizar das mesmas
+> configurações usadas nos testes manuais ou de produção/homologação.
+> Desta forma, os testes irão ser executados utilizando uma base de dados isolada, já que os testes que utilizam banco, apagam suas alterações a cada teste.
 
-Em seguida acessar http://localhost:7000/api/categorias
-```json
-    {
-        "categoria": {
-          "term_id": 5,
-          "name": "Vídeos",
-          "slug": "videos",
-          "term_group": 0,
-          "subcategorias": [
-            {
-              "term_id": 206,
-              "name": "Pronunciamentos",
-              "slug": "pronunciamentos",
-              "term_group": 0
-            }
-          ]
-        }
-    },
+
+1. Copie o arquivo `.env` para `.env.testing`
+2. Altere o banco de dados na variável `DB_DATABASE` para `isus_testing`
+3. Crie o banco de dados de teste
+
+```
+$ docker exec -it api-isus-db mysql -uroot -p12345678 -e "create database isus_testing"
 ```
 
-# Mapeamento dos endpoints
-Endpoint: http://localhost:7000/api/categorias
-```javascript
-    {
-        "categoria": {
-          "term_id": 5, // id da categoria
-          "name": "Vídeos", // nome da categoria
-          "slug": "videos", // slug subcategoria
-          "term_group": 0, // termos
-          "subcategorias": [ // subcategoria
-            {
-              "term_id": 206,
-              "name": "Pronunciamentos",
-              "slug": "pronunciamentos",
-              "term_group": 0
-            }
-          ]
-        }
-    },
+### 4.2. Teste 
+
+1. Acesse [http://localhost:7000/](http://localhost:7000/) se tudo ocorrer bem irá ter API-ISUS.
+2. Execute os testes automatizados
+
 ```
-
-Endpoint: http://localhost:7000/api/projetosPorCategoria/[ID DA CATEGORIA]
-```javascript
-    {
-        "id": 1908,
-        "data": "2020-03-24T16:35:01.000000Z",
-        "post_title": "Fluxo de Atendimento às Gestantes com suspeita de Covid-19",
-        "slug": "fluxos-de-atendimento-as-gestantes-com-suspeita-de-covid-19",
-        "content": "Confira o fluxo de atendimento às gestantes com suspeita de infecção pelo Coronavírus (Covid-19) nas Unidades de Atenção Primária à Saúde (UAPS) e em maternidades.\r\n\r\n<img class=\"aligncenter wp-image-1914 size-full\" src=\"https://coronavirus.ceara.gov.br/wp-content/uploads/2020/03/covid19_espce_Fluxo-de-Atendimento-à-Gestantes-parte-1.jpeg\" alt=\"\" width=\"905\" height=\"1280\" />\r\n\r\n<img class=\"alignnone wp-image-1915 size-full\" src=\"https://coronavirus.ceara.gov.br/wp-content/uploads/2020/03/covid19_espce_Fluxo-de-Atendimento-à-Gestantes-parte-2.jpeg\" alt=\"\" width=\"1280\" height=\"720\" />\r\n\r\nPrefere baixar o pdf? Clique <a href=\"https://coronavirus.ceara.gov.br/wp-content/uploads/2020/03/covid19_espce_Fluxo-de-Atendimento-à-Gestante.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">aqui.</a>",
-        "image": "https://coronavirus.ceara.gov.br/wp-content/uploads/2020/03/covd19_espce_destaquefluxogestantes.png",
-        "terms": {
-            "project_category": {
-                "fluxogramas": "Fluxogramas"
-            },
-            "project_tag": {
-                "coronavirus": "Coronavírus",
-                "fluxograma": "Fluxograma",
-                "atendimento-gestantes": "Atendimento gestantes",
-                "suspeitos": "Suspeitos",
-                "unidade-basica-de-saude": "Unidade Básica de Saúde"
-            }
-        },
-        "keywords": [
-            "Fluxogramas",
-            "Coronavírus",
-            "Fluxograma",
-            "Atendimento gestantes",
-            "Suspeitos",
-            "Unidade Básica de Saúde"
-        ]
-    },
-```
-
-
-Endpoint: http://localhost:7000/api/categoriasArquitetura
-```javascript
-{
-    "Educação": [
-        [{
-            "term_taxonomy_id": 451,
-            "term_id": 451,
-            "taxonomy": "project_category",
-            "description": "",
-            "parent": 7,
-            "count": 8,
-            "term": {
-                "term_id": 451,
-                "name": "Cursos on-line",
-                "slug": "cursos-on-line",
-                "term_group": 0
-            }
-         }],
-        [{
-                "term_taxonomy_id": 452,
-                "term_id": 452,
-                "taxonomy": "project_category",
-                "description": "",
-                "parent": 7,
-                "count": 5,
-                "term": {
-                    "term_id": 452,
-                    "name": "Tutoriais",
-                    "slug": "tutoriais",
-                    "term_group": 0
-                }
-        }]
-    ],
-    "Pesquisa Científica": [...],
-    "Minha Saúde": [...]
-}
+$ docker exec -it api-isus-fpm php artisan test
 ```

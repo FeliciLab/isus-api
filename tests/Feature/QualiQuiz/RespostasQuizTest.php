@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\QualiQuiz;
 
+use App\Domains\QualiQuiz\Models\AlternativaQuestao;
+use App\Domains\QualiQuiz\Models\Quiz;
+use App\Domains\QualiQuiz\Models\QuizQuestao;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,15 +20,9 @@ use Tests\TestCase;
  *
  * @link https://github.com/EscolaDeSaudePublica/isus-api/issues/131
  */
-class RepostasTest extends TestCase
+class RespostasQuizTest extends TestCase
 {
     use RefreshDatabase;
-
-    private $_authorization = [
-        'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
-            . 'eyJlbWFpbCI6ImRldkBkZXYuZGV2Iiwibm9tZSI6IkRldiBkZXYiLCJjcGYiOiIx'
-            . 'MjMuMTIzLjEyMy02OSJ9.CkWK7LixybXxO7vCatModnOD_X8C0uCTJU89KPex-Vo'
-    ];
 
     private $_jsonForm = [
         "respostas" => [
@@ -81,6 +78,7 @@ class RepostasTest extends TestCase
      */
     public function testRotaExiste()
     {
+        $this->seed();
         $response = $this->post('/api/qualiquiz/respostas');
         $this->assertNotEquals(404, $response->getStatusCode());
     }
@@ -134,7 +132,7 @@ class RepostasTest extends TestCase
     public function testListRespostaNaoEnviada()
     {
         $this->withHeaders(
-            $this->_authorization
+            $this->authorization['resposta']
         )->postJson(
             '/api/qualiquiz/respostas',
             [ $this->_jsonForm['respostas'][0] ]
@@ -157,7 +155,7 @@ class RepostasTest extends TestCase
      */
     public function testValidacaoDoCampoQuizId()
     {
-        $this->withHeaders($this->_authorization)
+        $this->withHeaders($this->authorization['resposta'])
             ->postJson(
                 '/api/qualiquiz/respostas',
                 [
@@ -186,7 +184,7 @@ class RepostasTest extends TestCase
      */
     public function testValidacaoDoCampoQuestaoId()
     {
-        $this->withHeaders($this->_authorization)
+        $this->withHeaders($this->authorization['resposta'])
             ->postJson(
                 '/api/qualiquiz/respostas',
                 [
@@ -215,7 +213,7 @@ class RepostasTest extends TestCase
      */
     public function testValidacaoDoCampoAlternativaId()
     {
-        $this->withHeaders($this->_authorization)
+        $this->withHeaders($this->authorization['resposta'])
             ->postJson(
                 '/api/qualiquiz/respostas',
                 [
@@ -244,7 +242,8 @@ class RepostasTest extends TestCase
      */
     public function testValidacaoDoCampoTempo()
     {
-        $this->withHeaders($this->_authorization)
+        $this->seed();
+        $this->withHeaders($this->authorization['resposta'])
             ->postJson(
                 '/api/qualiquiz/respostas',
                 [
@@ -273,10 +272,47 @@ class RepostasTest extends TestCase
      */
     public function testSalvaRespostas()
     {
-        $this->assertDatabaseCount('qquiz_respostas', 1);
-        // $this->withHeaders($this->_authorization)
-        //     ->postJson('/api/qualiquiz/respostas', $this->_jsonForm)
-        //     ->assertStatus(200)
-        //     ->assertJson(['messagem' => 'Salvo com sucesso']);
+        $this->seed();
+        $quiz = Quiz::where('cod_quiz', $this->codQuiz)
+            ->select('id')->first();
+        $questoes = QuizQuestao::where('quiz_id', $quiz->id)
+            ->limit(2)
+            ->select('questao_id')
+            ->get()
+            ->toArray();
+
+        $alternativas = AlternativaQuestao::whereIn(
+            'questao_id',
+            array_map(
+                function ($item) {
+                    return $item['questao_id'];
+                },
+                $questoes
+            )
+        )
+            ->select('id', 'questao_id')
+            ->get()
+            ->keyBy('questao_id')
+            ->toArray();
+
+        $this->withHeaders($this->authorization['resposta'])
+            ->json(
+                'POST',
+                '/api/qualiquiz/respostas',
+                [
+                    "respostas" => array_map(
+                        function ($item) use ($quiz, $alternativas) {
+                            return [
+                                "quizId" => $quiz->id,
+                                "questaoId" => $item['questao_id'],
+                                "alternativaId" => $alternativas[$item['questao_id']]['id'],
+                                "tempo" => 60
+                            ];
+                        },
+                        $questoes
+                    )
+                ]
+            )
+            ->assertOk();
     }
 }
