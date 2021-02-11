@@ -33,14 +33,10 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Check PHP CS
         run: composer run php-cs:check
-      - name: Run migrations
-        env:
-          DB_HOST: mysql_test
-          DB_CONNECTION: mysql
-          DB_DATABASE: isus_testing
-          DB_PORT: 33306
-          DB_USER: root
-          DB_PASSWORD: 12345678
-        run: php artisan migrate --seed
+      - name: Create DB and schemas
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+          php artisan migrate
      # - name: Run tests
      #   run: php artisan test
