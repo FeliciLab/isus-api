@@ -46,14 +46,16 @@ Altere as configurações no arquivo `.env` de acordo com a necessidade do proje
 Execute o comando abaixo para instalar as dependencias e executar as *migrations* e os *seeds*
 
 ```sh
-$ docker exec -it api-isus-fpm composer install && php artisan key:generate && php artisan migrate --seed
+$ docker exec -it api-isus-fpm composer install 
+$ docker exec -it api-isus-fpm php artisan key:generate
+$ docker exec -it api-isus-fpm php artisan migrate --seed
 ```
 
 Libere permissão para as views acessarem os storage
 
 ```
 sudo chgrp -R www-data storage bootstrap/cache
-sudo chmod -R ug+rwx storage bootstrap/cache`
+sudo chmod -R ug+rwx storage bootstrap/cache
 ```
 
 > Para realizar os testes automatizados será preciso criar o banco de teste e executar a migration para banco de teste

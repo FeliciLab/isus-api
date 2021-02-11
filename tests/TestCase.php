@@ -62,14 +62,10 @@ abstract class TestCase extends BaseTestCase
             'unidadeServico' => $comUnidadesDeServico ? json_encode([$unidades]) : null,
         ];
 
-        $response = $this->json('POST', 'api/user', $user);
-        $data = $response->getData();
+        $response = $this->json('POST', 'api/user', $user)
+            ->assertOk();
 
-        if ($data->sucesso) {
-            return $user;
-        }
-
-        return null;
+        return $user;
     }
 
 
