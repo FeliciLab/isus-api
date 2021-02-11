@@ -52,7 +52,7 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'mensagem' => 'Erro ao realizar o login do usuário. Contate o time de suporte para solucionar avaliar o problema.',
-                    'erro' => $error->getMessage()
+                    'erro' => $error->getMessage(),
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
