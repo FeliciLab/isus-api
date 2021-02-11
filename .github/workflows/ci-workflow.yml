@@ -11,7 +11,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: 12345678
           MYSQL_DATABASE: isus_testing
         ports:
-          - 3306:3306
+          - 33306:3306
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -37,9 +37,12 @@ jobs:
         run: composer run php-cs:check
       - name: Run migrations
         env:
+          DB_HOST: mysql
           DB_CONNECTION: mysql
           DB_DATABASE: isus_testing
-          DB_PORT: 3306
+          DB_PORT: 33306
           DB_USER: root
           DB_PASSWORD: 12345678
         run: php artisan migrate
+     # - name: Run tests
+     #   run: php artisan test
