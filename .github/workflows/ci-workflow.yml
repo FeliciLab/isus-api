@@ -7,7 +7,6 @@ jobs:
     services:
       mysql:
         image: mysql:5.7
-        alias: mysql_test
         env:
           MYSQL_ROOT_PASSWORD: 12345678
           MYSQL_DATABASE: isus_testing
