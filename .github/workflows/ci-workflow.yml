@@ -33,6 +33,9 @@ jobs:
       - name: Check PHP CS
         run: composer run php-cs:check
       - name: Create DB and schemas
+        env: 
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
         run: |
           mkdir -p database
           touch database/database.sqlite
