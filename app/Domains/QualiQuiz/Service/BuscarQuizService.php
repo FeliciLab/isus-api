@@ -167,7 +167,7 @@ class BuscarQuizService
     }
 
     /**
-     * Busca o quiz pelo cod_quiz
+     * Busca o quiz pelo cod_quiz.
      *
      * @param $codQuiz string
      *
