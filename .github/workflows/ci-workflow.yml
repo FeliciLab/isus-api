@@ -42,11 +42,4 @@ jobs:
           DB_PORT: 33306
           DB_USER: root
           DB_PASSWORD: 12345678
-          DB_CONNECTION_TEST: mysql
-          DB_DATABASE_TEST: isus_testing
-          DB_PORT_TEST: 33306
-          DB_USER_TEST: root
-          DB_PASSWORD_TEST: 12345678
         run: php artisan migrate
-     # - name: Run tests
-     #   run: php artisan test
