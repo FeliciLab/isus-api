@@ -165,4 +165,16 @@ class BuscarQuizService
     ): bool {
         return $this->respostaRepository->verificaSeJaRespondeu($quizId, $autenticacao->get('email'));
     }
+
+    /**
+     * Busca o quiz pelo cod_quiz
+     *
+     * @param $codQuiz string
+     *
+     * @return Quiz|null
+     */
+    public function buscarQuizPeloCod(string $codQuiz)
+    {
+        return $this->quizRepository->buscarQuizPorIdOuCodQuiz($codQuiz);
+    }
 }

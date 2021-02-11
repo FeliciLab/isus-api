@@ -60,13 +60,17 @@ sudo chmod -R ug+rwx storage bootstrap/cache`
 
 ### 4.1. Configurando para testes automatizados
 
+> As configurações abaixo são necessária caso seja desejado não utilizar das mesmas
+> configurações usadas nos testes manuais ou de produção/homologação.
+> Desta forma, os testes irão ser executados utilizando uma base de dados isolada, já que os testes que utilizam banco, apagam suas alterações a cada teste.
+
+
 1. Copie o arquivo `.env` para `.env.testing`
 2. Altere o banco de dados na variável `DB_DATABASE` para `isus_testing`
-3. Execute a migraçãoe configuração do banco de teste
+3. Crie o banco de dados de teste
 
 ```
 $ docker exec -it api-isus-db mysql -uroot -p12345678 -e "create database isus_testing"
-$ docker exec -it api-isus-fpm php artisan migrate --seed --database=mysql_testing
 ```
 
 ### 4.2. Teste 
