@@ -5,7 +5,7 @@ namespace App\Model\Wordpress;
 class App
 {
     public const PREFIXO_CORONAVIRUS = 100;
-    public const PREFIXO_SUS_ELMO = 200; 
+    public const PREFIXO_SUS_ELMO = 200;
 
     public const WORDPRESS_ENDPOINT = [
         self::PREFIXO_CORONAVIRUS => 'https://coronavirus.ceara.gov.br/wp-json/wp/v2/',
