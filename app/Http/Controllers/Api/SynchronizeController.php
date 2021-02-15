@@ -36,7 +36,7 @@ class SynchronizeController extends Controller
 
                 // TODO: metodo salvarDadosDosProjetos
                 // ERROR: Invalid argument suplied for foreach();
-                // line 123 - foreach ($categoriasProjetosTemp as $categoriaProjetoTemp)             
+                // line 123 - foreach ($categoriasProjetosTemp as $categoriaProjetoTemp)
                 foreach ($projetosAPI as $post) {
                     $projetoExiste = Projeto::find($prefixo . $post->id);
                     if (!isset($projetoExiste)) {
@@ -93,6 +93,7 @@ class SynchronizeController extends Controller
     {
         $client = new Client();
         $res = $client->get($endpoint . 'project_category/?per_page=100');
+
         return json_decode($res->getBody(), false);
     }
 
@@ -100,6 +101,7 @@ class SynchronizeController extends Controller
     {
         $clientProjeto = new Client();
         $resProjeto = $clientProjeto->get($endpoint . 'project/?project_category=' . $categoriaId);
+
         return json_decode($resProjeto->getBody(), false);
     }
 
@@ -107,6 +109,7 @@ class SynchronizeController extends Controller
     {
         $client = new Client();
         $res = $client->get($endpoint . 'project_category/' . $categoriaId);
+
         return json_decode($res->getBody(), false);
     }
 
@@ -157,7 +160,7 @@ class SynchronizeController extends Controller
             $anexo->projeto_id = $prefixo . $post->id;
             $anexo->link = $anexoAPI->guid->rendered;
             $anexo->save();
-        }        
+        }
     }
 
     private function converterCategoriasProjetosArray(&$post, $prefixo, &$projeto)
@@ -168,6 +171,7 @@ class SynchronizeController extends Controller
                 'projeto_id' => $projeto->id,
             ];
         }
+
         return $categoriasProjetosTemp;
     }
 
