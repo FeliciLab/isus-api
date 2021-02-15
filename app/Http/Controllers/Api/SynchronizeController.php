@@ -23,44 +23,32 @@ class SynchronizeController extends Controller
         \DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         foreach (App::WORDPRESS_ENDPOINT as $prefixo => $endpoint) {
-            // TODO: metodo buscarCategoriasWp
-            $client = new Client();
-            $res = $client->get($endpoint . 'project_category/?per_page=100');
-            $categoriasAPI = json_decode($res->getBody(), false);
+            $categoriasAPI = $this->buscarTodasCategoriasWp($endpoint);
 
             foreach ($categoriasAPI as $categoria) {
                 $categoriaId = $categoria->id;
 
-                //TODO: metodo buscarDetalheCategoriaPorCatewgoriaIDWp
-                $client = new Client();
-                $res = $client->get($endpoint . 'project_category/' . $categoriaId);
-                $categoriaAPI = json_decode($res->getBody(), false);
+                $categoriaAPI = $this->buscarDetalheCategoriaPorCategoriaIdWp($endpoint, $categoriaId);
 
-                // TODO: metodo salvarCategoria
-                $categoria = new Categoria();
-                $categoria->term_id = $prefixo . $categoriaAPI->id;
-                $categoria->name = $categoriaAPI->name;
-                $categoria->slug = $categoriaAPI->slug;
-                $categoria->save();
+                $this->salvarCategoria($prefixo, $categoriaAPI);
 
-                // TODO: metodo buscarProjetosPorCategoriaId
-                $clientProjeto = new Client();
-                $resProjeto = $clientProjeto->get($endpoint . 'project/?project_category=' . $categoriaId);
-                $projetosAPI = json_decode($resProjeto->getBody(), false);
+                $projetosAPI = $this->buscarProjetosPorCategoriaId($endpoint, $categoriaId);
 
                 // TODO: metodo salvarDadosDosProjetos
+                // ERROR: Invalid argument suplied for foreach();
+                // line 123 - foreach ($categoriasProjetosTemp as $categoriaProjetoTemp)             
                 foreach ($projetosAPI as $post) {
                     $projetoExiste = Projeto::find($prefixo . $post->id);
                     if (!isset($projetoExiste)) {
                         $projeto = $this->salvarProjeto($post, $prefixo);
 
                         // TODO: metodo CapturarImagemDoProjeto
+                        // ERROR: std::wp:featuredmedia doesn't recognized
                         // try {
-                        //     $this->capturarImagem($post, $projeto);
-                        //     // dd($projeto->image);
+                        //     $clientImage = $this->capturarImagem($post, $projeto);
                         // } catch (ServerException $e) {
                         //     $projeto->image = null;
-                        //     // dd($e->getMessage());
+                        //     dd($e->getMessage());
                         // }
                         try {
                             $clientImage = new Client();
@@ -84,7 +72,9 @@ class SynchronizeController extends Controller
                             $anexo->save();
                         }
 
-                        //TODO: metodo categoriaProjetoTemp
+                        // TODO: metodo categoriaProjetoTemp
+                        // ERROR: Salva de forma incompleta no banco de dados a tabela categorias_projetos
+                        // $categoriasProjetosTemp = $this->converterCategoriasProjetosArray($post, $prefixo, $projeto);
                         foreach ($post->project_category as $projetoCategoria) {
                             $categoriasProjetosTemp[] = [
                                 'categoria_id' => $prefixo . $projetoCategoria,
@@ -94,11 +84,35 @@ class SynchronizeController extends Controller
                     }
                 }
             }
-            //TODO: metodo juncaoCategoriaProjeto
-            foreach ($categoriasProjetosTemp as $categoriaProjetoTemp) {
-                $this->juncaoCategoriaProjeto($categoriaProjetoTemp);
-            }
+
+            $this->juncaoCategoriaProjeto($categoriasProjetosTemp);
         }
+    }
+
+    private function buscarTodasCategoriasWp($endpoint) {
+        $client = new Client();
+        $res = $client->get($endpoint . 'project_category/?per_page=100');
+        return json_decode($res->getBody(), false);
+    }
+
+    private function buscarProjetosPorCategoriaId($endpoint, &$categoriaId) {
+        $clientProjeto = new Client();
+        $resProjeto = $clientProjeto->get($endpoint . 'project/?project_category=' . $categoriaId);
+        return json_decode($resProjeto->getBody(), false);
+    }
+
+    private function buscarDetalheCategoriaPorCategoriaIdWp($endpoint, $categoriaId) {
+        $client = new Client();
+        $res = $client->get($endpoint . 'project_category/' . $categoriaId);
+        return json_decode($res->getBody(), false);
+    }
+
+    private function salvarCategoria($prefixo, &$categoriaAPI) {
+        $categoria = new Categoria();
+        $categoria->term_id = $prefixo . $categoriaAPI->id;
+        $categoria->name = $categoriaAPI->name;
+        $categoria->slug = $categoriaAPI->slug;
+        $categoria->save();
     }
 
     private function salvarProjeto($post, $prefixo)
@@ -116,6 +130,7 @@ class SynchronizeController extends Controller
     private function capturarImagem(&$post, &$projeto)
     {
         $clientImage = new Client();
+        var_dump($post->_links);
         $resImagem = $clientImage->get($post->_links->{'wp:featuredmedia'}[0]->href);
         if ($resImagem === null) {
             throw new ServerException('Erro ao capturar a imagem', $resImagem);
@@ -127,11 +142,36 @@ class SynchronizeController extends Controller
         $projeto->save();
     }
 
-    private function juncaoCategoriaProjeto(&$categoriaProjetoTemp)
+    private function buscarAnexoProjeto($post, $prefixo) {
+        $clientAnexo = new Client();
+        $resAnexo = $clientAnexo->get($post->_links->{'wp:attachment'}[0]->href);
+        $anexosAPI = json_decode($resAnexo->getBody(), false);
+
+        foreach ($anexosAPI as $anexoAPI) {
+            $anexo = new Anexo();
+            $anexo->projeto_id = $prefixo . $post->id;
+            $anexo->link = $anexoAPI->guid->rendered;
+            $anexo->save();
+        }        
+    }
+
+    private function converterCategoriasProjetosArray(&$post, $prefixo, &$projeto) {
+        foreach ($post->project_category as $projetoCategoria) {
+            $categoriasProjetosTemp[] = [
+                'categoria_id' => $prefixo . $projetoCategoria,
+                'projeto_id' => $projeto->id,
+            ];
+        }
+        return $categoriasProjetosTemp;
+    }
+
+    private function juncaoCategoriaProjeto(&$categoriasProjetosTemp)
     {
-        $categoriaProjeto = new CategoriaProjeto();
-        $categoriaProjeto->categoria_id = $categoriaProjetoTemp['categoria_id'];
-        $categoriaProjeto->projeto_id = $categoriaProjetoTemp['projeto_id'];
-        $categoriaProjeto->save();
+        foreach ($categoriasProjetosTemp as $categoriaProjetoTemp) {
+            $categoriaProjeto = new CategoriaProjeto();
+            $categoriaProjeto->categoria_id = $categoriaProjetoTemp['categoria_id'];
+            $categoriaProjeto->projeto_id = $categoriaProjetoTemp['projeto_id'];
+            $categoriaProjeto->save();
+        }
     }
 }
