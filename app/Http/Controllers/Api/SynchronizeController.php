@@ -89,25 +89,29 @@ class SynchronizeController extends Controller
         }
     }
 
-    private function buscarTodasCategoriasWp($endpoint) {
+    private function buscarTodasCategoriasWp($endpoint)
+    {
         $client = new Client();
         $res = $client->get($endpoint . 'project_category/?per_page=100');
         return json_decode($res->getBody(), false);
     }
 
-    private function buscarProjetosPorCategoriaId($endpoint, &$categoriaId) {
+    private function buscarProjetosPorCategoriaId($endpoint, &$categoriaId)
+    {
         $clientProjeto = new Client();
         $resProjeto = $clientProjeto->get($endpoint . 'project/?project_category=' . $categoriaId);
         return json_decode($resProjeto->getBody(), false);
     }
 
-    private function buscarDetalheCategoriaPorCategoriaIdWp($endpoint, $categoriaId) {
+    private function buscarDetalheCategoriaPorCategoriaIdWp($endpoint, $categoriaId)
+    {
         $client = new Client();
         $res = $client->get($endpoint . 'project_category/' . $categoriaId);
         return json_decode($res->getBody(), false);
     }
 
-    private function salvarCategoria($prefixo, &$categoriaAPI) {
+    private function salvarCategoria($prefixo, &$categoriaAPI)
+    {
         $categoria = new Categoria();
         $categoria->term_id = $prefixo . $categoriaAPI->id;
         $categoria->name = $categoriaAPI->name;
@@ -142,7 +146,8 @@ class SynchronizeController extends Controller
         $projeto->save();
     }
 
-    private function buscarAnexoProjeto($post, $prefixo) {
+    private function buscarAnexoProjeto($post, $prefixo)
+    {
         $clientAnexo = new Client();
         $resAnexo = $clientAnexo->get($post->_links->{'wp:attachment'}[0]->href);
         $anexosAPI = json_decode($resAnexo->getBody(), false);
@@ -155,7 +160,8 @@ class SynchronizeController extends Controller
         }        
     }
 
-    private function converterCategoriasProjetosArray(&$post, $prefixo, &$projeto) {
+    private function converterCategoriasProjetosArray(&$post, $prefixo, &$projeto)
+    {
         foreach ($post->project_category as $projetoCategoria) {
             $categoriasProjetosTemp[] = [
                 'categoria_id' => $prefixo . $projetoCategoria,
