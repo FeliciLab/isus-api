@@ -152,6 +152,36 @@ class UserKeycloak
         return $dadosKeycloak;
     }
 
+    /**
+     * Retorna o objeto modelo como array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'nome' => $this->firstName,
+            'sobrenome' => $this->lastName,
+            'senha' => $this->password,
+            'idKeycloak' => $this->idKeycloak,
+            'email' => $this->email,
+            'telefone' => $this->telefone,
+            'cpf' => $this->cpf,
+            'rg' => $this->rg,
+            'estadoId' => $this->estadoId,
+            'estado' => $this->estado,
+            'cidadeId' => $this->cidadeId,
+            'cidade' => $this->cidade,
+            'termos' => $this->termos,
+            'categoriaProfissional' => $this->categoriaProfissional,
+            'titulacaoAcademica' => $this->titulacaoAcademica,
+            'tipoContratacao' => $this->tipoContratacao,
+            'instituicao' => $this->instituicao,
+            'unidadeServico' => $this->unidadeServico,
+            'especialidades' => $this->especialidades,
+        ];
+    }
+
     private function pegarSobrenome($nomeCompleto)
     {
         $sobrenome = '';

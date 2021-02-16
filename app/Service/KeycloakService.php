@@ -11,7 +11,6 @@ use App\Model\UserUnidadeServico;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 
 class KeycloakService
 {
@@ -36,7 +35,7 @@ class KeycloakService
 
     public function login($email, $senha)
     {
-        $response = $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token", [
+        return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token", [
             'form_params' => [
                 'username' => $email,
                 'password' => $senha,
@@ -44,8 +43,6 @@ class KeycloakService
                 'grant_type' => $this->keycloakAdminIsusGranttype,
             ],
         ]);
-
-        return $response;
     }
 
     public function logout($refreshToken)
@@ -122,83 +119,39 @@ class KeycloakService
         ]);
     }
 
+    public function getIdKeycloakFromHeader($resposta)
+    {
+        $location = $resposta->getHeader('Location');
+        $locationArray = explode('/', $location[0]);
+
+        return $locationArray[count($locationArray) - 1];
+    }
+
     public function save(UserKeycloak $userKeycloak)
     {
-        $resposta = $this->keycloakClient->post("{$this->keycloakUri}/auth/admin/realms/saude/users", [
-            RequestOptions::JSON => $userKeycloak->toKeycloak(),
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => "Bearer {$this->getTokenAdmin()}",
-            ],
-        ]);
+        $resposta = $this->keycloakClient->post(
+            "{$this->keycloakUri}/auth/admin/realms/saude/users",
+            [
+                RequestOptions::JSON => $userKeycloak->toKeycloak(),
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer {$this->getTokenAdmin()}",
+                ],
+            ]
+        );
 
-        if ($resposta->getStatusCode() == Response::HTTP_CREATED) {
-            $location = $resposta->getHeader('Location');
-
-            $locationArray = explode('/', $location[0]);
-            $idKeycloak = $locationArray[count($locationArray) - 1];
-
-            $user = new User();
-            $user->name = $userKeycloak->getName();
-            $user->cpf = $userKeycloak->getCpf();
-            $user->email = $userKeycloak->getEmail();
-            $user->telefone = $userKeycloak->getTelefone();
-            $user->password = Hash::make($userKeycloak->getPassword());
-            $user->id_keycloak = $idKeycloak;
-            $user->municipio_id = $userKeycloak->getCidadeId();
-            $user->categoriaprofissional_id = $userKeycloak->getCategoriaProfissionalId();
-            $user->save();
-
-            if (!$user->id) {
-                throw new \Exception('Usuário não criado na API');
-            }
-
-            $especialidades = $userKeycloak->getEspecialidades();
-            if (null !== $especialidades) {
-                foreach ($especialidades as $especialidade) {
-                    $userEspecialidade = new UserEspecialidade();
-                    $userEspecialidade->user_id = $user->id;
-                    $userEspecialidade->especialidade_id = $especialidade->id;
-                    $userEspecialidade->save();
-                }
-            }
-
-            $unidadesServicos = $userKeycloak->getUnidadesServicos();
-            if (null !== $unidadesServicos) {
-                foreach ($unidadesServicos as $servico) {
-                    $userUnidadeServico = new UserUnidadeServico();
-                    $userUnidadeServico->user_id = $user->id;
-                    $userUnidadeServico->unidade_servico_id = $servico->id;
-                    $userUnidadeServico->save();
-                }
-            }
-
-            $titulacoesAcademica = $userKeycloak->getTitulacoesAcademicas();
-            if (null !== $titulacoesAcademica) {
-                foreach ($titulacoesAcademica as $titulacao) {
-                    $userTitulacaoAcademica = new UserTitulacaoAcademica();
-                    $userTitulacaoAcademica->user_id = $user->id;
-                    $userTitulacaoAcademica->titulacao_academica_id = $titulacao->id;
-                    $userTitulacaoAcademica->save();
-                }
-            }
-
-            $tiposContratacoes = $userKeycloak->getTiposContratacoes();
-            if (null !== $tiposContratacoes) {
-                foreach ($tiposContratacoes as $tipoContratacao) {
-                    $userTipoContratacao = new UserTipoContratacao();
-                    $userTipoContratacao->user_id = $user->id;
-                    $userTipoContratacao->tipo_contratacao_id = $tipoContratacao->id;
-                    $userTipoContratacao->save();
-                }
-            }
-
-            $this->enviarEmailCadastro($user);
-
-            return $user;
-        } else {
+        if ($resposta->getStatusCode() !== Response::HTTP_CREATED) {
             throw new \Exception('Usuário não criado error keycloak');
         }
+
+        $user = (new UserService())->upsertUserAndRelationships(
+            $userKeycloak,
+            $this->getIdKeycloakFromHeader($resposta)
+        );
+
+        $this->enviarEmailCadastro($user);
+
+        return $user;
     }
 
     public function update(UserKeycloak $userKeycloak, $idKeycloak)

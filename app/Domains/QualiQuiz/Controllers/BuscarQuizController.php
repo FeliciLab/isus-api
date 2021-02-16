@@ -55,10 +55,16 @@ class BuscarQuizController extends Controller
         }
 
         if (!is_numeric($codQuiz) && is_float((float) $codQuiz)) {
-            return response()->json(
-                ['mensagem' => 'Código do quiz não é um valor numérico inteiro'],
-                400
-            );
+            $quiz = $buscarQuizService->buscarQuizPeloCod($codQuiz);
+
+            if (!$quiz) {
+                return response()->json(
+                    ['mensagem' => 'Código do quiz não é um valor numérico inteiro'],
+                    400
+                );
+            }
+
+            $codQuiz = $quiz->id;
         }
 
         $jaRespondeu = $buscarQuizService->verificarSeJaRespondeu(
@@ -66,7 +72,7 @@ class BuscarQuizController extends Controller
             $autenticacao
         );
 
-        if ($jaRespondeu && env('QQUIZ_BLOQUEAR_REFAZER')) {
+        if ($jaRespondeu && config('app.qualiquiz.bloquear_refazer')) {
             return response()->json(
                 $feedbackQuizService->buscarFeedback(
                     (int) $codQuiz,
