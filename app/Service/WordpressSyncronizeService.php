@@ -12,14 +12,99 @@ use Illuminate\Support\Facades\DB;
 
 class WordpressSyncronizeService
 {
-    public $client;
+    private $client;
 
     public function __construct()
     {
         $this->client = new Client();
     }
 
-    public function capturarImagemDoProjeto($post)
+    public function sync()
+    {
+        $this->truncateTables();
+
+        foreach (App::WORDPRESS_ENDPOINT as $prefixo => $endpoint) {
+            $categoriasAPI = $this->getCategoriasWp($endpoint);
+
+            $categoriasProjetosTemp = [];
+
+            foreach ($categoriasAPI as $categoria) {
+                $categoriaId = $categoria->id;
+
+                $this->salvaCategorias($endpoint, $prefixo, $categoriaId);
+
+                $projetosAPI = $this->projetosPorCategoriaWp($endpoint, $categoriaId);
+
+                $categoriasProjetosTemp[] = $this->percorreProjetos($projetosAPI, $prefixo);
+            }
+
+            $this->salvaVinculosCategoriasProjetos($categoriasProjetosTemp);
+        }
+    }
+
+    private function salvaVinculosCategoriasProjetos($categoriasProjetosTemp)
+    {
+        foreach ($categoriasProjetosTemp as $categoriaProjetoTemp) {
+            foreach ($categoriaProjetoTemp as $categoriaProjetoTempProj) {
+                $categoriaProjeto = new CategoriaProjeto();
+                $categoriaProjeto->categoria_id = $categoriaProjetoTempProj['categoria_id'];
+                $categoriaProjeto->projeto_id = $categoriaProjetoTempProj['projeto_id'];
+                $categoriaProjeto->save();
+            }
+        }
+    }
+
+    private function truncateTables()
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::statement('TRUNCATE TABLE projetos');
+        DB::statement('TRUNCATE TABLE categorias_projetos');
+        DB::statement('TRUNCATE TABLE categorias');
+        DB::statement('TRUNCATE TABLE anexos');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+    }
+
+    private function getCategoriasWp($endpoint)
+    {
+        $res = $this->client->get($endpoint . 'project_category/?per_page=100');
+
+        return json_decode($res->getBody(), false);
+    }
+
+    private function salvaCategorias($endpoint, $prefixo, $categoriaId)
+    {
+        $res = $this->client->get($endpoint . 'project_category/' . $categoriaId);
+        $categoriaAPI = json_decode($res->getBody(), false);
+
+        $categoria = new Categoria();
+        $categoria->term_id = $prefixo . $categoriaAPI->id;
+        $categoria->name = $categoriaAPI->name;
+        $categoria->slug = $categoriaAPI->slug;
+        $categoria->save();
+
+        return $categoria;
+    }
+
+    private function projetosPorCategoriaWp($endpoint, $categoriaId)
+    {
+        $resProjeto = $this->client->get($endpoint . 'project/?project_category=' . $categoriaId);
+
+        return json_decode($resProjeto->getBody(), false);
+    }
+
+    private function salvaAnexo($post, $prefixo)
+    {
+        $resAnexo = $this->client->get($post->_links->{'wp:attachment'}[0]->href);
+        $anexosAPI = json_decode($resAnexo->getBody(), false);
+        foreach ($anexosAPI as $anexoAPI) {
+            $anexo = new Anexo();
+            $anexo->projeto_id = $prefixo . $post->id;
+            $anexo->link = $anexoAPI->guid->rendered;
+            $anexo->save();
+        }
+    }
+
+    private function capturarImagemDoProjeto($post)
     {
         if (!isset(
             $post,
@@ -38,114 +123,7 @@ class WordpressSyncronizeService
             : null;
     }
 
-    public function buscarAnexosDoPost($post)
-    {
-        if (!isset(
-            $post,
-            $post->_links,
-            $post->_links->{'wp:attachment'},
-            $post->_links->{'wp:attachment'}[0],
-            $post->_links->{'wp:attachment'}[0]->href)) {
-            return;
-        }
-
-        return json_decode(
-            $this->client->get($post->_links->{'wp:attachment'}[0]->href)->getBody(),
-            false
-        );
-    }
-
-    public function salvarAnexos($post, $prefixo)
-    {
-        $anexosAPI = $this->buscarAnexosDoPost($post);
-        if (!$anexosAPI) {
-            return;
-        }
-
-        foreach ($anexosAPI as $anexoAPI) {
-            $anexo = new Anexo();
-            $anexo->projeto_id = $prefixo . $post->id;
-            $anexo->link = $anexoAPI->guid->rendered;
-            $anexo->save();
-        }
-    }
-
-    public function salvarDadosDosProjetos($projetosAPI, $prefixo)
-    {
-        foreach ($projetosAPI as $post) {
-            if (Projeto::find($prefixo . $post->id)) {
-                continue;
-            }
-
-            $projeto = $this->salvarProjeto($post, $prefixo);
-            $this->salvarAnexos($post, $prefixo);
-            $this->juncaoCategoriaProjeto($post->project_category, $projeto, $prefixo);
-        }
-    }
-
-    public function salvarPostsPelaCategoriaWp($categoriasAPI, $prefixo, $endpoint)
-    {
-        foreach ($categoriasAPI as $categoria) {
-            $categoriaId = $categoria->id;
-            $categoriaAPI = $this->buscarDetalheCategoriaPorCategoriaIdWp($endpoint, $categoriaId);
-            $this->salvarCategoria($prefixo, $categoriaAPI);
-
-            $this->salvarDadosDosProjetos(
-                $this->buscarProjetosPorCategoriaId($endpoint, $categoriaId),
-                $prefixo
-            );
-        }
-    }
-
-    public function sync()
-    {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        DB::statement('TRUNCATE TABLE projetos');
-        DB::statement('TRUNCATE TABLE categorias_projetos');
-        DB::statement('TRUNCATE TABLE categorias');
-        DB::statement('TRUNCATE TABLE anexos');
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-
-        foreach (App::WORDPRESS_ENDPOINT as $prefixo => $endpoint) {
-            $this->salvarPostsPelaCategoriaWp(
-                $this->buscarTodasCategoriasWp($endpoint),
-                $prefixo,
-                $endpoint
-            );
-        }
-    }
-
-    private function buscarTodasCategoriasWp($endpoint)
-    {
-        $res = $this->client->get($endpoint . 'project_category/?per_page=100');
-
-        return json_decode($res->getBody(), false);
-    }
-
-    private function buscarProjetosPorCategoriaId($endpoint, &$categoriaId)
-    {
-        $resProjeto = $this->client->get($endpoint . 'project/?project_category=' . $categoriaId);
-
-        return json_decode($resProjeto->getBody(), false);
-    }
-
-    private function buscarDetalheCategoriaPorCategoriaIdWp($endpoint, $categoriaId)
-    {
-        $res = $this->client->get($endpoint . 'project_category/' . $categoriaId);
-
-        return json_decode($res->getBody(), false);
-    }
-
-    private function salvarCategoria($prefixo, &$categoriaAPI)
-    {
-        $categoria = new Categoria();
-        $categoria->term_id = $prefixo . $categoriaAPI->id;
-        $categoria->name = $categoriaAPI->name;
-        $categoria->slug = $categoriaAPI->slug;
-        $categoria->save();
-    }
-
-    private function salvarProjeto($post, $prefixo)
+    private function salvaProjeto($prefixo, $post)
     {
         $projeto = new Projeto();
         $projeto->id = $prefixo . $post->id;
@@ -154,18 +132,31 @@ class WordpressSyncronizeService
         $projeto->slug = $post->slug;
         $projeto->content = $post->content->rendered;
         $projeto->image = $this->capturarImagemDoProjeto($post);
+
         $projeto->save();
+
+        $this->salvaAnexo($post, $prefixo);
 
         return $projeto;
     }
 
-    private function juncaoCategoriaProjeto($categoriaProjetos, $projeto, $prefixo)
+    private function percorreProjetos($projetosAPI, $prefixo)
     {
-        foreach ($categoriaProjetos as $projetoCategoria) {
-            $categoriaProjeto = new CategoriaProjeto();
-            $categoriaProjeto->categoria_id = $prefixo . $projetoCategoria;
-            $categoriaProjeto->projeto_id = $projeto->id;
-            $categoriaProjeto->save();
+        $categoriasProjetosTemp = [];
+        foreach ($projetosAPI as $post) {
+            $projetoExiste = Projeto::find($prefixo . $post->id);
+            if (!isset($projetoExiste)) {
+                $projeto = $this->salvaProjeto($prefixo, $post);
+
+                foreach ($post->project_category as $projetoCategoria) {
+                    $categoriasProjetosTemp[] = [
+                        'categoria_id' => $prefixo . $projetoCategoria,
+                        'projeto_id' => $projeto->id,
+                    ];
+                }
+            }
         }
+
+        return $categoriasProjetosTemp;
     }
 }
