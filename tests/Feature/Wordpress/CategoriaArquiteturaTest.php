@@ -35,7 +35,6 @@ class CategoriaArquiteturaTest extends TestCase
 
         $response = $this->json('GET', 'api/categoriasArquitetura');
         $response->assertJsonCount(7);
-        // dd($categoria);
 
         $response->assertJsonFragment([
             'name'      => $categoria->name,

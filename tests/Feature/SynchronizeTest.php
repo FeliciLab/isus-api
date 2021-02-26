@@ -15,8 +15,6 @@ class SynchronizeTest extends TestCase
      */
     public function test_api_coronavirus()
     {
-       
-        // dd(App::WORDPRESS_ENDPOINT[App::PREFIXO_CORONAVIRUS]);
         $client = new Client(['base_uri' => App::WORDPRESS_ENDPOINT[App::PREFIXO_CORONAVIRUS]]);
         $response = $client->request('GET');
         $this->assertEquals(200, $response->getStatusCode());
@@ -29,8 +27,6 @@ class SynchronizeTest extends TestCase
      */
     public function test_api_sus_elmo()
     {
-       
-        // dd(App::WORDPRESS_ENDPOINT[App::PREFIXO_CORONAVIRUS]);
         $client = new Client(['base_uri' => App::WORDPRESS_ENDPOINT[App::PREFIXO_SUS_ELMO]]);
         $response = $client->request('GET');
         $this->assertEquals(200, $response->getStatusCode());
