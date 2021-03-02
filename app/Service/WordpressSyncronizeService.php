@@ -8,6 +8,7 @@ use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\CategoriaProjeto;
 use App\Model\Wordpress\Projeto;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Support\Facades\DB;
 
 class WordpressSyncronizeService
@@ -115,7 +116,11 @@ class WordpressSyncronizeService
             return;
         }
 
-        $resImagem = $this->client->get($post->_links->{'wp:featuredmedia'}[0]->href);
+        try {
+            $resImagem = $this->client->get($post->_links->{'wp:featuredmedia'}[0]->href);
+        } catch (BadResponseException $err) {
+            return;
+        }
         $imageAPI = json_decode($resImagem->getBody(), false);
 
         return isset($imageAPI, $imageAPI->guid, $imageAPI->guid->rendered)
