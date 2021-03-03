@@ -21,8 +21,6 @@ class App
         ],
         self::PREFIXO_SUS_ELMO => [
             'Notícias' => [4],
-            'Biblioteca' => [13],
-            'Instruções' => [40],
         ],
     ];
 

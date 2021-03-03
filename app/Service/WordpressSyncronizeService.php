@@ -30,6 +30,12 @@ class WordpressSyncronizeService
             $categoriasProjetosTemp = [];
 
             foreach ($categoriasAPI as $categoria) {
+                if ($prefixo === 200
+                    && ($categoria->slug === 'biblioteca'
+                    || $categoria->slug === 'instrucoes')) {
+                    continue;
+                }
+
                 $categoriaId = $categoria->id;
 
                 $this->salvaCategorias($endpoint, $prefixo, $categoriaId);
