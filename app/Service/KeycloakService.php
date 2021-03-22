@@ -21,6 +21,9 @@ class KeycloakService
     private $keycloakAdminIsusPassword;
     private $keycloakAdminIsusClientId;
     private $keycloakAdminIsusGranttype;
+    private $keycloakRoutes = [
+        'users-management' => '/auth/admin/realms/saude/users/'
+    ];
 
     public function __construct()
     {
@@ -31,6 +34,40 @@ class KeycloakService
         $this->keycloakAdminIsusPassword = env('KEYCLOAK_ADMIN_ISUS_PASSWORD');
         $this->keycloakAdminIsusClientId = env('KEYCLOAK_ADMIN_ISUS_CLIENTID');
         $this->keycloakAdminIsusGranttype = env('KEYCLOAK_ADMIN_ISUS_GRANTTYPE');
+    }
+
+    /**
+     * Controi as rotas do keycloak a partir de uma "name-tag"
+     *
+     * @param $routeName string
+     *
+     * @return string
+     */
+    public function getRoute(string $routeName): string
+    {
+        return $this->keycloakUri . $this->keycloakRoutes[$routeName];
+    }
+
+    /**
+     * Retorna os headers utilizados nas requisições
+     *
+     * @param $hasHeader array
+     *
+     * @return array
+     */
+    public function getHeaders(array $includeHeaders=[])
+    {
+        $headers = [
+            'Authorization' => "Bearer {$this->getTokenAdmin()}",
+        ];
+
+        if (array_search('json', $includeHeaders)) {
+            $headers['Content-Type'] = 'application/json';
+        }
+
+        return [
+            'headers' => $headers
+        ];
     }
 
     public function login($email, $senha)
@@ -110,13 +147,46 @@ class KeycloakService
         return json_decode($response->getBody());
     }
 
+    /**
+     * Coleta os dados do usuário
+     *
+     * @param $userId string Id da persona
+     *
+     * @return array
+     */
+    public function getUserData(string $userId)
+    {
+        return json_decode(
+            $this->keycloakClient->get(
+                $this->getRoute('users-management') . $userId,
+                $this->getHeaders()
+            )->getBody(),
+            true
+        );
+    }
+
+    /**
+     * Buscar perfil do usuário através do token
+     *
+     * @param $token string
+     *
+     * @return array
+     */
+    public function fetchUserProfile($token): array
+    {
+        return json_decode($this->userProfile($token)->getBody(), true);
+    }
+
     public function userProfile($token)
     {
-        return $this->keycloakClient->post("{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/userinfo", [
-            'headers' => [
-                'Authorization' => "{$token}",
-            ],
-        ]);
+        return $this->keycloakClient->post(
+            "{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/userinfo",
+            [
+                'headers' => [
+                    'Authorization' => "{$token}",
+                ],
+            ]
+        );
     }
 
     public function getIdKeycloakFromHeader($resposta)

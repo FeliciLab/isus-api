@@ -8,6 +8,7 @@ use App\Model\UnidadesServicoCategoria;
 use App\Model\User;
 use App\Model\UserKeycloak;
 use App\Service\KeycloakService;
+use App\Service\UserService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -62,6 +63,7 @@ class UserController extends Controller
             if ($unidadesDoUsuario->contains(UnidadeServico::ISUS_CATEGORIA_UTI)) {
                 $macroUnidadesDeSaude = $macroUnidadesDeSaude->push(UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI));
             }
+
             foreach ($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
                 $projetosPorMacrounidades = $this->projetosPorMacroUnidades($macroUnidadeDeSaude);
                 $projetosDoProfissional = array_merge($projetosDoProfissional, $projetosPorMacrounidades);
@@ -79,15 +81,41 @@ class UserController extends Controller
         ]);
     }
 
-    public function perfil(Request $request)
-    {
-        $usuario = User::where('id_keycloak', $request->usuario->sub)->first();
-        $dadosUsuario = $usuario->dadosUsuario();
+    /**
+     * Consulta os dados do perfil da persona e retorna o perfil completo ou um
+     * pre-cadastro
+     *
+     * @param $request         Request
+     * @param $keyCloakService KeycloakService
+     * @param $userService     UserService
+     *
+     * @return JsonResponse
+     */
+    public function perfil(
+        Request $request,
+        KeycloakService $keyCloakService,
+        UserService $userService
+    ) {
+        $userProfile = $keyCloakService->fetchUserProfile(
+            $request->header('authorization')
+        );
 
-        return response()->json([
-            'sucesso' => true,
-            'data' =>  $dadosUsuario,
-        ]);
+        $user = $userService->fetchUserRegisteredCorrectly($userProfile);
+        if ($user) {
+            return response()->json(
+                [
+                    'data' => $user->dadosUsuario(),
+                    'cadastrado' => true
+                ]
+            );
+        }
+
+        return response()->json(
+            [
+                'data' => $userService->preRegisterUser($userProfile),
+                'cadastrado' => false
+            ]
+        );
     }
 
     public function update(Request $request)

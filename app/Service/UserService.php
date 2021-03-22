@@ -11,6 +11,8 @@ use App\Model\UserTipoContratacao;
 use App\Model\UserTitulacaoAcademica;
 use App\Model\UserUnidadeServico;
 use Illuminate\Support\Facades\Hash;
+use App\Service\KeycloakService;
+use Illuminate\Support\Arr;
 
 /**
  * Classe que contém as regras de negócio relacionada ao usuário salvo no banco
@@ -281,5 +283,67 @@ class UserService
         $this->upsertUserHiresTypes($user, $userKeycloak);
 
         return $user;
+    }
+
+    /**
+     * Verifica se o usuário existe na base de dados através do sub
+     *
+     * @param $userKeycloak array
+     *
+     * @return User|null
+     */
+    public function fetchUserRegisteredCorrectly(array $userKeycloak)
+    {
+        if (!isset($userKeycloak['sub'])) {
+            return null;
+        }
+
+        $user = User::where('id_keycloak', $userKeycloak['sub'])->first();
+        if (!$user || !isset($user, $user->municipio_id, $user->telefone, $user->cpf)) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    /**
+     * Efetua um pre-registro do usuário na base do isus para posteriormente
+     * ser atualizado pelo cadastro
+     *
+     * @param $userKeycloak array
+     *
+     * @return User
+     */
+    public function preRegisterUser(array $userKeycloak)
+    {
+        $userIsus = User::where('id_keycloak', $userKeycloak['sub'])->first();
+        if ($userIsus) {
+            return $userIsus;
+        }
+
+        $user = (new KeycloakService())->getUserData($userKeycloak['sub']);
+        $userData =   [
+            'email' => $userKeycloak['email'],
+            'id_keycloak' => $userKeycloak['sub'],
+            'name' => $userKeycloak['given_name'] . ' ' . $userKeycloak['family_name']
+        ];
+
+        if (Arr::get($user, 'attributes.CPF.0', false)) {
+            $userData['cpf'] = Arr::get($user, 'attributes.CPF.0');
+        }
+
+        if (Arr::get($user, 'attributes.CIDADE_ID.0', false)) {
+            $userData['municipio_id'] = Arr::get($user, 'attributes.CIDADE_ID.0');
+        }
+
+        if (Arr::get($user, 'attributes.TELEFONE.0', false)) {
+            $userData['telefone'] = Arr::get($user, 'attributes.TELEFONE.0');
+        }
+
+        if (Arr::get($user, 'attributes.TERMOS.0', false)) {
+            $userData['termos'] = Arr::get($user, 'attributes.TERMOS.0') === 'true';
+        }
+
+        return User::create($userData);
     }
 }
