@@ -13,6 +13,9 @@ use Faker\Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * @group wordpress
+ */
 class ProjetosPorProfissionalTest extends TestCase
 {
     use RefreshDatabase;

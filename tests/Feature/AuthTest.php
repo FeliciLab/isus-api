@@ -22,41 +22,128 @@ class AuthTest extends TestCase
         $this->seed();
     }
 
+    public function testLoginSemEmailEPassword()
+    {
+        $this->json(
+            'POST',
+            'api/auth',
+            []
+        )
+            ->assertStatus(400)
+            ->assertJson(
+                [
+                    "erros" => [
+                        "email" => [
+                            "O campo email é obrigatório."
+                        ],
+                        "senha" => [
+                            "O campo senha é obrigatório."
+                        ]
+                    ]
+                ]
+            );
+    }
+
     public function testLoginSemEmail()
     {
-        $response = $this->json('POST', 'api/auth', []);
-        $response->assertOk();
-        $response->assertJsonPath('erros.email', ['O campo email é obrigatório.']);
+        $this->json(
+            'POST',
+            'api/auth',
+            [
+                'senha' => '1234556678'
+            ]
+        )
+            ->assertStatus(400)
+            ->assertJson(
+                [
+                    "erros" => [
+                        "email" => [
+                            "O campo email é obrigatório."
+                        ]
+                    ]
+                ]
+            );
+    }
+
+    public function testLoginEmailInvalido()
+    {
+        $this->json(
+            'POST',
+            'api/auth',
+            [
+                'email' => 'email-invalido',
+                'senha' => 'joinado'
+            ]
+        )
+            ->assertStatus(400)
+            ->assertJson(
+                [
+                    "erros" => [
+                        "email" => [
+                            "O campo email deve ser um endereço de e-mail válido."
+                        ]
+                    ]
+                ]
+            );
     }
 
     public function testLoginSemSenha()
     {
-        $response = $this->json('POST', 'api/auth', []);
-        $response->assertOk();
-        $response->assertJsonPath('erros.senha', ['O campo senha é obrigatório.']);
+        $this->json(
+            'POST',
+            'api/auth',
+            [
+                'email' => 'email@email.com'
+            ]
+        )
+            ->assertStatus(400)
+            ->assertJson(
+                [
+                    "erros" => [
+                        "senha" => [
+                            "O campo senha é obrigatório."
+                        ]
+                    ]
+                ]
+            );
     }
 
 
-    public function testFalhaLogin()
+    public function testCredenciaisInvalidas()
     {
-        $response = $this->json('POST', 'api/auth', ['email' => 'user@mail.com', 'senha' => '987654']);
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-        $response->assertJsonFragment([
-            'sucesso' => false,
-            'erros' => 'Usuário ou senha inválidos'
-        ]);
+        $this->json(
+            'POST',
+            'api/auth',
+            [
+                'email' => 'user@mail.com',
+                'senha' => '987654'
+            ]
+        )
+            ->assertUnauthorized()
+            ->assertJson(
+                [
+                    'erros' => 'Usuário ou senha inválidos'
+                ]
+            );
     }
 
-    public function testLoginok()
+    public function testLoginSucesso()
     {
         $usuario = $this->registrarUsuario(false);
+        $this->assertNotNull($usuario);
 
-        $response = $this->json('POST', 'api/auth', ['email' => $usuario['email'], 'senha' => $usuario['senha']]);
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'mensagem' => [
-                'access_token'
-            ]
-        ]);
+        $this->json(
+            'POST',
+            'api/auth',
+            ['email' => $usuario['email'], 'senha' => $usuario['senha']]
+        )
+            ->assertOk()
+            ->assertJsonStructure(
+                [
+                    'mensagem' => [
+                        'access_token'
+                    ]
+                ]
+            );
     }
 }

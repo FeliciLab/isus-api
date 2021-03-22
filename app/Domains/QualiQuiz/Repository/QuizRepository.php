@@ -27,8 +27,21 @@ class QuizRepository
      */
     public function buscarQuiz(int $codQuiz)
     {
+        return $this->buscarQuizPorIdOuCodQuiz((string) $codQuiz);
+    }
+
+    /**
+     * Busca na base o quiz pelo cod_quiz.
+     *
+     * @param int $codQuiz ID do Quiz
+     *
+     * @return Quiz|null
+     */
+    public function buscarQuizPorIdOuCodQuiz(string $codQuiz)
+    {
         return (new Quiz())
             ->where('id', $codQuiz)
+            ->orWhere('cod_quiz', $codQuiz)
             ->first();
     }
 }

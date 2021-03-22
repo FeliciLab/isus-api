@@ -15,6 +15,20 @@ abstract class TestCase extends BaseTestCase
 
     protected $usuarioAutenticado;
 
+    public string $codQuiz = 'ADFTS-SUS-P1';
+    public $authorization = [
+        'resposta' => [
+            'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
+            . 'eyJlbWFpbCI6ImRldkBkZXYuZGV2Iiwibm9tZSI6IkRldiBkZXYiLCJjcGYiOiIx'
+            . 'MjMuMTIzLjEyMy02OSJ9.CkWK7LixybXxO7vCatModnOD_X8C0uCTJU89KPex-Vo'
+        ],
+        'busca' => [
+            'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
+            . 'eyJlbWFpbCI6ImRldkB0ZXN0ZS5kZXYiLCJub21lIjoiRGV2IGRldiIsImNwZiI6IjEifQ.'
+            . 'cAmrqKcpRAzF5gJu_iPm1TRqZd7UnbQsSiAHWXhtLro'
+        ],
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -48,11 +62,10 @@ abstract class TestCase extends BaseTestCase
             'unidadeServico' => $comUnidadesDeServico ? json_encode([$unidades]) : null,
         ];
 
-        $response = $this->json('POST', 'api/user', $user);
-        $data = $response->getData();
-        if($data->sucesso) {
-            return $user;
-        }
+        $response = $this->json('POST', 'api/user', $user)
+            ->assertOk();
+
+        return $user;
     }
 
 

@@ -10,6 +10,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * @group wordpress
+ */
 class ProjetosPorCategoriaTest extends TestCase
 {
     use RefreshDatabase;
@@ -37,7 +40,8 @@ class ProjetosPorCategoriaTest extends TestCase
 
     public function testProjetosPorCategoriaComProjetoExistente()
     {
-        $apps = App::APP;
+        $app = new App();
+        $apps = $app->getApp();
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
                 $categoria = factory(Categoria::class)->create([
