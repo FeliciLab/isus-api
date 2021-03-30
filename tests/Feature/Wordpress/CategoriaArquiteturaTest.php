@@ -8,6 +8,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * @group wordpress
+ */
 class CategoriaArquiteturaTest extends TestCase
 {
     use RefreshDatabase;
@@ -20,8 +23,9 @@ class CategoriaArquiteturaTest extends TestCase
 
     public function testListaCategoriaCadastrada()
     {
-        $apps = App::APP;
-        foreach ($apps as $key => $app) {
+        $app = new App();
+        $apps = $app->getApp();
+        foreach ($apps as $prefixo => $app) {
             foreach ($app as $categoriaId) {
                 $categoria = factory(Categoria::class)->create([
                     'term_id' => $categoriaId
@@ -30,9 +34,12 @@ class CategoriaArquiteturaTest extends TestCase
         }
 
         $response = $this->json('GET', 'api/categoriasArquitetura');
-        $response->assertJsonCount(4);
+        $response->assertJsonCount(7);
+
         $response->assertJsonFragment([
-            'name' => $categoria->name
+            'name'      => $categoria->name,
+            'term_id' => (int) $categoria->term_id,
+            'slug'      => $categoria->slug,
         ]);
         $response->assertOk();
     }

@@ -12,6 +12,9 @@ use Faker\Generator;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Model\User;
 
+/**
+ * @group cadastro_profissional
+ */
 class CadastroProfissionalTest extends TestCase
 {
     use RefreshDatabase;

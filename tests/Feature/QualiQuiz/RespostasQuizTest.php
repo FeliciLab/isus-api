@@ -19,6 +19,7 @@ use Tests\TestCase;
  * @license GPL-3 http://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * @link https://github.com/EscolaDeSaudePublica/isus-api/issues/131
+ * @group qualiquiz
  */
 class RespostasQuizTest extends TestCase
 {

@@ -9,15 +9,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * @group wordpress
+ */
 class BuscaPorProjetoTest extends TestCase
 {
     use RefreshDatabase;
+
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $apps = App::APP;
+        $app = new App();
+        $apps = $app->getApp();
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
                 $categoria = factory(Categoria::class)->create([

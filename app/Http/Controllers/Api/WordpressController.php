@@ -120,7 +120,9 @@ class WordpressController extends Controller
     {
         $arquitetura = [];
 
-        $apps = App::APP;
+        $app = new App();
+        $apps = $app->getApp();
+
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
                 $arquitetura[$key][] = Categoria::where('term_id', $categoriaId)->first();

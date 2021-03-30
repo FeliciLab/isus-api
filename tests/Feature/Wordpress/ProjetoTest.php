@@ -9,6 +9,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * @group wordpress
+ */
 class ProjetoTest extends TestCase
 {
     use RefreshDatabase;

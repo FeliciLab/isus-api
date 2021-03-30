@@ -6,6 +6,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
+/**
+ * @group cadastro_profissional
+ */
 class UserTest extends TestCase
 {
     use RefreshDatabase;
