@@ -45,6 +45,17 @@ class UserService
     }
 
     /**
+     *
+     */
+    public function verificarCpfExisteParaOutrem(string $cpf, string $idKeycloak)
+    {
+        return User::select('id')
+            ->where('cpf', $cpf)
+            ->where('id_keycloak', '!=', $idKeycloak)
+            ->first();
+    }
+
+    /**
      * Atualiza/cria um usuário.
      *
      * @param $user         User
@@ -260,14 +271,10 @@ class UserService
      * @return User
      */
     public function upsertUserAndRelationships(
+        User $user,
         UserKeycloak $userKeycloak,
         string $idKeycloak
     ) {
-        $user = $this->fetchUserByEmailOrCpf(
-            $userKeycloak->getEmail(),
-            $userKeycloak->getPassword()
-        );
-
         if (!$user) {
             $user = new User();
         }

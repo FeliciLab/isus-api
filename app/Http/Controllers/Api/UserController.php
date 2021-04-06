@@ -31,7 +31,7 @@ class UserController extends Controller
             return response()->json(
                 [
                     'sucesso' => false,
-                    'erros' =>  $validacao->errors(),
+                    'erros' => $validacao->errors(),
                 ],
                 Response::HTTP_BAD_REQUEST
             );
@@ -45,7 +45,7 @@ class UserController extends Controller
             return response()->json(
                 [
                     'sucesso' => true,
-                    'mensagem' =>  'Usuário cadastrado com sucesso',
+                    'mensagem' => 'Usuário cadastrado com sucesso',
                 ]
             );
         }
@@ -61,7 +61,9 @@ class UserController extends Controller
             $projetosDoProfissional = [];
 
             if ($unidadesDoUsuario->contains(UnidadeServico::ISUS_CATEGORIA_UTI)) {
-                $macroUnidadesDeSaude = $macroUnidadesDeSaude->push(UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI));
+                $macroUnidadesDeSaude = $macroUnidadesDeSaude->push(
+                    UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI)
+                );
             }
 
             foreach ($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
@@ -69,16 +71,20 @@ class UserController extends Controller
                 $projetosDoProfissional = array_merge($projetosDoProfissional, $projetosPorMacrounidades);
             }
 
-            return response()->json([
-                'sucesso' => true,
-                'projetosDoProfissional' => array_unique($projetosDoProfissional, SORT_REGULAR),
-            ]);
+            return response()->json(
+                [
+                    'sucesso' => true,
+                    'projetosDoProfissional' => array_unique($projetosDoProfissional, SORT_REGULAR),
+                ]
+            );
         }
 
-        return response()->json([
-            'sucesso' => false,
-            'mensagem' => 'Usuário não existe',
-        ]);
+        return response()->json(
+            [
+                'sucesso' => false,
+                'mensagem' => 'Usuário não existe',
+            ]
+        );
     }
 
     /**
@@ -95,7 +101,8 @@ class UserController extends Controller
         Request $request,
         KeycloakService $keyCloakService,
         UserService $userService
-    ) {
+    )
+    {
         $userProfile = $keyCloakService->fetchUserProfile(
             $request->header('authorization')
         );
@@ -118,38 +125,67 @@ class UserController extends Controller
         );
     }
 
-    public function update(Request $request)
-    {
+    public function update(
+        Request $request,
+        KeycloakService $keyCloakService,
+        UserService $userService
+    ) {
+        /**
+         * Banco do iSUS
+         * 1) Já estou no banco, mas não tenho CPF, Telefone e Municipio (cadastro ID Saúde)
+         * 2) Já estou no banco com todos os meus campos e quero atualizar (persona "completa")
+         * 3) Não estou no banco
+         */
         $dados = $request->all();
         $validacao = $this->validarRequisicaoUpdate($dados);
+
         if ($validacao->fails()) {
-            return response()->json(['sucesso' => false, 'erros' =>  $validacao->errors()]);
+            return response()->json(
+                ['sucesso' => false, 'erros' => $validacao->errors()],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        if ($userService->verificarCpfExisteParaOutrem($dados['cpf'], $request->usuario->sub)) {
+            return response()->json(
+                [
+                    'sucesso' => false,
+                    'mensagem' => 'CPF já cadastrado no ID Saúde'
+                ],
+                Response::HTTP_CONFLICT
+            );
         }
 
         $userKeycloak = new UserKeycloak($dados);
-        $keyCloakService = new KeycloakService();
         $user = $keyCloakService->update($userKeycloak, $request->usuario->sub);
 
-        if (!empty($user->id_keycloak)) {
-            return response()->json(['sucesso' => true, 'mensagem' =>  'Usuário atualizado com sucesso']);
+        if (empty($user->id_keycloak)) {
+            return response()->json(
+                ['sucesso' => false, 'mensagem' => 'Falha ao atualizar'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
+        return response()->json(['sucesso' => true, 'mensagem' => 'Usuário atualizado com sucesso']);
     }
 
     public function cpfCadastrado($cpf)
     {
         $dados = ['cpf' => $cpf];
-        $validacao = Validator::make($dados, [
-            'cpf' => 'required|cpf|min:11|max:11',
-        ]);
+        $validacao = Validator::make(
+            $dados,
+            [
+                'cpf' => 'required|cpf|min:11|max:11',
+            ]
+        );
 
         if ($validacao->fails()) {
-            return response()->json(['sucesso' => true, 'mensagem' =>  $validacao->errors()]);
+            return response()->json(['sucesso' => true, 'mensagem' => $validacao->errors()]);
         }
 
         $keycloakService = new KeycloakService();
         $cpfCadastrado = $keycloakService->verificarSeExisteDadoNaPropriedade('CPF', $cpf);
         if ($cpfCadastrado) {
-            return response()->json(['cpf_existe' => true, 'mensagem' =>  'CPF já cadastrado no ID Saúde']);
+            return response()->json(['cpf_existe' => true, 'mensagem' => 'CPF já cadastrado no ID Saúde']);
         }
 
         return response()->json(['cpf_existe' => false]);
@@ -158,19 +194,22 @@ class UserController extends Controller
     public function emailCadastrado($email)
     {
         $dados = ['email' => $email];
-        $validacao = Validator::make($dados, [
-            'email' => 'required|email',
-        ]);
+        $validacao = Validator::make(
+            $dados,
+            [
+                'email' => 'required|email',
+            ]
+        );
 
         if ($validacao->fails()) {
-            return response()->json(['sucesso' => true, 'mensagem' =>  $validacao->errors()]);
+            return response()->json(['sucesso' => true, 'mensagem' => $validacao->errors()]);
         }
 
         $keycloakService = new KeycloakService();
         $username = $email;
         $emailCadastrado = $keycloakService->keyCloakRetornaUsuarioPorUsername($username);
         if ($emailCadastrado) {
-            return response()->json(['email_existe' => true, 'mensagem' =>  'EMAIL já cadastrado no ID Saúde']);
+            return response()->json(['email_existe' => true, 'mensagem' => 'EMAIL já cadastrado no ID Saúde']);
         }
 
         return response()->json(['email_existe' => false]);
@@ -187,7 +226,10 @@ class UserController extends Controller
                 return response()->json(['sucesso' => true, 'mensagem' => 'Usuário excluído com sucesso']);
             }
         } catch (Exception $error) {
-            return response()->json(['sucesso' => false, 'erros' =>  'Não foi possível excluir usuário'], Response::HTTP_BAD_REQUEST);
+            return response()->json(
+                ['sucesso' => false, 'erros' => 'Não foi possível excluir usuário'],
+                Response::HTTP_BAD_REQUEST
+            );
         }
     }
 
@@ -221,29 +263,35 @@ class UserController extends Controller
 
     private function validarRequisicao($dados)
     {
-        return Validator::make($dados, [
-            'email' => 'required|email',
-            'cpf' => 'required|cpf|min:11|max:11',
-            'nomeCompleto' => 'required',
-            'senha' => 'min:8|required|required_with:repetirsenha|same:repetirsenha',
-            'repetirsenha' => 'min:8|required',
-            'telefone' => 'required|min:9|max:11',
-            'cidadeId' => 'required',
-            'cidade' => 'required',
-            'termos' => 'accepted',
-        ]);
+        return Validator::make(
+            $dados,
+            [
+                'email' => 'required|email',
+                'cpf' => 'required|cpf|min:11|max:11',
+                'nomeCompleto' => 'required',
+                'senha' => 'min:8|required|required_with:repetirsenha|same:repetirsenha',
+                'repetirsenha' => 'min:8|required',
+                'telefone' => 'required|min:9|max:11',
+                'cidadeId' => 'required',
+                'cidade' => 'required',
+                'termos' => 'accepted',
+            ]
+        );
     }
 
     private function validarRequisicaoUpdate($dados)
     {
-        return Validator::make($dados, [
-            'email' => 'required|email',
-            'nomeCompleto' => 'required',
-            'telefone' => 'required|min:9|max:11',
-            'cpf' => 'required|cpf|min:11|max:11',
-            'cidadeId' => 'required',
-            'cidade' => 'required',
-            'termos' => 'accepted',
-        ]);
+        return Validator::make(
+            $dados,
+            [
+                'email' => 'required|email',
+                'nomeCompleto' => 'required',
+                'telefone' => 'required|min:9|max:11',
+                'cpf' => 'required|cpf|min:11|max:11',
+                'cidadeId' => 'required',
+                'cidade' => 'required',
+                'termos' => 'accepted',
+            ]
+        );
     }
 }
