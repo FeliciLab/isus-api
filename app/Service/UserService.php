@@ -68,7 +68,7 @@ class UserService
         User $user,
         UserKeycloak $userKeycloak,
         string $idKeycloak
-    ): bool {
+    ): User {
         $user->name = $userKeycloak->getName();
         $user->cpf = $userKeycloak->getCpf();
         $user->email = $userKeycloak->getEmail();
@@ -78,8 +78,9 @@ class UserService
         $user->municipio_id = $userKeycloak->getCidadeId();
         $user->categoriaprofissional_id = $userKeycloak
             ->getCategoriaProfissionalId();
+        $user->save();
 
-        return $user->save();
+        return $user;
     }
 
     /**
@@ -93,7 +94,7 @@ class UserService
     public function hasUserSpeciality(User $user, $especialidade): bool
     {
         return UserEspecialidade::where('user_id', $user->id)
-            ->where('epecialidade_id', $especialidade->id)
+            ->where('especialidade_id', $especialidade->id)
             ->select('id')
             ->first() !== null;
     }
@@ -114,7 +115,7 @@ class UserService
         }
 
         foreach ($especialidades as $especialidade) {
-            if ($this->hasUserSpeciality($user->id, $especialidade->id)) {
+            if ($this->hasUserSpeciality($user, $especialidade)) {
                 continue;
             }
 
@@ -279,7 +280,7 @@ class UserService
             $user = new User();
         }
 
-        $this->upsertUser($user, $userKeycloak, $idKeycloak);
+        $user = $this->upsertUser($user, $userKeycloak, $idKeycloak);
         if (!$user->id) {
             throw new \Exception('Usuário não criado na API');
         }

@@ -229,11 +229,13 @@ class KeycloakService
             throw new \Exception('Usuário não criado error keycloak');
         }
 
+        $user = (new UserService())->fetchUserByEmailOrCpf(
+            $userKeycloak->getEmail(),
+            $userKeycloak->getCpf()
+        );
+
         $user = (new UserService())->upsertUserAndRelationships(
-            (new UserService())->fetchUserByEmailOrCpf(
-                $userKeycloak->getEmail(),
-                $userKeycloak->getPassword()
-            ),
+            $user ?? new User(),
             $userKeycloak,
             $this->getIdKeycloakFromHeader($resposta)
         );
@@ -262,13 +264,17 @@ class KeycloakService
             return;
         }
 
-        $user = (new UserService())->upsertUserAndRelationships(
-            User::where('id_keycloak', $idKeycloak)->first(),
+        $user = User::where('id_keycloak', $idKeycloak)->first();
+        if (!$user) {
+            throw new \Exception('Id Keycloak não localizado na base do iSUS.');
+            return;
+        }
+
+        return (new UserService())->upsertUserAndRelationships(
+            $user,
             $userKeycloak,
             $idKeycloak
         );
-
-        return $user;
     }
 
     public function delete($idKeycloak)

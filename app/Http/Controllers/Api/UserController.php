@@ -130,12 +130,6 @@ class UserController extends Controller
         KeycloakService $keyCloakService,
         UserService $userService
     ) {
-        /**
-         * Banco do iSUS
-         * 1) Já estou no banco, mas não tenho CPF, Telefone e Municipio (cadastro ID Saúde)
-         * 2) Já estou no banco com todos os meus campos e quero atualizar (persona "completa")
-         * 3) Não estou no banco
-         */
         $dados = $request->all();
         $validacao = $this->validarRequisicaoUpdate($dados);
 
