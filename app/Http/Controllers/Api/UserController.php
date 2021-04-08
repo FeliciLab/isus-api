@@ -89,7 +89,7 @@ class UserController extends Controller
 
     /**
      * Consulta os dados do perfil da persona e retorna o perfil completo ou um
-     * pre-cadastro
+     * pre-cadastro.
      *
      * @param $request         Request
      * @param $keyCloakService KeycloakService
@@ -101,8 +101,7 @@ class UserController extends Controller
         Request $request,
         KeycloakService $keyCloakService,
         UserService $userService
-    )
-    {
+    ) {
         $userProfile = $keyCloakService->fetchUserProfile(
             $request->header('authorization')
         );
@@ -112,7 +111,7 @@ class UserController extends Controller
             return response()->json(
                 [
                     'data' => $user->dadosUsuario(),
-                    'cadastrado' => true
+                    'cadastrado' => true,
                 ]
             );
         }
@@ -120,7 +119,7 @@ class UserController extends Controller
         return response()->json(
             [
                 'data' => $userService->preRegisterUser($userProfile),
-                'cadastrado' => false
+                'cadastrado' => false,
             ]
         );
     }
@@ -144,7 +143,7 @@ class UserController extends Controller
             return response()->json(
                 [
                     'sucesso' => false,
-                    'mensagem' => 'CPF já cadastrado no ID Saúde'
+                    'mensagem' => 'CPF já cadastrado no ID Saúde',
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -159,6 +158,7 @@ class UserController extends Controller
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
+
         return response()->json(['sucesso' => true, 'mensagem' => 'Usuário atualizado com sucesso']);
     }
 

@@ -25,7 +25,7 @@ class User extends Authenticatable
         'categoriaprofissional_id',
         'email_verified_at',
         'updated_at',
-        'created_at'
+        'created_at',
     ];
 
     /**

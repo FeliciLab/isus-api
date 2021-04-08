@@ -3,11 +3,7 @@
 namespace App\Service;
 
 use App\Model\User;
-use App\Model\UserEspecialidade;
 use App\Model\UserKeycloak;
-use App\Model\UserTipoContratacao;
-use App\Model\UserTitulacaoAcademica;
-use App\Model\UserUnidadeServico;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Response;
@@ -22,7 +18,7 @@ class KeycloakService
     private $keycloakAdminIsusClientId;
     private $keycloakAdminIsusGranttype;
     private $keycloakRoutes = [
-        'users-management' => '/auth/admin/realms/saude/users/'
+        'users-management' => '/auth/admin/realms/saude/users/',
     ];
 
     public function __construct()
@@ -37,7 +33,7 @@ class KeycloakService
     }
 
     /**
-     * Controi as rotas do keycloak a partir de uma "name-tag"
+     * Constroi as rotas do keycloak a partir de uma "name-tag".
      *
      * @param $routeName string
      *
@@ -49,9 +45,10 @@ class KeycloakService
     }
 
     /**
-     * Retorna os headers utilizados nas requisições
+     * Retorna os headers utilizados nas requisições.
      *
      * @param $hasHeader array
+     * @param array $includeHeaders
      *
      * @return array
      */
@@ -66,7 +63,7 @@ class KeycloakService
         }
 
         return [
-            'headers' => $headers
+            'headers' => $headers,
         ];
     }
 
@@ -163,7 +160,7 @@ class KeycloakService
     }
 
     /**
-     * Coleta os dados do usuário
+     * Coleta os dados do usuário.
      *
      * @param $userId string Id da persona
      *
@@ -181,7 +178,7 @@ class KeycloakService
     }
 
     /**
-     * Buscar perfil do usuário através do token
+     * Buscar perfil do usuário através do token.
      *
      * @param $token string
      *
@@ -261,12 +258,14 @@ class KeycloakService
 
         if ($resposta->getStatusCode() !== Response::HTTP_NO_CONTENT) {
             throw new \Exception('Usuário não atualizado error keycloak');
+
             return;
         }
 
         $user = User::where('id_keycloak', $idKeycloak)->first();
         if (!$user) {
             throw new \Exception('Id Keycloak não localizado na base do iSUS.');
+
             return;
         }
 

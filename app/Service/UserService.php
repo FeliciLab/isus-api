@@ -10,9 +10,8 @@ use App\Model\UserKeycloak;
 use App\Model\UserTipoContratacao;
 use App\Model\UserTitulacaoAcademica;
 use App\Model\UserUnidadeServico;
-use Illuminate\Support\Facades\Hash;
-use App\Service\KeycloakService;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Classe que contém as regras de negócio relacionada ao usuário salvo no banco
@@ -45,7 +44,8 @@ class UserService
     }
 
     /**
-     *
+     * @param string $cpf
+     * @param string $idKeycloak
      */
     public function verificarCpfExisteParaOutrem(string $cpf, string $idKeycloak)
     {
@@ -268,6 +268,7 @@ class UserService
      *
      * @param $userKeycloak UserKeycloak
      * @param $idKeycloak   string
+     * @param User $user
      *
      * @return User
      */
@@ -294,7 +295,7 @@ class UserService
     }
 
     /**
-     * Verifica se o usuário existe na base de dados através do sub
+     * Verifica se o usuário existe na base de dados através do sub.
      *
      * @param $userKeycloak array
      *
@@ -303,12 +304,12 @@ class UserService
     public function fetchUserRegisteredCorrectly(array $userKeycloak)
     {
         if (!isset($userKeycloak['sub'])) {
-            return null;
+            return;
         }
 
         $user = User::where('id_keycloak', $userKeycloak['sub'])->first();
         if (!$user || !isset($user, $user->municipio_id, $user->telefone, $user->cpf)) {
-            return null;
+            return;
         }
 
         return $user;
@@ -316,7 +317,7 @@ class UserService
 
     /**
      * Efetua um pre-registro do usuário na base do isus para posteriormente
-     * ser atualizado pelo cadastro
+     * ser atualizado pelo cadastro.
      *
      * @param $userKeycloak array
      *
@@ -330,10 +331,10 @@ class UserService
         }
 
         $user = (new KeycloakService())->getUserData($userKeycloak['sub']);
-        $userData =   [
+        $userData = [
             'email' => $userKeycloak['email'],
             'id_keycloak' => $userKeycloak['sub'],
-            'name' => $userKeycloak['given_name'] . ' ' . $userKeycloak['family_name']
+            'name' => $userKeycloak['given_name'] . ' ' . $userKeycloak['family_name'],
         ];
 
         if (Arr::get($user, 'attributes.CPF.0', false)) {
