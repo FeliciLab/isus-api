@@ -10,6 +10,7 @@ use App\Model\UserKeycloak;
 use App\Model\UserTipoContratacao;
 use App\Model\UserTitulacaoAcademica;
 use App\Model\UserUnidadeServico;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -43,6 +44,18 @@ class UserService
     }
 
     /**
+     * @param string $cpf
+     * @param string $idKeycloak
+     */
+    public function verificarCpfExisteParaOutrem(string $cpf, string $idKeycloak)
+    {
+        return User::select('id')
+            ->where('cpf', $cpf)
+            ->where('id_keycloak', '!=', $idKeycloak)
+            ->first();
+    }
+
+    /**
      * Atualiza/cria um usuário.
      *
      * @param $user         User
@@ -55,7 +68,7 @@ class UserService
         User $user,
         UserKeycloak $userKeycloak,
         string $idKeycloak
-    ): bool {
+    ): User {
         $user->name = $userKeycloak->getName();
         $user->cpf = $userKeycloak->getCpf();
         $user->email = $userKeycloak->getEmail();
@@ -65,8 +78,9 @@ class UserService
         $user->municipio_id = $userKeycloak->getCidadeId();
         $user->categoriaprofissional_id = $userKeycloak
             ->getCategoriaProfissionalId();
+        $user->save();
 
-        return $user->save();
+        return $user;
     }
 
     /**
@@ -80,7 +94,7 @@ class UserService
     public function hasUserSpeciality(User $user, $especialidade): bool
     {
         return UserEspecialidade::where('user_id', $user->id)
-            ->where('epecialidade_id', $especialidade->id)
+            ->where('especialidade_id', $especialidade->id)
             ->select('id')
             ->first() !== null;
     }
@@ -101,7 +115,7 @@ class UserService
         }
 
         foreach ($especialidades as $especialidade) {
-            if ($this->hasUserSpeciality($user->id, $especialidade->id)) {
+            if ($this->hasUserSpeciality($user, $especialidade)) {
                 continue;
             }
 
@@ -254,23 +268,20 @@ class UserService
      *
      * @param $userKeycloak UserKeycloak
      * @param $idKeycloak   string
+     * @param User $user
      *
      * @return User
      */
     public function upsertUserAndRelationships(
+        User $user,
         UserKeycloak $userKeycloak,
         string $idKeycloak
     ) {
-        $user = $this->fetchUserByEmailOrCpf(
-            $userKeycloak->getEmail(),
-            $userKeycloak->getPassword()
-        );
-
         if (!$user) {
             $user = new User();
         }
 
-        $this->upsertUser($user, $userKeycloak, $idKeycloak);
+        $user = $this->upsertUser($user, $userKeycloak, $idKeycloak);
         if (!$user->id) {
             throw new \Exception('Usuário não criado na API');
         }
@@ -281,5 +292,67 @@ class UserService
         $this->upsertUserHiresTypes($user, $userKeycloak);
 
         return $user;
+    }
+
+    /**
+     * Verifica se o usuário existe na base de dados através do sub.
+     *
+     * @param $userKeycloak array
+     *
+     * @return User|null
+     */
+    public function fetchUserRegisteredCorrectly(array $userKeycloak)
+    {
+        if (!isset($userKeycloak['sub'])) {
+            return;
+        }
+
+        $user = User::where('id_keycloak', $userKeycloak['sub'])->first();
+        if (!$user || !isset($user, $user->municipio_id, $user->telefone, $user->cpf)) {
+            return;
+        }
+
+        return $user;
+    }
+
+    /**
+     * Efetua um pre-registro do usuário na base do isus para posteriormente
+     * ser atualizado pelo cadastro.
+     *
+     * @param $userKeycloak array
+     *
+     * @return User
+     */
+    public function preRegisterUser(array $userKeycloak)
+    {
+        $userIsus = User::where('id_keycloak', $userKeycloak['sub'])->first();
+        if ($userIsus) {
+            return $userIsus;
+        }
+
+        $user = (new KeycloakService())->getUserData($userKeycloak['sub']);
+        $userData = [
+            'email' => $userKeycloak['email'],
+            'id_keycloak' => $userKeycloak['sub'],
+            'name' => $userKeycloak['given_name'] . ' ' . $userKeycloak['family_name'],
+        ];
+
+        if (Arr::get($user, 'attributes.CPF.0', false)) {
+            $userData['cpf'] = Arr::get($user, 'attributes.CPF.0');
+        }
+
+        if (Arr::get($user, 'attributes.CIDADE_ID.0', false)) {
+            $userData['municipio_id'] = Arr::get($user, 'attributes.CIDADE_ID.0');
+        }
+
+        if (Arr::get($user, 'attributes.TELEFONE.0', false)) {
+            $userData['telefone'] = Arr::get($user, 'attributes.TELEFONE.0');
+        }
+
+        if (Arr::get($user, 'attributes.TERMOS.0', false)) {
+            $userData['termos'] = Arr::get($user, 'attributes.TERMOS.0') === 'true';
+        }
+
+        return User::create($userData);
     }
 }
