@@ -19,13 +19,19 @@ class CategoriaProfissionalController extends Controller
     public function index()
     {
         try {
-            $categoriasProfissionais = $this->categoriaProfissional->all();
+            $categoriasProfissionais = $this->categoriaProfissional
+                ->select('id', 'nome', 'ordem')
+                ->orderByRaw('ordem + 0') // somente assim ele ordena com base numérica e não string
+                ->get();
 
             return response()->json($categoriasProfissionais->toArray(), Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Não foi possivel retornar os dados',
-            ], Response::HTTP_NO_CONTENT);
+            return response()->json(
+                [
+                    'message' => 'Não foi possivel retornar os dados',
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
     }
 
@@ -37,9 +43,12 @@ class CategoriaProfissionalController extends Controller
 
             return response()->json($especialidades->toArray(), Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Não foi possivel retornar os dados',
-            ], Response::HTTP_NO_CONTENT);
+            return response()->json(
+                [
+                    'message' => 'Não foi possivel retornar os dados',
+                ],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
     }
 }

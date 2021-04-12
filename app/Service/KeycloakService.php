@@ -297,7 +297,7 @@ class KeycloakService
         }
     }
 
-    private function enviarEmailCadastro($user)
+    public function enviarEmailCadastro($user)
     {
         \Mail::send(
             'email.bemvindo',
