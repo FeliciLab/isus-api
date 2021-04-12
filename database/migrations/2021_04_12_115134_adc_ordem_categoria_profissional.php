@@ -16,7 +16,7 @@ class AdcOrdemCategoriaProfissional extends Migration
         Schema::table(
             'categorias_profissionais',
             function (Blueprint $table) {
-                $table->string('ordem');
+                $table->unsignedInteger('ordem');
             }
         );
     }
