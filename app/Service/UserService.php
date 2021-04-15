@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Model\Especialidade;
 use App\Model\User;
 use App\Model\UserEspecialidade;
 use App\Model\UserKeycloak;
 use App\Model\UserTipoContratacao;
 use App\Model\UserTitulacaoAcademica;
 use App\Model\UserUnidadeServico;
+use App\Repository\UserEspecialidadeRepository;
+use App\Repository\UserUnidadesServicoRepository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
@@ -84,22 +87,6 @@ class UserService
     }
 
     /**
-     * Verifica se uma dada especialidade já foi salva no banco para um usuário.
-     *
-     * @param $user          User
-     * @param $especialidade Object
-     *
-     * @return bool
-     */
-    public function hasUserSpeciality(User $user, $especialidade): bool
-    {
-        return UserEspecialidade::where('user_id', $user->id)
-            ->where('especialidade_id', $especialidade->id)
-            ->select('id')
-            ->first() !== null;
-    }
-
-    /**
      * Atualiza ou insere a especialidade de um usuário.
      *
      * @param $user         User
@@ -107,15 +94,18 @@ class UserService
      *
      * @return bool
      */
-    public function upsertUserSpecialities(User $user, UserKeycloak $userKeycloak)
+    public function upsertUserSpecialities(User $user, UserKeycloak $userKeycloak): bool
     {
+        $userEspecialidadeRepository = new UserEspecialidadeRepository();
         $especialidades = $userKeycloak->getEspecialidades();
-        if (null === $especialidades) {
+        if (null === $especialidades->first()) {
             return false;
         }
 
+        $userEspecialidadeRepository->removerEspecialidadesSobressalentes($user, $especialidades);
+        $especialidadesUsuario = $userEspecialidadeRepository->coletarEspecialidadesUsuario($user);
         foreach ($especialidades as $especialidade) {
-            if ($this->hasUserSpeciality($user, $especialidade)) {
+            if ($especialidadesUsuario->where('especialidade_id', $especialidade->id)->first()) {
                 continue;
             }
 
@@ -129,22 +119,6 @@ class UserService
     }
 
     /**
-     * Verifica se na base de dados já existe o relacionamento.
-     *
-     * @param $user    User
-     * @param $servico Object
-     *
-     * @return UserUnidadeServico|null
-     */
-    public function hasUserUnityService(User $user, $servico)
-    {
-        return UserUnidadeServico::where('user_id', $user->id)
-                ->where('unidade_servico_id', $servico->id)
-                ->select('id')
-                ->first();
-    }
-
-    /**
      * Atualiza ou insere o relacionamento com unidade de serviço.
      *
      * @param $user         User
@@ -154,13 +128,23 @@ class UserService
      */
     public function upsertUserUnityService(User $user, UserKeycloak $userKeycloak)
     {
+        $userUnidadesServicoRepository = new UserUnidadesServicoRepository();
         $unidadesServicos = $userKeycloak->getUnidadesServicos();
-        if (null === $unidadesServicos) {
+        if (null === $unidadesServicos->first()) {
             return false;
         }
 
+        $userUnidadesServicoRepository
+            ->removerUnidadesServicosSobressalentes(
+                $user,
+                $unidadesServicos
+            );
+
+        $userUnidadeServico = $userUnidadesServicoRepository
+            ->coletaUnidadesServicosUsuario($user);
+
         foreach ($unidadesServicos as $servico) {
-            if ($this->hasUserUnityService($user, $servico)) {
+            if ($userUnidadeServico->where('unidade_servico_id', $servico->id)->first()) {
                 continue;
             }
 
@@ -184,9 +168,9 @@ class UserService
     public function hasAcademicTitles($user, $titulacao)
     {
         return UserTitulacaoAcademica::where('user_id', $user->id)
-            ->where('titulacao_academica_id', $titulacao->id)
-            ->select('id')
-            ->first() !== null;
+                ->where('titulacao_academica_id', $titulacao->id)
+                ->select('id')
+                ->first() !== null;
     }
 
     /**

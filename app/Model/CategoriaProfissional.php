@@ -13,6 +13,12 @@ class CategoriaProfissional extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
+    protected $fillable = [
+        'nome',
+        'id',
+        'ordem',
+    ];
+
     public function especialidades()
     {
         return $this->hasMany(Especialidade::class, 'categoriaprofissional_id', 'id');

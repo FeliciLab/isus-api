@@ -13,6 +13,12 @@ class UnidadeServico extends Model
     public const ISUS_CATEGORIA_UTI = 10;
     protected $table = 'unidades_servico';
 
+    protected $fillable = [
+        'nome',
+        'id',
+        'pai',
+    ];
+
     public function unidadesServicoCategoria()
     {
         return $this->hasMany(UnidadesServicoCategoria::class);

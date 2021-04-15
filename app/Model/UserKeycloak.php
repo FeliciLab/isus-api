@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use Illuminate\Support\Collection;
+
 class UserKeycloak
 {
     private $idKeycloak;
@@ -18,12 +20,12 @@ class UserKeycloak
     private $cidadeId;
     private $cidade;
     private $termos = false;
-    private $categoriaProfissional;
     private $titulacaoAcademica;
     private $tipoContratacao;
     private $instituicao;
-    private $unidadeServico;
-    private $especialidades;
+    private CategoriaProfissional $categoriaProfissional;
+    private Collection $unidadeServico;
+    private Collection $especialidades;
 
     public function __construct($dados)
     {
@@ -44,12 +46,25 @@ class UserKeycloak
         $this->cidadeId = $dados['cidadeId'] ?? null;
         $this->cidade = $dados['cidade'] ?? null;
         $this->termos = $dados['termos'] ?? null;
-        $this->categoriaProfissional = $dados['categoriaProfissional'] ?? null;
         $this->titulacaoAcademica = $dados['titulacaoAcademica'] ?? null;
         $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
         $this->instituicao = $dados['instituicao'] ?? null;
-        $this->unidadeServico = $dados['unidadeServico'] ?? null;
-        $this->especialidades = $dados['especialidades'] ?? null;
+        $this->categoriaProfissional = new CategoriaProfissional(
+            $dados['categoriaProfissional'] ?? []
+        );
+        $this->unidadeServico = collect(
+            array_map(function ($item) {
+                return new UnidadeServico($item);
+            }, $dados['unidadeServico'] ?? [])
+        );
+        $this->especialidades = collect(
+            array_map(
+                function ($item) {
+                    return new Especialidade($item);
+                },
+                $dados['especialidades'] ?? []
+            )
+        );
     }
 
     public function getIdKeycloak()
@@ -90,15 +105,18 @@ class UserKeycloak
     public function getCategoriaProfissionalId()
     {
         if ($this->categoriaProfissional) {
-            $categoriaProfissional = json_decode($this->categoriaProfissional);
-
-            return $categoriaProfissional->id;
+            return $this->categoriaProfissional->id;
         }
     }
 
     public function getUnidadesServicos()
     {
-        return json_decode($this->unidadeServico);
+        return $this->unidadeServico;
+    }
+
+    public function getEspecialidades()
+    {
+        return $this->especialidades;
     }
 
     public function getTiposContratacoes()
@@ -109,11 +127,6 @@ class UserKeycloak
     public function getTitulacoesAcademicas()
     {
         return json_decode($this->titulacaoAcademica);
-    }
-
-    public function getEspecialidades()
-    {
-        return json_decode($this->especialidades);
     }
 
     public function toKeycloak($semSenha = false)
