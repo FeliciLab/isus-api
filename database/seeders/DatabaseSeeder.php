@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
@@ -21,7 +22,8 @@ class DatabaseSeeder extends Seeder
             UnidadesServicoSeeder::class,
             UnidadesServicoCategoriaSeeder::class,
             EspecialidadesSeeder::class,
-            AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1::class
+            AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1::class,
+            AdcDefaultBannersSeeder::class
         ]);
     }
 }

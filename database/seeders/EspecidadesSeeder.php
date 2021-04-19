@@ -1,5 +1,5 @@
 <?php
-
+namespace Database\Seeders;
 use App\Model\CategoriaProfissional;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

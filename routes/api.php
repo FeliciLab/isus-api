@@ -39,6 +39,8 @@ Route::get(
 );
 
 Route::namespace('Api')->group(function () {
+    Route::apiResource('banner-config', 'BannerConfigController');
+
     Route::get('/synchronize', 'SynchronizeController@index');
 
     Route::get('/buscaPorProjetos', 'WordpressController@buscaPorProjetos');
