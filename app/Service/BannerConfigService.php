@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Repository\BannerConfigRepository;
 
 /**
- * Classe que executa as regras de negócio do BannerConfig
+ * Classe que executa as regras de negócio do BannerConfig.
  */
 class BannerConfigService
 {

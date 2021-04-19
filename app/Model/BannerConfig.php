@@ -15,11 +15,11 @@ class BannerConfig extends Model
         'tipo',
         'ordem',
         'options',
-        'ativo'
+        'ativo',
     ];
 
     protected $cast = [
         'ativo' => 'boolean',
-        'ordem' => 'integer'
+        'ordem' => 'integer',
     ];
 }
