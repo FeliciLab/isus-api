@@ -148,10 +148,10 @@ class UserService
                 continue;
             }
 
-            $userUnidadeServico = new UserUnidadeServico();
-            $userUnidadeServico->user_id = $user->id;
-            $userUnidadeServico->unidade_servico_id = $servico->id;
-            $userUnidadeServico->save();
+            $unidadeServicoUsuario = new UserUnidadeServico();
+            $unidadeServicoUsuario->user_id = $user->id;
+            $unidadeServicoUsuario->unidade_servico_id = $servico->id;
+            $unidadeServicoUsuario->save();
         }
 
         return true;
