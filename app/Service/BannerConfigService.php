@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Model\BannerConfig;
 use App\Repository\BannerConfigRepository;
 
 /**
@@ -19,5 +20,14 @@ class BannerConfigService
     public function buscarConfiguracoes()
     {
         return $this->repository->tudoOrdenado();
+    }
+
+    public function salvar(array $dados, BannerConfig $modelo = null)
+    {
+        if (!$modelo) {
+            return $this->repository->salvarNovo($dados);
+        }
+
+        return $this->repository->atualizar($modelo, $dados);
     }
 }

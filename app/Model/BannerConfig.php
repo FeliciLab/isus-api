@@ -18,7 +18,7 @@ class BannerConfig extends Model
         'ativo',
     ];
 
-    protected $cast = [
+    protected $casts = [
         'ativo' => 'boolean',
         'ordem' => 'integer',
     ];
