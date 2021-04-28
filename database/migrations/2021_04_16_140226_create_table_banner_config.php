@@ -15,7 +15,6 @@ class CreateTableBannerConfig extends Migration
     {
         Schema::create('banner_config', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('titulo');
             $table->string('imagem');
             $table->string('valor');
@@ -23,6 +22,7 @@ class CreateTableBannerConfig extends Migration
             $table->unsignedInteger('ordem');
             $table->boolean('ativo');
             $table->text('options');
+            $table->timestamps();
         });
     }
 

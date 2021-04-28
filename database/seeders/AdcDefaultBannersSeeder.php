@@ -16,6 +16,7 @@ class AdcDefaultBannersSeeder extends Seeder
     {
         DB::table('banner_config')->insert([
             [
+                'id' => 1,
                 'ativo' => true,
                 'titulo' => 'Vacinação',
                 'imagem' => 'images/banners/vacinaCovid19.png',
@@ -23,8 +24,11 @@ class AdcDefaultBannersSeeder extends Seeder
                 'tipo' => 'webview',
                 'ordem' => 1,
                 'options' => json_encode(['local_imagem' => 'app']),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
+                'id' => 2,
                 'ativo' => true,
                 'titulo' => 'Guia de Assistência Farmacêutica',
                 'imagem' => 'images/banners/guiaAssistenciaFarmaceutica.jpg',
@@ -32,8 +36,11 @@ class AdcDefaultBannersSeeder extends Seeder
                 'tipo' => 'webview',
                 'ordem' => 2,
                 'options' => json_encode(['local_imagem' => 'app']),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
+                'id' => 3,
                 'ativo' => true,
                 'titulo' => 'ID Saúde',
                 'imagem' => 'images/banners/IDSaude.png',
@@ -46,8 +53,11 @@ class AdcDefaultBannersSeeder extends Seeder
                         'login' => true
                     ]
                 ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
+                'id' => 4,
                 'ativo' => true,
                 'titulo' => 'ID Saúde',
                 'imagem' => 'images/banners/IDSaude.png',
@@ -60,6 +70,8 @@ class AdcDefaultBannersSeeder extends Seeder
                         'login' => false
                     ]
                 ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ]);
     }

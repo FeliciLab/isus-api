@@ -22,7 +22,7 @@ services:
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
     db:
       container_name: api-isus-db
-      image: mysql:5.6
+      image: mariadb:10
       ports:
         - "3307:3306"
       volumes:
