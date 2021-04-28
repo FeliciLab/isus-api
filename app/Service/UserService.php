@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Model\Especialidade;
 use App\Model\User;
 use App\Model\UserEspecialidade;
 use App\Model\UserKeycloak;
 use App\Model\UserTipoContratacao;
 use App\Model\UserTitulacaoAcademica;
 use App\Model\UserUnidadeServico;
+use App\Repository\UserEspecialidadeRepository;
+use App\Repository\UserUnidadesServicoRepository;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -43,6 +47,18 @@ class UserService
     }
 
     /**
+     * @param string $cpf
+     * @param string $idKeycloak
+     */
+    public function verificarCpfExisteParaOutrem(string $cpf, string $idKeycloak)
+    {
+        return User::select('id')
+            ->where('cpf', $cpf)
+            ->where('id_keycloak', '!=', $idKeycloak)
+            ->first();
+    }
+
+    /**
      * Atualiza/cria um usuário.
      *
      * @param $user         User
@@ -55,7 +71,7 @@ class UserService
         User $user,
         UserKeycloak $userKeycloak,
         string $idKeycloak
-    ): bool {
+    ): User {
         $user->name = $userKeycloak->getName();
         $user->cpf = $userKeycloak->getCpf();
         $user->email = $userKeycloak->getEmail();
@@ -65,24 +81,9 @@ class UserService
         $user->municipio_id = $userKeycloak->getCidadeId();
         $user->categoriaprofissional_id = $userKeycloak
             ->getCategoriaProfissionalId();
+        $user->save();
 
-        return $user->save();
-    }
-
-    /**
-     * Verifica se uma dada especialidade já foi salva no banco para um usuário.
-     *
-     * @param $user          User
-     * @param $especialidade Object
-     *
-     * @return bool
-     */
-    public function hasUserSpeciality(User $user, $especialidade): bool
-    {
-        return UserEspecialidade::where('user_id', $user->id)
-            ->where('epecialidade_id', $especialidade->id)
-            ->select('id')
-            ->first() !== null;
+        return $user;
     }
 
     /**
@@ -93,15 +94,18 @@ class UserService
      *
      * @return bool
      */
-    public function upsertUserSpecialities(User $user, UserKeycloak $userKeycloak)
+    public function upsertUserSpecialities(User $user, UserKeycloak $userKeycloak): bool
     {
+        $userEspecialidadeRepository = new UserEspecialidadeRepository();
         $especialidades = $userKeycloak->getEspecialidades();
-        if (null === $especialidades) {
+        if (null === $especialidades->first()) {
             return false;
         }
 
+        $userEspecialidadeRepository->removerEspecialidadesSobressalentes($user, $especialidades);
+        $especialidadesUsuario = $userEspecialidadeRepository->coletarEspecialidadesUsuario($user);
         foreach ($especialidades as $especialidade) {
-            if ($this->hasUserSpeciality($user->id, $especialidade->id)) {
+            if ($especialidadesUsuario->where('especialidade_id', $especialidade->id)->first()) {
                 continue;
             }
 
@@ -115,22 +119,6 @@ class UserService
     }
 
     /**
-     * Verifica se na base de dados já existe o relacionamento.
-     *
-     * @param $user    User
-     * @param $servico Object
-     *
-     * @return UserUnidadeServico|null
-     */
-    public function hasUserUnityService(User $user, $servico)
-    {
-        return UserUnidadeServico::where('user_id', $user->id)
-                ->where('unidade_servico_id', $servico->id)
-                ->select('id')
-                ->first();
-    }
-
-    /**
      * Atualiza ou insere o relacionamento com unidade de serviço.
      *
      * @param $user         User
@@ -140,20 +128,30 @@ class UserService
      */
     public function upsertUserUnityService(User $user, UserKeycloak $userKeycloak)
     {
+        $userUnidadesServicoRepository = new UserUnidadesServicoRepository();
         $unidadesServicos = $userKeycloak->getUnidadesServicos();
-        if (null === $unidadesServicos) {
+        if (null === $unidadesServicos->first()) {
             return false;
         }
 
+        $userUnidadesServicoRepository
+            ->removerUnidadesServicosSobressalentes(
+                $user,
+                $unidadesServicos
+            );
+
+        $userUnidadeServico = $userUnidadesServicoRepository
+            ->coletaUnidadesServicosUsuario($user);
+
         foreach ($unidadesServicos as $servico) {
-            if ($this->hasUserUnityService($user, $servico)) {
+            if ($userUnidadeServico->where('unidade_servico_id', $servico->id)->first()) {
                 continue;
             }
 
-            $userUnidadeServico = new UserUnidadeServico();
-            $userUnidadeServico->user_id = $user->id;
-            $userUnidadeServico->unidade_servico_id = $servico->id;
-            $userUnidadeServico->save();
+            $unidadeServicoUsuario = new UserUnidadeServico();
+            $unidadeServicoUsuario->user_id = $user->id;
+            $unidadeServicoUsuario->unidade_servico_id = $servico->id;
+            $unidadeServicoUsuario->save();
         }
 
         return true;
@@ -170,9 +168,9 @@ class UserService
     public function hasAcademicTitles($user, $titulacao)
     {
         return UserTitulacaoAcademica::where('user_id', $user->id)
-            ->where('titulacao_academica_id', $titulacao->id)
-            ->select('id')
-            ->first() !== null;
+                ->where('titulacao_academica_id', $titulacao->id)
+                ->select('id')
+                ->first() !== null;
     }
 
     /**
@@ -254,23 +252,20 @@ class UserService
      *
      * @param $userKeycloak UserKeycloak
      * @param $idKeycloak   string
+     * @param User $user
      *
      * @return User
      */
     public function upsertUserAndRelationships(
+        User $user,
         UserKeycloak $userKeycloak,
         string $idKeycloak
     ) {
-        $user = $this->fetchUserByEmailOrCpf(
-            $userKeycloak->getEmail(),
-            $userKeycloak->getPassword()
-        );
-
         if (!$user) {
             $user = new User();
         }
 
-        $this->upsertUser($user, $userKeycloak, $idKeycloak);
+        $user = $this->upsertUser($user, $userKeycloak, $idKeycloak);
         if (!$user->id) {
             throw new \Exception('Usuário não criado na API');
         }
@@ -281,5 +276,67 @@ class UserService
         $this->upsertUserHiresTypes($user, $userKeycloak);
 
         return $user;
+    }
+
+    /**
+     * Verifica se o usuário existe na base de dados através do sub.
+     *
+     * @param $userKeycloak array
+     *
+     * @return User|null
+     */
+    public function fetchUserRegisteredCorrectly(array $userKeycloak)
+    {
+        if (!isset($userKeycloak['sub'])) {
+            return;
+        }
+
+        $user = User::where('id_keycloak', $userKeycloak['sub'])->first();
+        if (!$user || !isset($user, $user->municipio_id, $user->telefone, $user->cpf)) {
+            return;
+        }
+
+        return $user;
+    }
+
+    /**
+     * Efetua um pre-registro do usuário na base do isus para posteriormente
+     * ser atualizado pelo cadastro.
+     *
+     * @param $userKeycloak array
+     *
+     * @return User
+     */
+    public function preRegisterUser(array $userKeycloak)
+    {
+        $userIsus = User::where('id_keycloak', $userKeycloak['sub'])->first();
+        if ($userIsus) {
+            return $userIsus;
+        }
+
+        $user = (new KeycloakService())->getUserData($userKeycloak['sub']);
+        $userData = [
+            'email' => $userKeycloak['email'],
+            'id_keycloak' => $userKeycloak['sub'],
+            'name' => $userKeycloak['given_name'] . ' ' . $userKeycloak['family_name'],
+        ];
+
+        if (Arr::get($user, 'attributes.CPF.0', false)) {
+            $userData['cpf'] = Arr::get($user, 'attributes.CPF.0');
+        }
+
+        if (Arr::get($user, 'attributes.CIDADE_ID.0', false)) {
+            $userData['municipio_id'] = Arr::get($user, 'attributes.CIDADE_ID.0');
+        }
+
+        if (Arr::get($user, 'attributes.TELEFONE.0', false)) {
+            $userData['telefone'] = Arr::get($user, 'attributes.TELEFONE.0');
+        }
+
+        if (Arr::get($user, 'attributes.TERMOS.0', false)) {
+            $userData['termos'] = Arr::get($user, 'attributes.TERMOS.0') === 'true';
+        }
+
+        return User::create($userData);
     }
 }
