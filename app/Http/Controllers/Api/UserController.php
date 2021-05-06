@@ -149,7 +149,6 @@ class UserController extends Controller
             );
         }
 
-
         $userKeycloak = new UserKeycloak($dados);
         $user = $keyCloakService->update($userKeycloak, $request->usuario->sub);
 

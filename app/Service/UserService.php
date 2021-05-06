@@ -97,7 +97,7 @@ class UserService
     {
         $userEspecialidadeRepository = new UserEspecialidadeRepository();
         $especialidades = $userKeycloak->getEspecialidades();
-        if (is_null($especialidades->first())) {
+        if (null === $especialidades->first()) {
             return false;
         }
 
@@ -129,7 +129,7 @@ class UserService
     {
         $userUnidadesServicoRepository = new UserUnidadesServicoRepository();
         $unidadesServicos = $userKeycloak->getUnidadesServicos();
-        if (is_null($unidadesServicos->first())) {
+        if (null === $unidadesServicos->first()) {
             return false;
         }
 
@@ -183,7 +183,7 @@ class UserService
     public function upsertUserAcademicTitles(User $user, UserKeycloak $userKeycloak)
     {
         $titulacoesAcademica = $userKeycloak->getTitulacoesAcademicas();
-        if (is_null($titulacoesAcademica)) {
+        if (null === $titulacoesAcademica) {
             return false;
         }
 
@@ -228,7 +228,7 @@ class UserService
     public function upsertUserHiresTypes(User $user, UserKeycloak $userKeycloak)
     {
         $tiposContratacoes = $userKeycloak->getTiposContratacoes();
-        if (is_null($tiposContratacoes)) {
+        if (null === $tiposContratacoes) {
             return false;
         }
 

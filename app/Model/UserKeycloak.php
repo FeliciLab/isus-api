@@ -223,8 +223,10 @@ class UserKeycloak
         return explode(' ', $nomeCompleto)[0];
     }
 
-    private function formatandoCampoRelacionameto($chave, $dados) {
+    private function formatandoCampoRelacionameto($chave, $dados)
+    {
         $tmp = $dados[$chave] ?? [];
+
         return is_string($tmp) ? json_decode($tmp, true) : $tmp;
     }
 }

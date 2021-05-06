@@ -269,7 +269,6 @@ class KeycloakService
             return;
         }
 
-
         return (new UserService())->upsertUserAndRelationships(
             $user,
             $userKeycloak,
