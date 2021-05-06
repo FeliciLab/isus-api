@@ -23,7 +23,12 @@ class AdcDefaultBannersSeeder extends Seeder
                 'valor' => 'https://coronavirus.ceara.gov.br/vacina',
                 'tipo' => 'webview',
                 'ordem' => 1,
-                'options' => json_encode(['local_imagem' => 'app']),
+                'options' => json_encode(
+                    [
+                        'localImage' => 'app',
+                        'labelAnalytics' => 'banner_vacina_covid19'
+                    ]
+                ),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -35,7 +40,12 @@ class AdcDefaultBannersSeeder extends Seeder
                 'valor' => 'https://coronavirus.ceara.gov.br/project/secretaria-de-saude-disponibiliza-guia-da-assistencia-farmaceutica-no-estado-do-ceara/',
                 'tipo' => 'webview',
                 'ordem' => 2,
-                'options' => json_encode(['local_imagem' => 'app']),
+                'options' => json_encode(
+                    [
+                        'localImage' => 'app',
+                        'labelAnalytics' => 'guia_assistencia_farmaceutica'
+                    ]
+                ),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -49,8 +59,9 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ordem' => 3,
                 'options' => json_encode(
                     [
-                        'local_imagem' => 'app',
-                        'login' => true
+                        'localImage' => 'app',
+                        'login' => true,
+                        'labelAnalytics' => 'id_saude'
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -66,8 +77,9 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ordem' => 3,
                 'options' => json_encode(
                     [
-                        'local_imagem' => 'app',
-                        'login' => false
+                        'localImage' => 'app',
+                        'login' => false,
+                        'labelAnalytics' => 'id_saude'
                     ]
                 ),
                 'created_at' => Carbon::now(),
