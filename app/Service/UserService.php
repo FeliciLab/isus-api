@@ -79,8 +79,7 @@ class UserService
         $user->password = Hash::make($userKeycloak->getPassword());
         $user->id_keycloak = $idKeycloak;
         $user->municipio_id = $userKeycloak->getCidadeId();
-        $user->categoriaprofissional_id = $userKeycloak
-            ->getCategoriaProfissionalId();
+        $user->categoriaprofissional_id = $userKeycloak->getCategoriaProfissionalId() ?? $user->categoriaprofissional_id;
         $user->save();
 
         return $user;
@@ -98,7 +97,7 @@ class UserService
     {
         $userEspecialidadeRepository = new UserEspecialidadeRepository();
         $especialidades = $userKeycloak->getEspecialidades();
-        if (null === $especialidades->first()) {
+        if (is_null($especialidades->first())) {
             return false;
         }
 
@@ -130,7 +129,7 @@ class UserService
     {
         $userUnidadesServicoRepository = new UserUnidadesServicoRepository();
         $unidadesServicos = $userKeycloak->getUnidadesServicos();
-        if (null === $unidadesServicos->first()) {
+        if (is_null($unidadesServicos->first())) {
             return false;
         }
 
@@ -184,7 +183,7 @@ class UserService
     public function upsertUserAcademicTitles(User $user, UserKeycloak $userKeycloak)
     {
         $titulacoesAcademica = $userKeycloak->getTitulacoesAcademicas();
-        if (null === $titulacoesAcademica) {
+        if (is_null($titulacoesAcademica)) {
             return false;
         }
 
@@ -229,7 +228,7 @@ class UserService
     public function upsertUserHiresTypes(User $user, UserKeycloak $userKeycloak)
     {
         $tiposContratacoes = $userKeycloak->getTiposContratacoes();
-        if (null === $tiposContratacoes) {
+        if (is_null($tiposContratacoes)) {
             return false;
         }
 

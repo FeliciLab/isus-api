@@ -6,26 +6,26 @@ use Illuminate\Support\Collection;
 
 class UserKeycloak
 {
-    private $idKeycloak;
-    private $enabled = true;
-    private $email;
-    private $firstName;
-    private $lastName;
-    private $password;
-    private $telefone;
-    private $cpf;
-    private $rg;
-    private $estadoId;
-    private $estado;
-    private $cidadeId;
-    private $cidade;
-    private $termos = false;
-    private $titulacaoAcademica;
-    private $tipoContratacao;
-    private $instituicao;
-    private CategoriaProfissional $categoriaProfissional;
-    private Collection $unidadeServico;
-    private Collection $especialidades;
+    protected $idKeycloak;
+    protected $enabled = true;
+    protected $email;
+    protected $firstName;
+    protected $lastName;
+    protected $password;
+    protected $telefone;
+    protected $cpf;
+    protected $rg;
+    protected $estadoId;
+    protected $estado;
+    protected $cidadeId;
+    protected $cidade;
+    protected $termos = false;
+    protected $titulacaoAcademica;
+    protected $tipoContratacao;
+    protected $instituicao;
+    protected CategoriaProfissional $categoriaProfissional;
+    protected Collection $unidadeServico;
+    protected Collection $especialidades;
 
     public function __construct($dados)
     {
@@ -49,20 +49,26 @@ class UserKeycloak
         $this->titulacaoAcademica = $dados['titulacaoAcademica'] ?? null;
         $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
         $this->instituicao = $dados['instituicao'] ?? null;
+
         $this->categoriaProfissional = new CategoriaProfissional(
-            $dados['categoriaProfissional'] ?? []
+            $this->formatandoCampoRelacionameto('categoriaProfissional', $dados)
         );
+
         $this->unidadeServico = collect(
-            array_map(function ($item) {
-                return new UnidadeServico($item);
-            }, $dados['unidadeServico'] ?? [])
+            array_map(
+                function ($item) {
+                    return new UnidadeServico($item);
+                },
+                $this->formatandoCampoRelacionameto('unidadeServico', $dados)
+            )
         );
+
         $this->especialidades = collect(
             array_map(
                 function ($item) {
                     return new Especialidade($item);
                 },
-                $dados['especialidades'] ?? []
+                $this->formatandoCampoRelacionameto('especialidade', $dados)
             )
         );
     }
@@ -215,5 +221,10 @@ class UserKeycloak
     private function pegarNome($nomeCompleto)
     {
         return explode(' ', $nomeCompleto)[0];
+    }
+
+    private function formatandoCampoRelacionameto($chave, $dados) {
+        $tmp = $dados[$chave] ?? [];
+        return is_string($tmp) ? json_decode($tmp, true) : $tmp;
     }
 }
