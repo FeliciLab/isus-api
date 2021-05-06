@@ -21,5 +21,6 @@ class BannerConfig extends Model
     protected $casts = [
         'ativo' => 'boolean',
         'ordem' => 'integer',
+        'options' => 'json'
     ];
 }
