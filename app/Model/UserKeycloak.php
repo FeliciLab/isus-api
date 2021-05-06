@@ -68,7 +68,7 @@ class UserKeycloak
                 function ($item) {
                     return new Especialidade($item);
                 },
-                $this->formatandoCampoRelacionameto('especialidade', $dados)
+                $this->formatandoCampoRelacionameto('especialidades', $dados)
             )
         );
     }
