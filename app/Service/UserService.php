@@ -79,8 +79,7 @@ class UserService
         $user->password = Hash::make($userKeycloak->getPassword());
         $user->id_keycloak = $idKeycloak;
         $user->municipio_id = $userKeycloak->getCidadeId();
-        $user->categoriaprofissional_id = $userKeycloak
-            ->getCategoriaProfissionalId();
+        $user->categoriaprofissional_id = $userKeycloak->getCategoriaProfissionalId() ?? $user->categoriaprofissional_id;
         $user->save();
 
         return $user;

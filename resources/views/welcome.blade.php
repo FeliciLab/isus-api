@@ -48,6 +48,10 @@
             font-size: 84px;
         }
 
+        .subtitle {
+            font-size: 40px;
+        }
+
         .links > a {
             color: #636b6f;
             padding: 0 25px;
@@ -68,6 +72,9 @@
     <div class="content">
         <div class="title m-b-md">
             API-ISUS
+        </div>
+        <div class="subtitle m-b-md">
+            v3.17.0
         </div>
 
         <div class="links">
