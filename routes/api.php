@@ -40,6 +40,8 @@ Route::get(
 
 Route::namespace('Api')->group(function () {
     Route::apiResource('banner-config', 'BannerConfigController');
+    Route::get('definicoes-conteudos/{categoria}', 'DefinicoesConteudoController@index');
+    Route::post('definicoes-conteudos/{categoria}', 'DefinicoesConteudoController@store');
 
     Route::get('/synchronize', 'SynchronizeController@index');
 

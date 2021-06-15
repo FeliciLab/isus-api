@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\DefinicoesConteudo;
+namespace App\Model\DefinicoesConteudos;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,24 +13,25 @@ class DefinicoesConteudo extends Model
     protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = [
         'ativo',
-        'categorias',
+        'categoria',
         'imagem',
-        'opcoes',
         'ordem',
         'sessao',
-        'valor',
         'tipo',
         'titulo',
+        'valor',
     ];
 
     protected $casts = [
         'ativo' => 'boolean',
         'ordem' => 'integer',
-        'opcoes' => 'json',
     ];
 
     public function opcoes()
     {
-        return $this->hasMany(DefinicoesConteudoOpcoes::class);
+        return $this->hasMany(
+            DefinicoesConteudoOpcoes::class,
+            'definicoes_conteudos_id', 'id'
+        );
     }
 }

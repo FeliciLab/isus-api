@@ -15,14 +15,14 @@ class CriarTabelaDefinicoesConteudos extends Migration
     {
         Schema::create('definicoes_conteudos', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->string('categoria');
-            $table->string('sessao');
-            $table->string('imagem');
-            $table->string('valor');
-            $table->string('tipo');
-            $table->unsignedInteger('ordem');
             $table->boolean('ativo');
+            $table->string('categoria');
+            $table->string('imagem');
+            $table->unsignedInteger('ordem');
+            $table->string('sessao');
+            $table->string('tipo');
+            $table->string('titulo');
+            $table->string('valor');
             $table->timestamps();
         });
     }
