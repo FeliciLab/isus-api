@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             UnidadesServicoCategoriaSeeder::class,
             EspecialidadesSeeder::class,
             AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1::class,
-            AdcDefaultBannersSeeder::class
+            AdcDefaultBannersSeeder::class,
+            DefinicoesConteudoSeeder::class,
         ]);
     }
 }

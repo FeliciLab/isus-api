@@ -2,5 +2,5 @@
     "php-cs-fixer.configFile": "/home/chicao/projetos/isus/isus-api/.php_cs",
     "php-cs-fixer.executable": "/home/chicao/projetos/isus/isus-api/",
     "phpcs.showSources": true,
-    "workbench.colorTheme": "Nature Dark",
+    "workbench.colorTheme": "Default Dark+",
 }
