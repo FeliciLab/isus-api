@@ -34,4 +34,24 @@ class DefinicoesConteudo extends Model
             'definicoes_conteudos_id', 'id'
         );
     }
+
+    public function scopeAtivos($query)
+    {
+        return $query->where('ativo', true);
+    }
+
+    public function scopeInativos($query)
+    {
+        return $query->where('ativo', false);
+    }
+
+    public function scopeEmOrdem($query)
+    {
+        return $query->orderByRaw('ordem + 0');
+    }
+
+    public function scopeEmOrdemDecrescente($query)
+    {
+        return $query->orderByRaw('ordem + 0 desc');
+    }
 }

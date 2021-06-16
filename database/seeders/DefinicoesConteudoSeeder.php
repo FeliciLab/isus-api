@@ -18,6 +18,7 @@ class DefinicoesConteudoSeeder extends Seeder
             [
                 'definicoes' => [
                     "id" => 1,
+                    'id_publico' => 'elmo_treinamento',
                     "ordem" => 1,
                     "ativo" => true,
                     "titulo" => "Treinamento",
@@ -43,6 +44,7 @@ class DefinicoesConteudoSeeder extends Seeder
             [
                 'definicoes' => [
                     "id" => 2,
+                    'id_publico' => 'elmo_manual_uso',
                     "ordem" => 2,
                     "ativo" => true,
                     "titulo" => "Manual de Uso",
@@ -68,6 +70,7 @@ class DefinicoesConteudoSeeder extends Seeder
             [
                 'definicoes' => [
                     "id" => 3,
+                    'id_publico' => 'elmo_fale_conosco',
                     "ordem" => 3,
                     "ativo" => true,
                     "titulo" => "Fale Conosco",
@@ -93,6 +96,7 @@ class DefinicoesConteudoSeeder extends Seeder
             [
                 'definicoes' => [
                     "id" => 4,
+                    'id_publico' => 'elmo_materiais',
                     "ordem" => 4,
                     "ativo" => true,
                     "titulo" => "Materiais",
@@ -118,6 +122,7 @@ class DefinicoesConteudoSeeder extends Seeder
             [
                 'definicoes' => [
                     "id" => 5,
+                    'id_publico' => 'elmo_depoimentos',
                     "ordem" => 5,
                     "ativo" => true,
                     "titulo" => "Depoimentos",
@@ -144,6 +149,7 @@ class DefinicoesConteudoSeeder extends Seeder
             [
                 'definicoes' => [
                     "id" => 6,
+                    'id_publico' => 'elmo_biblioteca',
                     "ordem" => 6,
                     "ativo" => true,
                     "titulo" => "Biblioteca",
@@ -169,6 +175,7 @@ class DefinicoesConteudoSeeder extends Seeder
             [
                 'definicoes' => [
                     "id" => 7,
+                    'id_publico' => 'elmo_doacoes',
                     "ordem" => 7,
                     "ativo" => true,
                     "titulo" => "Doações",

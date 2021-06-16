@@ -55,12 +55,15 @@ class DefinicoesConteudoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $id_publico
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show(
+        DefinicoesConteudosService $definicoesConteudosService,
+        string $categoria,
+        string $id_publico = ''
+    ) {
+        return response()->json($definicoesConteudosService->buscar($categoria, $id_publico));
     }
 
     /**

@@ -9,29 +9,40 @@ use Illuminate\Support\Facades\DB;
 
 class DefinicoesConteudosService
 {
-    public function buscar(string $categoria)
+    private function formatarDefinicoesConteudosOpcoes ($item) {
+        $opcoes = [];
+        foreach ($item->opcoes as $op) {
+            $opcoes[$op->chave] = $op->valor;
+        }
+
+        $dados = [];
+        foreach (collect($item) as $chave => $valor) {
+            if ($chave === 'opcoes') {
+                $dados['opcoes'] = $opcoes;
+                continue;
+            }
+
+            $dados[$chave] = $valor;
+        }
+
+        return $dados;
+    }
+
+    public function buscar(string $categoria, string $id_publico = '')
     {
-        return (new DefinicoesConteudo())
+        $consulta = (new DefinicoesConteudo())
+            ->ativos()
+            ->emOrdem()
             ->where('categoria', $categoria)
-            ->with('opcoes:definicoes_conteudos_id,chave,valor')
-            ->get()
+            ->with('opcoes:definicoes_conteudos_id,chave,valor');
+
+        if ($id_publico !== '') {
+            $consulta->where('id_publico', $id_publico);
+        }
+
+        return $consulta->get()
             ->map(function ($item) {
-                $opcoes = [];
-                foreach ($item->opcoes as $op) {
-                    $opcoes[$op->chave] = $op->valor;
-                }
-
-                $dados = [];
-                foreach (collect($item) as $chave => $valor) {
-                    if ($chave === 'opcoes') {
-                        $dados['opcoes'] = $opcoes;
-                        continue;
-                    }
-
-                    $dados[$chave] = $valor;
-                }
-
-                return $dados;
+                return $this->formatarDefinicoesConteudosOpcoes($item);
             });
     }
 

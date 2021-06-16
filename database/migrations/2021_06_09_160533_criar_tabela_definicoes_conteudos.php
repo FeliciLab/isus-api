@@ -15,6 +15,7 @@ class CriarTabelaDefinicoesConteudos extends Migration
     {
         Schema::create('definicoes_conteudos', function (Blueprint $table) {
             $table->id();
+            $table->uuid('id_publico');
             $table->boolean('ativo');
             $table->string('categoria');
             $table->string('imagem');
