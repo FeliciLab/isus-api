@@ -194,7 +194,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'id' => 10,
+                'id' => 11,
                 'ordem' => 9,
                 'ativo' => true,
                 'titulo' => 'ObservaEPS - Comunidade de práticas',
