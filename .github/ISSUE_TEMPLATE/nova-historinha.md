@@ -30,8 +30,7 @@ assignees: ''
 - [ ] titulo  
 **Dado que** algo  
 **Quando** faço  
-**então** resulta
-
+**Então** resulta
 
 # Observações
 
