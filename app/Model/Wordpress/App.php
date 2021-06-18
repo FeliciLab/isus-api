@@ -14,13 +14,13 @@ class App
 
     private const APP = [
         self::PREFIXO_CORONAVIRUS => [
-            'Educação' => [451, 452, 453, 454, 442],
-            'Pesquisa Científica' => [443, 450, 448, 446, 445, 449],
-            'Minha Saúde' => [486, 487, 488],
-            'Boletins Epidemiológicos' => [2],
+            'educacao' => [451, 452, 453, 454, 442],
+            'pesquisaCientifica' => [443, 450, 448, 446, 445, 449],
+            'minhaSaude' => [486, 487, 488],
+            'boletinsEpidemiologicos' => [2],
         ],
         self::PREFIXO_SUS_ELMO => [
-            'Notícias' => [4],
+            'noticias' => [4],
         ],
     ];
 
