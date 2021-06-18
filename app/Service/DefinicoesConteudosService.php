@@ -2,22 +2,24 @@
 
 namespace App\Service;
 
-use App\Model\DefinicoesConteudos\DefinicoesConteudo;
-use App\Model\DefinicoesConteudos\DefinicoesConteudoOpcoes;
-use App\Repository\DefinicoesConteudoRepository;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
+use App\Repository\DefinicoesConteudosRepository;
 
 class DefinicoesConteudosService
 {
     /**
-     * @var DefinicoesConteudosRepository
+     * @var App\Service\DefinicoesConteudosRepository
      */
     private $repository;
 
+    /**
+     * @var DefinicoesConteudosOpcoesService
+     */
+    private $opcoesService;
+
     public function __construct()
     {
-        $this->repository = new DefinicoesConteudoRepository();
+        $this->repository = new DefinicoesConteudosRepository();
+        $this->opcoesService = new DefinicoesConteudosOpcoesService();
     }
 
     public function buscar(string $categoria, string $id_publico = '')
@@ -50,27 +52,12 @@ class DefinicoesConteudosService
 
     public function atualizar(string $categoria, string $id_publico, array $dados)
     {
-        $definicoesConteudo = $this->repository->buscar($categoria, $id_publico);
-        $definicoesConteudo->fill($dados);
-        $definicoesConteudo->save();
+        $definicoesConteudo = $this->repository->buscar($categoria, $id_publico)->get(0);
+        return $this->repository->atualizar($dados, $definicoesConteudo);
+    }
 
-        $opcoes = $definicoesConteudo->opcoes;
-        foreach ($opcoes as $opcao) {
-            foreach ($dados['opcoes'] as $chave => $valor) {
-                $op = $opcao->find(function ($item) use ($chave) {
-                    return $item->chave === $chave;
-                });
-
-                if (!$op) {
-                    $opcao->delete();
-                    continue;
-                }
-
-                $op->valor = $valor;
-                $op->save();
-            }
-
-        }
-
+    public function deletar(string $categoria, string $id_publico)
+    {
+        return $this->repository->deletar($categoria, $id_publico);
     }
 }

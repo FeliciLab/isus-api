@@ -91,11 +91,12 @@ class DefinicoesConteudoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $categoria
+     * @param  string  $id_publico
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DefinicoesConteudosService $definicoesConteudosService, string $categoria, string $id_publico)
     {
-        //
+        return response()->json($definicoesConteudosService->deletar($categoria, $id_publico));
     }
 }
