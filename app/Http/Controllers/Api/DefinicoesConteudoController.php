@@ -70,15 +70,22 @@ class DefinicoesConteudoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $id_publico
      * @return \Illuminate\Http\Response
      */
     public function update(
         Request $request,
         DefinicoesConteudosService $definicoesConteudosService,
+        string $categoria,
         string $id_publico
     ) {
-
+        return response()->json(
+            $definicoesConteudosService->atualizar(
+                $categoria,
+                $id_publico,
+                $request->all()
+            )
+        );
     }
 
     /**
