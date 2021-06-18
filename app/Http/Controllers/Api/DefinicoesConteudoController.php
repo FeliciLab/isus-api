@@ -13,6 +13,9 @@ class DefinicoesConteudoController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param string $categoria
+     * @param DefinicoesConteudosService $definicoesConteudosService
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(string $categoria, DefinicoesConteudosService $definicoesConteudosService)
@@ -24,6 +27,8 @@ class DefinicoesConteudoController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param DefinicoesConteudosService $definicoesConteudosService
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, DefinicoesConteudosService $definicoesConteudosService)
@@ -56,6 +61,9 @@ class DefinicoesConteudoController extends Controller
      * Display the specified resource.
      *
      * @param  string  $id_publico
+     * @param DefinicoesConteudosService $definicoesConteudosService
+     * @param string $categoria
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(
@@ -71,6 +79,9 @@ class DefinicoesConteudoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $id_publico
+     * @param DefinicoesConteudosService $definicoesConteudosService
+     * @param string $categoria
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(
@@ -93,6 +104,8 @@ class DefinicoesConteudoController extends Controller
      *
      * @param  string  $categoria
      * @param  string  $id_publico
+     * @param DefinicoesConteudosService $definicoesConteudosService
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(DefinicoesConteudosService $definicoesConteudosService, string $categoria, string $id_publico)

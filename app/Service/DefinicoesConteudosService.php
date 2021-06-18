@@ -53,6 +53,7 @@ class DefinicoesConteudosService
     public function atualizar(string $categoria, string $id_publico, array $dados)
     {
         $definicoesConteudo = $this->repository->buscar($categoria, $id_publico)->get(0);
+
         return $this->repository->atualizar($dados, $definicoesConteudo);
     }
 

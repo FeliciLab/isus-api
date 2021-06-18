@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Model\DefinicoesConteudos\DefinicoesConteudo;
 use App\Model\DefinicoesConteudos\DefinicoesConteudoOpcoes;
 
 class DefinicoesConteudosOpcoesRepository

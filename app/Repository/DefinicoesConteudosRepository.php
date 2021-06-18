@@ -80,6 +80,7 @@ class DefinicoesConteudosRepository
     public function deletar(string $categoria, string $id_publico)
     {
         $definicoesConteudo = $this->model->where('categoria', $categoria)->where('id_publico', $id_publico)->first();
+
         return DB::transaction(function () use ($definicoesConteudo) {
             $this->opcoesRepository->deletarOpcoesDeUmaDefinicoesConteudos($definicoesConteudo->id);
             $definicoesConteudo->delete();

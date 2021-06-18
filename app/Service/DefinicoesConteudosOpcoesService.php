@@ -2,9 +2,7 @@
 
 namespace App\Service;
 
-use App\Model\DefinicoesConteudos\DefinicoesConteudo;
 use App\Repository\DefinicoesConteudosOpcoesRepository;
-use Database\Seeders\DefinicoesConteudoSeeder;
 
 class DefinicoesConteudosOpcoesService
 {
