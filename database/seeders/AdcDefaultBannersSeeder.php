@@ -25,7 +25,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'tipo' => 'webview',
                 'options' => json_encode(
                     [
-                        'localImage' => 'app',
+                        'localImagem' => 'app',
                         'labelAnalytics' => 'banner_vacina_covid19'
                     ]
                 ),
@@ -42,7 +42,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ordem' => 8,
                 'options' => json_encode(
                     [
-                        'localImage' => 'app',
+                        'localImagem' => 'app',
                         'labelAnalytics' => 'guia_assistencia_farmaceutica'
                     ]
                 ),
@@ -59,7 +59,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ordem' => 5,
                 'options' => json_encode(
                     [
-                        'localImage' => 'app',
+                        'localImagem' => 'app',
                         'login' => true,
                         'labelAnalytics' => 'id_saude'
                     ]
@@ -77,7 +77,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ordem' => 5,
                 'options' => json_encode(
                     [
-                        'localImage' => 'app',
+                        'localImagem' => 'app',
                         'login' => false,
                         'labelAnalytics' => 'id_saude'
                     ]
@@ -95,7 +95,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ordem' => 1,
                 'options' => json_encode(
                     [
-                        'localImage' => 'web',
+                        'localImagem' => 'web',
                         'login' => false,
                         'labelAnalytics' => 'sus_30_anos'
                     ]
@@ -113,7 +113,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ordem' => 2,
                 'options' => json_encode(
                     [
-                        'localImage' => 'web',
+                        'localImagem' => 'web',
                         'login' => false,
                         'labelAnalytics' => 'banner_ppsus'
                     ]
@@ -131,7 +131,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'tipo' => 'webview',
                 'options' => json_encode(
                     [
-                        'localImage' => 'web',
+                        'localImagem' => 'web',
                         'login' => false,
                         'labelAnalytics' => 'banner_cartilha_saude_mental'
                     ]
@@ -149,7 +149,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ordem' => 4,
                 'options' => json_encode(
                     [
-                        'localImage' => 'web',
+                        'localImagem' => 'web',
                         'login' => false,
                         'labelAnalytics' => 'banner_manejo_clinico'
                     ]
@@ -167,7 +167,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'tipo' => 'webview',
                 'options' => json_encode(
                     [
-                        'localImage' => 'web',
+                        'localImagem' => 'web',
                         'login' => false,
                         'labelAnalytics' => 'bannercovid19heroesstudy'
                     ]
@@ -185,7 +185,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'tipo' => 'webview',
                 'options' => json_encode(
                     [
-                        'localImage' => 'web',
+                        'localImagem' => 'web',
                         'login' => false,
                         'labelAnalytics' => 'bannerprotocolocoronariana'
                     ]
@@ -203,7 +203,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'tipo' => 'webview',
                 'options' => json_encode(
                     [
-                        'localImage' => 'web',
+                        'localImagem' => 'web',
                         'login' => false,
                         'labelAnalytics' => 'banner_observaeps'
                     ]

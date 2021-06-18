@@ -67,6 +67,7 @@
         }
     </style>
 </head>
+
 <body>
 <div class="flex-center position-ref full-height">
     <div class="content">
@@ -74,7 +75,7 @@
             API-ISUS
         </div>
         <div class="subtitle m-b-md">
-            v3.18.0
+            v3.18.1
         </div>
 
         <div class="links">
