@@ -7,6 +7,7 @@ use App\Model\Wordpress\App;
 use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\Projeto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class WordpressController extends Controller
 {
@@ -61,6 +62,7 @@ class WordpressController extends Controller
         foreach ($projetos as $projeto) {
             $projetosSearch[] = [
                 'ID' => $projeto->id,
+                'post_link' => Arr::get($projeto, 'post_link', ''),
                 'data' => $projeto->data,
                 'post_title' => $projeto->post_title,
                 'slug' => $projeto->slug,

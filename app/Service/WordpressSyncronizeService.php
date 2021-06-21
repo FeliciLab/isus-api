@@ -138,6 +138,7 @@ class WordpressSyncronizeService
     {
         $projeto = new Projeto();
         $projeto->id = $prefixo . $post->id;
+        $projeto->post_link = $post->link;
         $projeto->data = $post->date;
         $projeto->post_title = html_entity_decode($post->title->rendered, ENT_NOQUOTES, 'UTF-8');
         $projeto->slug = $post->slug;
