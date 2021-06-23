@@ -36,6 +36,7 @@ class DefinicoesConteudoController extends Controller
         $validacao = Validator::make(
             $request->all(),
             [
+                'id_publico' => 'required',
                 'ativo' => 'required',
                 'categoria' => 'required',
                 'imagem' => 'required',
@@ -54,7 +55,10 @@ class DefinicoesConteudoController extends Controller
             );
         }
 
-        return $definicoesConteudosService->salvar($request->all());
+        return response()->json(
+            $definicoesConteudosService->salvar($request->all()),
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -110,6 +114,9 @@ class DefinicoesConteudoController extends Controller
      */
     public function destroy(DefinicoesConteudosService $definicoesConteudosService, string $categoria, string $id_publico)
     {
-        return response()->json($definicoesConteudosService->deletar($categoria, $id_publico));
+        return response()->json(
+            $definicoesConteudosService->deletar($categoria, $id_publico),
+            Response::HTTP_NO_CONTENT
+        );
     }
 }

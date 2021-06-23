@@ -12,6 +12,7 @@ class DefinicoesConteudo extends Model
     protected $table = 'definicoes_conteudos';
     protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = [
+        'id_publico',
         'ativo',
         'categoria',
         'imagem',

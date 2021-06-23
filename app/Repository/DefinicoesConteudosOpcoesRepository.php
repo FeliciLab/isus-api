@@ -38,6 +38,11 @@ class DefinicoesConteudosOpcoesRepository
 
     public function deletarOpcoesDeUmaDefinicoesConteudos(int $idDefConteudos)
     {
-        return $this->model->where('definicoes_conteudos_id', $idDefConteudos)->delete();
+        $dado = $this->model->where('definicoes_conteudos_id', $idDefConteudos);
+        if (!$dado) {
+            return false;
+        }
+
+        return $dado->delete();
     }
 }
