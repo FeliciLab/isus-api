@@ -13,7 +13,8 @@ class WordpressPostagemController extends Controller
             'wordpres_post',
             [
                 'postagem' => $postagem->content,
-                'titulo' => $postagem->post_title
+                'titulo' => $postagem->post_title,
+                'imagem' => $postagem->image
             ]
         );
     }

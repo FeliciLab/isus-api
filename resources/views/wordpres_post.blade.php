@@ -11,9 +11,12 @@
             font-family: 'Open Sans',Helvetica,Arial,Lucida,sans-serif;
             background: #fff;
             font-size: 18px;
+            padding: 0px;
+            margin: 0px;
         }
         main {
             font-size: 100%;
+            padding: 0px 20px;
         }
         .big-button {
             font-weight: 400!important;
@@ -44,10 +47,28 @@
         }
         iframe {
             width: 100%;
+            min-height: 500px;
+        }
+        section > img {
+            width: 100%
+        }
+        header {
+            margin: 24px 16px;
+            font-weight: bolder;
+            font-size: 24px;
+            line-height: 28px;
+            color: #00000099;
+            font-style: normal;
         }
     </style>
 </head>
 <body>
+    <header>
+        {{ $titulo }}
+    </header>
+    <section>
+        <img src="{{ $imagem }}" alt="postagem imagem" />
+    </section>
     <main>
         {!! $postagem !!}
     </main>
