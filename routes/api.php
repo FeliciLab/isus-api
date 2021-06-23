@@ -40,6 +40,11 @@ Route::get(
 
 Route::namespace('Api')->group(function () {
     Route::apiResource('banner-config', 'BannerConfigController');
+    Route::get('definicoes-conteudos/{categoria}', 'DefinicoesConteudoController@index');
+    Route::get('definicoes-conteudos/{categoria}/{id_publico?}', 'DefinicoesConteudoController@show');
+    Route::post('definicoes-conteudos/{categoria}', 'DefinicoesConteudoController@store');
+    Route::put('definicoes-conteudos/{categoria}/{id_publico}', 'DefinicoesConteudoController@update');
+    Route::delete('definicoes-conteudos/{categoria}/{id_publico}', 'DefinicoesConteudoController@destroy');
 
     Route::get('/synchronize', 'SynchronizeController@index');
 
