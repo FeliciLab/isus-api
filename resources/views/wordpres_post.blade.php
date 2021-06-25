@@ -70,9 +70,11 @@
     <header>
         {{ $titulo }}
     </header>
+
     <section>
         <img src="{{ $imagem }}" alt="postagem imagem" />
     </section>
+
     <main>
         {!! $postagem !!}
     </main>
