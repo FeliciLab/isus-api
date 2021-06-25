@@ -118,12 +118,12 @@ class WordpressController extends Controller
      *       )
      * )
      */
-    public function categoriasArquitetura()
+    public function categoriasArquitetura(Request $request)
     {
         $arquitetura = [];
 
         $app = new App();
-        $apps = $app->getApp();
+        $apps = $app->getApp($request->v2 === 'true');
 
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {

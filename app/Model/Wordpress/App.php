@@ -24,7 +24,15 @@ class App
         ],
     ];
 
-    public static function getApp()
+    private const APP_V2_MAP = [
+        'educacao' => 'Educação',
+        'pesquisaCientifica' => 'Pesquisa Científica',
+        'minhaSaude' => 'Minha Saúde',
+        'boletinsEpidemiologicos' => 'Boletins Epidemiológicos',
+        'noticias' => 'Notícias'
+    ];
+
+    public static function getApp($v2=null)
     {
         $appTemp = [];
 
@@ -41,7 +49,9 @@ class App
                     }
                 }
 
-                $appTemp[$categoriaNome] = $categoriasIdTemp;
+                $chave = $v2 ? $categoriaNome : self::APP_V2_MAP[$categoriaNome];
+
+                $appTemp[$chave] = $categoriasIdTemp;
             }
         }
 
