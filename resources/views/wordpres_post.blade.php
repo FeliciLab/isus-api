@@ -21,16 +21,11 @@
         .big-button {
             font-weight: 400!important;
             font-size: 20px;
-            padding: 14px 24px;
-            margin: 8px 6px 8px 0;
             cursor: pointer;
             color: #c7822f;
-            background: linear-gradient(180deg,#ffcb8c 0,#ffb660);
-            text-shadow: 1px 1px 0 hsla(0,0%,100%,.3);
-            box-shadow: inset 0 1px 0 0 hsla(0,0%,100%,.4),1px 1px 1px rgba(0,0,0,.1);
-            border-radius: 10px;
-            line-height: 26px;
+            text-shadow: 1px 1px 1px rgba(199, 199, 199, 0.9);
             text-decoration: none;
+            word-wrap: break-word;
         }
         p {
             font-weight: 500;
