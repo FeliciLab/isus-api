@@ -96,7 +96,6 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'login' => false,
                         'labelAnalytics' => 'sus_30_anos'
                     ]
                 ),
@@ -114,7 +113,6 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'login' => false,
                         'labelAnalytics' => 'banner_ppsus'
                     ]
                 ),
@@ -132,7 +130,6 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'login' => false,
                         'labelAnalytics' => 'banner_cartilha_saude_mental'
                     ]
                 ),
@@ -150,7 +147,6 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'login' => false,
                         'labelAnalytics' => 'banner_manejo_clinico'
                     ]
                 ),
@@ -168,7 +164,6 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'login' => false,
                         'labelAnalytics' => 'bannercovid19heroesstudy'
                     ]
                 ),
@@ -186,7 +181,6 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'login' => false,
                         'labelAnalytics' => 'bannerprotocolocoronariana'
                     ]
                 ),
@@ -204,7 +198,6 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'login' => false,
                         'labelAnalytics' => 'banner_observaeps'
                     ]
                 ),
