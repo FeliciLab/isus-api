@@ -61,12 +61,10 @@ class WordpressController extends Controller
         $projetosSearch = [];
         foreach ($projetos as $projeto) {
             $projetosSearch[] = [
-                'ID' => $projeto->id,
+                'id' => $projeto->id,
                 'post_link' => Arr::get($projeto, 'post_link', ''),
                 'data' => $projeto->data,
                 'post_title' => $projeto->post_title,
-                'slug' => $projeto->slug,
-                'content' => $projeto->content,
                 'image' => $projeto->image,
             ];
         }
