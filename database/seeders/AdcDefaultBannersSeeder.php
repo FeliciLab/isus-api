@@ -141,8 +141,8 @@ class AdcDefaultBannersSeeder extends Seeder
                 'ativo' => true,
                 'titulo' => 'Manejo Clínico',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/Banner-Cartilha-Saúde-Mental.png',
-                'valor' => 'MANEJO_CLINICO',
-                'tipo' => 'rota',
+                'valor' => 'https://coronavirus.ceara.gov.br/profissional/manejoclinico/',
+                'tipo' => 'webview',
                 'ordem' => 4,
                 'options' => json_encode(
                     [
