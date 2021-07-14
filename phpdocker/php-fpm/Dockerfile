@@ -14,8 +14,9 @@ RUN touch /etc/locale.gen
 RUN sed -i '/pt_BR.UTF-8/s/^# //g' /etc/locale.gen 
 RUN locale-gen
 ENV LANG pt_BR.UTF-8  
-ENV LC_ALL pt_BR.UTF-8  
-
+ENV LC_ALL pt_BR.UTF-8
+ENV TZ=America/Fortaleza
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Add crontab file in the cron directory
 ADD crontab /etc/cron.d/hello-cron

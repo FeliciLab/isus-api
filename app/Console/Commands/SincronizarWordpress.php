@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Model\Estado;
 use App\Service\WordpressSyncronizeService;
 // Salvar o dado no DB
 use Illuminate\Console\Command;
@@ -21,7 +20,7 @@ class SincronizarWordpress extends Command
      *
      * @var string
      */
-    protected $description = 'Sincroniza api wordpress com esta api.';
+    protected $description = 'Sincroniza api wordpress com a api-isus.';
 
     /**
      * Create a new command instance.
@@ -40,16 +39,10 @@ class SincronizarWordpress extends Command
      */
     public function handle()
     {
-        echo 'The command is running...\n';
         $sync = new WordpressSyncronizeService();
-        // dd($sync->hello());
-        // $sync->sync();
-        Estado::create([
-            'nome' => $sync->hello(),
-            'uf' => 'ZZ',
-        ]);
-
-        echo 'The command was successful!\n';
+        $this->info('sincronizar:wordpress is running...\n');
+        $sync->sync();
+        $this->info('sincronizar:wordpress was executed successfully!\n');
 
         return 0;
     }

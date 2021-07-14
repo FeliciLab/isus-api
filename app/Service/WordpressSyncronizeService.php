@@ -20,14 +20,8 @@ class WordpressSyncronizeService
         $this->client = new Client();
     }
 
-    public function hello()
-    {
-        return 'hello World';
-    }
-
     public function sync()
     {
-        echo 'Wordpress Syncronizing...';
         $this->truncateTables();
 
         foreach (App::WORDPRESS_ENDPOINT as $prefixo => $endpoint) {
