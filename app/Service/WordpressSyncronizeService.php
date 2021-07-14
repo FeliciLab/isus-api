@@ -20,8 +20,14 @@ class WordpressSyncronizeService
         $this->client = new Client();
     }
 
+    public function hello()
+    {
+        return 'hello World';
+    }
+
     public function sync()
     {
+        echo 'Wordpress Syncronizing...';
         $this->truncateTables();
 
         foreach (App::WORDPRESS_ENDPOINT as $prefixo => $endpoint) {
@@ -30,9 +36,11 @@ class WordpressSyncronizeService
             $categoriasProjetosTemp = [];
 
             foreach ($categoriasAPI as $categoria) {
-                if ($prefixo === 200
+                if (
+                    $prefixo === 200
                     && ($categoria->slug === 'biblioteca'
-                    || $categoria->slug === 'instrucoes')) {
+                        || $categoria->slug === 'instrucoes')
+                ) {
                     continue;
                 }
 
@@ -118,7 +126,7 @@ class WordpressSyncronizeService
             $post->_links,
             $post->_links->{'wp:featuredmedia'},
             $post->_links->{'wp:featuredmedia'}[0]
-            )) {
+        )) {
             return;
         }
 
