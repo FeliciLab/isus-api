@@ -46,7 +46,6 @@ Route::namespace('Api')->group(function () {
     Route::put('definicoes-conteudos/{categoria}/{id_publico}', 'DefinicoesConteudoController@update');
     Route::delete('definicoes-conteudos/{categoria}/{id_publico}', 'DefinicoesConteudoController@destroy');
 
-    Route::get('/synchronize', 'SynchronizeController@index');
 
     Route::get('/buscaPorProjetos', 'WordpressController@buscaPorProjetos');
     Route::get('/projetosPorCategoria/{categoriaid}', 'WordpressController@projetosPorCategoria');
