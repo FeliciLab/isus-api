@@ -82,12 +82,11 @@ class ManejoClinicoCovid19 extends Seeder
             'area_tematica' => 'Covid-19',
             'publico_alvo' => 'Profissionais da Saúde',
             'tempo_limite' => 10,
-            'descricao' => '<p>Nesta avaliação, você testará os seus conhecimentos sobre os protocolos de atendimento a pacientes sob suspeita ou acometidos de infecção pelo coronavírus SARS-CoV-2.</p>'
+            'descricao' => 'Nesta avaliação, você testará os seus conhecimentos sobre os protocolos de atendimento a pacientes sob suspeita ou acometidos de infecção pelo coronavírus SARS-CoV-2.'
         ],
         'questoes' => [
             [
-                'questao' => 'Paciente 56 anos, procura a Unidade de Pronto Atendimento com quadro de febre, tosse seca persistente, iniciado há 8 dias. Desde ontem passou a apresentar dispneia. No momento da consulta encontra-se orientado, normotenso, mas, com frequência respiratória de 28mrm e saturação de O&#8322=28%. Não há tomografia disponível na Unidade. Realizou teste rápido de antígeno que foi positivo (infecção pelo SARS-CoV-2). Qual a melhor conduta nesse contexto clínico?
-                ',
+                'questao' => 'Paciente 56 anos, procura a Unidade de Pronto Atendimento com quadro de febre, tosse seca persistente, iniciado há 8 dias. Desde ontem passou a apresentar dispneia. No momento da consulta encontra-se orientado, normotenso, mas, com frequência respiratória de 28mrm e saturação de O&#8322=28%. Não há tomografia disponível na Unidade. Realizou teste rápido de antígeno que foi positivo (infecção pelo SARS-CoV-2). Qual a melhor conduta nesse contexto clínico?',
                 'url_imagem' => '',
                 'alternativas' => [
                     ['alternativa' => 'Iniciar hidroxicloroquina e conduzir ambulatorialmente', 'pontuacao' => 0],
@@ -116,25 +115,8 @@ class ManejoClinicoCovid19 extends Seeder
                 ],
                 'explicacao' => [
                     'alternativa' => 2,
-                    'descricao' =>
-                    '<h3>JUSTIFICATIVA CORRETA (FEEDBACK)</h3>
-                    <p>
-                      Tendo em vista o quadro de hiperinflamação responsável
-                       pela maioria das complicações em pacientes com Covid-19,
-                       vários imunomoduladores têm sido testados com a
-                       finalidade de modificar desfechos sobretudo em pacientes
-                       internados. O uso amplo de corticoides em outras
-                       condições semelhantes e sua conhecida ação
-                       anti-inflamatória ensejaram a realização de uma série de
-                       estudos na tentativa de identificar redução de
-                       mortalidade ou da necessidade de uso de ventilação
-                       mecânica em pacientes infectados por SARS-CoV-2, caso do
-                       RECOVERY que concluiu que uso de dexametasona na dose de
-                       6 mg melhoraria o prognóstico em pacientes internados
-                       por Covid-19, sobretudo no grupo com necessidade de
-                       oxigenoterapia , sendo essa a principal indicação do uso
-                       desse fármaco.
-                    </p>
+                    'descricao' =>'<h3>JUSTIFICATIVA CORRETA (FEEDBACK)</h3>
+                    <p>Tendo em vista o quadro de hiperinflamação responsável pela maioria das complicações em pacientes com Covid-19, vários imunomoduladores têm sido testados com a finalidade de modificar desfechos sobretudo em pacientes internados. O uso amplo de corticoides em outras condições semelhantes e sua conhecida ação anti-inflamatória ensejaram a realização de uma série de estudos na tentativa de identificar redução de mortalidade ou da necessidade de uso de ventilação mecânica em pacientes infectados por SARS-CoV-2, caso do RECOVERY que concluiu que uso de dexametasona na dose de 6 mg melhoraria o prognóstico em pacientes internados por Covid-19, sobretudo no grupo com necessidade de oxigenoterapia , sendo essa a principal indicação do uso desse fármaco.</p>
                     <h3>JUSTIFICATIVA DOS DISTRATORES</h3>
                     <p>ITENS A e B: não há evidência suficiente para indicação de corticóides em pacientes internados por um marcador inflamatório alterado ou sintoma persistente fora de um contexto clínico mais específico.</p>
                     <p>ITEM D: a presença de comorbidades de risco para pior desfecho em Covid-19 não se constitui em indicação para uso de medicações imunomoduladores, até o momento.</p>'
@@ -144,10 +126,10 @@ class ManejoClinicoCovid19 extends Seeder
                 'questao' => 'Durante uma consulta em Posto de Saúde, um paciente com sintomas leves de Covid-19, iniciados há três dias, questiona ao médico sobre quando os filhos, que moram com ele e estão assintomáticos, podem sair da quarentena. Qual seria a melhor resposta para essa questão?',
                 'url_imagem' => '',
                 'alternativas' => [
-                    ['alternativa' => 'Imediatamente, se realizarem sorologia e esta for negativa. ', 'pontuacao' => 0],
+                    ['alternativa' => 'Imediatamente, se realizarem sorologia e esta for negativa.', 'pontuacao' => 0],
                     ['alternativa' => 'Após cinco dias do último contato com teste de antígeno negativo.', 'pontuacao' => 0],
                     ['alternativa' => 'Imediatamente, já que o paciente encontra-se com sintomas leves. ', 'pontuacao' => 0],
-                    ['alternativa' => 'Após 14 dias do último contato direto com o paciente. ', 'pontuacao' => 100],
+                    ['alternativa' => 'Após 14 dias do último contato direto com o paciente.', 'pontuacao' => 100],
                 ],
                 'explicacao' => [
                     'alternativa' => 3,
@@ -180,8 +162,7 @@ class ManejoClinicoCovid19 extends Seeder
                 ]
             ],
             [
-                'questao' => '
-                <p>Homem de 46 anos foi admitido na emergência com quadro de tosse e dispneia há 4 dias. Tem diagnóstico confirmado de COVID-19 com início dos sintomas há 13 dias. Ao exame achava-se com SpO2 de 84% em ar ambiente, evoluindo para 90% com máscara de reservatório 10l/min.</p>
+                'questao' => '<p>Homem de 46 anos foi admitido na emergência com quadro de tosse e dispneia há 4 dias. Tem diagnóstico confirmado de COVID-19 com início dos sintomas há 13 dias. Ao exame achava-se com SpO2 de 84% em ar ambiente, evoluindo para 90% com máscara de reservatório 10l/min.</p>
                 <p>Sua gasometria arterial evidenciava: </p>
                 <p>pH: 7.45</p>
                 <p>PaCO2: 33</p>
