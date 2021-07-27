@@ -96,12 +96,15 @@ class ManejoClinicoCovid19 extends Seeder
                 ],
                 'explicacao' => [
                     'alternativa' => 1,
-                    'descricao' => '<h3>JUSTIFICATIVA CORRETA (FEEDBACK)</h3>
-                    <p>Paciente com indicação de internação hospitalar sobretudo pela baixa oxigenação (SaO2 menor ou igual a 92%). Nesse caso, outro critério poderia ser a tomografia de alta resolução de tórax com mais de 50% de acometimento, com o padrão típico para a Covid 19, mas, lembramos que os critérios de internação atuais devem servir de guia para o profissional e a decisão deve se basear em outras condições como vulnerabilidade social, instabilidade hemodinâmica etc. O uso de corticóide em pacientes internados com hipóxia (como é o caso do  “nosso” paciente) está embasado pela literatura, sobretudo a partir do estudo RECOVERY, publicado em 2021 que demonstrou redução da mortalidade com uso de dexametasona 6 mg em pacientes no condição supra descrita.</p>
-                    <h3>JUSTIFICATIVA DOS DISTRATORES</h3>
-                    <p>ITEM A: o protocolo estadual segue as regras das principais instituições de saúde e literatura médica de qualidade que orientam contra o uso da hidroxicloroquina para tratamento de Covid- 19 não só pela ineficácia clínica, mas também, por efeitos colaterais potencialmente danosos ao paciente.</p>
-                    <p>ITEM C: os marcadores laboratoriais devem ser utilizados para identificar alterações relacionadas ao pior desfecho em paciente com covid-19. Podem ser úteis no contexto ambulatorial para definir acompanhamento mais próximo do paciente e nos hospitalizados para acompanhar evolução e prognóstico, mas, não devem ser utilizados isoladamente para decidir internações.</p>
-                    <p>ITEM D: paciente sem indicação de acompanhamento domiciliar, sobretudo pela presença das indicações de internação descritas acima.</p>'
+                    'descricao' => '<iframe
+                        width="311"
+                        height="311"
+                        src="http://dev.servicos.ws/sus.ce/manejocovid19/wp-content/uploads/sites/2/2021/06/VID_01.mp4"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                  ></iframe>
+                    <p>Paciente com indicação de internação hospitalar sobretudo pela baixa oxigenação (SaO2 menor ou igual a 92%). Nesse caso, outro critério poderia ser a tomografia de alta resolução de tórax com mais de 50% de acometimento, com o padrão típico para a Covid 19, mas, lembramos que os critérios de internação atuais devem servir de guia para o profissional e a decisão deve se basear em outras condições como vulnerabilidade social, instabilidade hemodinâmica etc. O uso de corticóide em pacientes internados com hipóxia (como é o caso do  “nosso” paciente) está embasado pela literatura, sobretudo a partir do estudo RECOVERY, publicado em 2021 que demonstrou redução da mortalidade com uso de dexametasona 6 mg em pacientes no condição supra descrita.</p>'
                 ]
             ],
             [
@@ -115,11 +118,15 @@ class ManejoClinicoCovid19 extends Seeder
                 ],
                 'explicacao' => [
                     'alternativa' => 2,
-                    'descricao' =>'<h3>JUSTIFICATIVA CORRETA (FEEDBACK)</h3>
-                    <p>Tendo em vista o quadro de hiperinflamação responsável pela maioria das complicações em pacientes com Covid-19, vários imunomoduladores têm sido testados com a finalidade de modificar desfechos sobretudo em pacientes internados. O uso amplo de corticoides em outras condições semelhantes e sua conhecida ação anti-inflamatória ensejaram a realização de uma série de estudos na tentativa de identificar redução de mortalidade ou da necessidade de uso de ventilação mecânica em pacientes infectados por SARS-CoV-2, caso do RECOVERY que concluiu que uso de dexametasona na dose de 6 mg melhoraria o prognóstico em pacientes internados por Covid-19, sobretudo no grupo com necessidade de oxigenoterapia , sendo essa a principal indicação do uso desse fármaco.</p>
-                    <h3>JUSTIFICATIVA DOS DISTRATORES</h3>
-                    <p>ITENS A e B: não há evidência suficiente para indicação de corticóides em pacientes internados por um marcador inflamatório alterado ou sintoma persistente fora de um contexto clínico mais específico.</p>
-                    <p>ITEM D: a presença de comorbidades de risco para pior desfecho em Covid-19 não se constitui em indicação para uso de medicações imunomoduladores, até o momento.</p>'
+                    'descricao' =>'<iframe
+                        width="311"
+                        height="311"
+                        src="http://dev.servicos.ws/sus.ce/manejocovid19/wp-content/uploads/sites/2/2021/06/VID_02.mp4"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                  ></iframe>
+                    <p>Tendo em vista o quadro de hiperinflamação responsável pela maioria das complicações em pacientes com Covid-19, vários imunomoduladores têm sido testados com a finalidade de modificar desfechos sobretudo em pacientes internados. O uso amplo de corticoides em outras condições semelhantes e sua conhecida ação anti-inflamatória ensejaram a realização de uma série de estudos na tentativa de identificar redução de mortalidade ou da necessidade de uso de ventilação mecânica em pacientes infectados por SARS-CoV-2, caso do RECOVERY que concluiu que uso de dexametasona na dose de 6 mg melhoraria o prognóstico em pacientes internados por Covid-19, sobretudo no grupo com necessidade de oxigenoterapia , sendo essa a principal indicação do uso desse fármaco.</p>'
                 ]
             ],
             [
@@ -133,12 +140,15 @@ class ManejoClinicoCovid19 extends Seeder
                 ],
                 'explicacao' => [
                     'alternativa' => 3,
-                    'descricao' => '<h3>JUSTIFICATIVA CORRETA (FEEDBACK)</h3>
-                    <p>As orientações atuais do CDC e do protocolo estadual de manejo clínico para Covid-19, preconizam quarentena de quatorze dias para contactantes diretos de pacientes acometidos por esta enfermidade. O período justifica-se pelo tempo de incubação da doença. Uma outra opção para término de quarentena nesta situação seria a realização de RT- PCR por swab entre o 7-10 dia do contato se esse for não detectável (essa última recomendação com menor evidência em relação ao prazo de 14 dias, mas, com razoável segurança).</p>
-                    <h3>JUSTIFICATIVA DOS DISTRATORES</h3>
-                    <p>ITEM A: não há indicação para realização de sorologia com finalidade de diagnóstico para Covid -19. Os exames têm acurácia variável e resultados com pouca precisão em relação ao contato prévio ou presença de infecção.</p>
-                    <p>ITEM B: tendo em vista o tempo de incubação da doença que pode chegar a 14 dias, testes negativos realizados nos primeiros dias após o contato não permitem término de quarentena.</p>
-                    <p>ITEM C: o período de quarentena dos contactantes não está relacionado com a intensidade dos sintomas do paciente com Covid-19. Mesmo pacientes assintomáticos têm alto potencial para transmitir a doença.</p>'
+                    'descricao' => '<iframe
+                        width="311"
+                        height="311"
+                        src="http://dev.servicos.ws/sus.ce/manejocovid19/wp-content/uploads/sites/2/2021/06/VID_03.mp4"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                  ></iframe>
+                    <p>As orientações atuais do CDC e do protocolo estadual de manejo clínico para Covid-19, preconizam quarentena de quatorze dias para contactantes diretos de pacientes acometidos por esta enfermidade. O período justifica-se pelo tempo de incubação da doença. Uma outra opção para término de quarentena nesta situação seria a realização de RT- PCR por swab entre o 7-10 dia do contato se esse for não detectável (essa última recomendação com menor evidência em relação ao prazo de 14 dias, mas, com razoável segurança).</p>'
                 ]
             ],
             [
@@ -152,13 +162,15 @@ class ManejoClinicoCovid19 extends Seeder
                 ],
                 'explicacao' => [
                     'alternativa' => 2,
-                    'descricao' => '<h3>JUSTIFICATIVA CORRETA (FEEDBACK)</h3>
-                    <p>A tomografia de tórax de alta resolução tem se constituído em ferramenta importante para o diagnóstico, estratificação e critério de internamento para o paciente com Covid-19. O padrão de vidro fosco bilateral e periférico somado ao quadro clínico semelhante tem sensibilidade em torno de 97% para o diagnóstico de infecção pelo SARS-CoV 2. Em situações onde há presença de desconforto respiratório ou demora nos resultados de RT PCR, a TCAR pode ser de valiosa ajuda na suspeição diagnóstica de Covid-19.</p>
-                    <h3>JUSTIFICATIVA DOS DISTRATORES</h3>
-                    <p>As demais alterações aqui apresentadas não têm sido vistas com frequência em pacientes com Covid-19.</p>
-                    <p>ITEM A: Consolidações bilaterais poderiam indicar outra etiologia para o quadro clínico ou sugerir infecção bacteriana secundária.</p>
-                    <p>ITEM B: Perfusão em mosaico pode ser vista na infecção pelo SARS-CoV-2, mas não é o padrão mais tipicamente encontrado ou predominante.</p>
-                    <p>ITEM D: O espessamento septal ocorre comumente nas regiões de vidro fosco, normalmente em áreas periféricas dos pulmões.'
+                    'descricao' => '<iframe
+                        width="311"
+                        height="311"
+                        src="http://dev.servicos.ws/sus.ce/manejocovid19/wp-content/uploads/sites/2/2021/06/VID_04.mp4"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                  ></iframe>
+                    <p>A tomografia de tórax de alta resolução tem se constituído em ferramenta importante para o diagnóstico, estratificação e critério de internamento para o paciente com Covid-19. O padrão de vidro fosco bilateral e periférico somado ao quadro clínico semelhante tem sensibilidade em torno de 97% para o diagnóstico de infecção pelo SARS-CoV 2. Em situações onde há presença de desconforto respiratório ou demora nos resultados de RT PCR, a TCAR pode ser de valiosa ajuda na suspeição diagnóstica de Covid-19.</p>'
                 ]
             ],
             [
@@ -180,10 +192,16 @@ class ManejoClinicoCovid19 extends Seeder
                 ],
                 'explicacao' => [
                     'alternativa' => 2,
-                    'descricao' => '<h3>JUSTIFICATIVA CORRETA (FEEDBACK)</h3>
+                    'descricao' => '<iframe
+                        width="311"
+                        height="311"
+                        src="http://dev.servicos.ws/sus.ce/manejocovid19/wp-content/uploads/sites/2/2021/06/VID_05.mp4"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                  ></iframe>
                     <p>Trata-se de paciente com insuficiência respiratória hipoxêmica grave com necessidade de escalonamento da oxigenoterapia. Nesses casos, a aplicação de CPAP por dispositivo tipo capacete tem se mostrado factível e associada a boa resposta clínica e gasométrica e pode ser um passo a ser dado na prevenção da IOT.</p>
-                    <h3>LINKS COMPLEMENTARES</h3>
-                    <p><a href="https://sus.ce.gov.br/elmo/">https://sus.ce.gov.br/elmo/</a></p>'
+                    <p><strong>Link complementar</strong>: <a href="https://sus.ce.gov.br/elmo/">https://sus.ce.gov.br/elmo/</a></p>'
                 ]
             ],
         ],
