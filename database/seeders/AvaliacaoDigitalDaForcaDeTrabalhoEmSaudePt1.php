@@ -25,6 +25,8 @@ class AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1 extends Seeder
                 'area_tematica' => $this->avaliacao['quiz']['area_tematica'],
                 'publico_alvo' => $this->avaliacao['quiz']['publico_alvo'],
                 'descricao' => $this->avaliacao['quiz']['descricao'],
+                'ativo' => false,
+                'id' => 1
             ]
         ));
         $quiz->save();
