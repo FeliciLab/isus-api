@@ -29,7 +29,7 @@ class Quiz extends Model
         'area_tematica',
         'publico_alvo',
         'descricao',
-        'ativo'
+        'ativo',
     ];
 
     protected $cast = [
@@ -38,7 +38,7 @@ class Quiz extends Model
         'area_tematica' => 'string',
         'publico_alvo' => 'string',
         'descricao' => 'string',
-        'ativo' => 'boolean'
+        'ativo' => 'boolean',
     ];
 
     /**
