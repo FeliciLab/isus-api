@@ -173,8 +173,14 @@ class BuscarQuizService
      *
      * @return Quiz|null
      */
+    
     public function buscarQuizPeloCod(string $codQuiz)
     {
         return $this->quizRepository->buscarQuizPorIdOuCodQuiz($codQuiz);
+    }
+    public function buscarIdQuizAtivo(): int
+    {
+        $quiz = $this->quizRepository->buscarQuizAtivo(); 
+        return $quiz->id;
     }
 }
