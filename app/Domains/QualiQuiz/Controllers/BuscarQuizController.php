@@ -55,8 +55,8 @@ class BuscarQuizController extends Controller
         }
 
         /**
-         * TODO: REMOVER QUANDO APLICATIVO FOR PRA PRODUÇÃO
-        */
+         * TODO: REMOVER QUANDO APLICATIVO FOR PRA PRODUÇÃO.
+         */
         $codQuiz = $buscarQuizService->buscarIdQuizAtivo();
 
         if (!is_numeric($codQuiz) && is_float((float) $codQuiz)) {

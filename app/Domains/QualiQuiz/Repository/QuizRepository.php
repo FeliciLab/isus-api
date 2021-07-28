@@ -44,6 +44,7 @@ class QuizRepository
             ->orWhere('cod_quiz', $codQuiz)
             ->first();
     }
+
     public function buscarQuizAtivo()
     {
         return (new Quiz())
