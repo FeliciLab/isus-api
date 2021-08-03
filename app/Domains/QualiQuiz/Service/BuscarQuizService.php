@@ -10,6 +10,7 @@ use App\Domains\QualiQuiz\Repository\QuestaoRepository;
 use App\Domains\QualiQuiz\Repository\QuizQuestaoRepository;
 use App\Domains\QualiQuiz\Repository\QuizRepository;
 use App\Domains\QualiQuiz\Repository\RespostaRepository;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 /**
@@ -49,23 +50,14 @@ class BuscarQuizService
      *
      * @return array
      */
-    public function mapearFormatarAlternativasQuestoes(
-        Collection $alternativas,
-        Questao $questao
-    ) {
-        return $alternativas->filter(
-            function ($alternativa) use ($questao) {
-                return $alternativa->questao_id === $questao->id;
-            }
-        )->map(
-            function ($item) {
-                return [
-                    'id' => $item->id,
-                    'alternativa' => $item->alternativa,
-                    'ordem' => $item->ordem,
-                ];
-            }
-        );
+    public function mapearFormatarAlternativasQuestoes(array $alternativas) {
+        return array_map(function ($item) {
+            return [
+                'id' => $item->id,
+                'alternativa' => $item->alternativa,
+                'ordem' => $item->ordem,
+            ];
+        }, $alternativas);
     }
 
     /**
@@ -80,7 +72,7 @@ class BuscarQuizService
     public function mapearFormatarQuestoes(
         Collection $questoes,
         Collection $quizQuestoes,
-        Collection $alternativas
+        array $alternativas
     ) {
         return $questoes->map(
             function ($questao) use ($quizQuestoes, $alternativas) {
@@ -89,9 +81,8 @@ class BuscarQuizService
                     'ordem' => $quizQuestoes->get($questao->id)->ordem,
                     'questao' => $questao->questao,
                     'alternativas' => $this->mapearFormatarAlternativasQuestoes(
-                        $alternativas,
-                        $questao
-                    ),
+                        $alternativas[$questao->id]
+                    )
                 ];
             }
         );
@@ -135,7 +126,14 @@ class BuscarQuizService
                         return $item->id;
                     }
                 )->toArray()
-            );
+            )->reduce(function ($acumulado, $atual) {
+                if (!Arr::get($acumulado, $atual->quetao_id, false)) {
+                    $acumulado[$atual->questao_id] = [];
+                }
+
+                $acumulado[$atual->questao_id][] = $atual;
+                return $acumulado;
+            }, []);
 
         return collect(
             [
