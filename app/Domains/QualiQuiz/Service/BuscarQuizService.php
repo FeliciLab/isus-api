@@ -50,7 +50,8 @@ class BuscarQuizService
      *
      * @return array
      */
-    public function mapearFormatarAlternativasQuestoes(array $alternativas) {
+    public function mapearFormatarAlternativasQuestoes(array $alternativas)
+    {
         return array_map(function ($item) {
             return [
                 'id' => $item->id,
@@ -82,7 +83,7 @@ class BuscarQuizService
                     'questao' => $questao->questao,
                     'alternativas' => $this->mapearFormatarAlternativasQuestoes(
                         $alternativas[$questao->id]
-                    )
+                    ),
                 ];
             }
         );
@@ -132,6 +133,7 @@ class BuscarQuizService
                 }
 
                 $acumulado[$atual->questao_id][] = $atual;
+
                 return $acumulado;
             }, []);
 
