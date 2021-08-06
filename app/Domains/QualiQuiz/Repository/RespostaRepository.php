@@ -134,7 +134,7 @@ class RespostaRepository
                     'qr.quiz_id as cod_quiz,
                     qr.questao_id as cod_questao,
                     qqq.ordem as ordem_questao,
-                    qr.questao_alternativa_id as cod_altertiva_marcada,
+                    qr.questao_alternativa_id as cod_alternativa_marcada,
                     (SELECT ordem FROM qquiz_alternativas_questoes qaq2 WHERE qaq2.id = qr.questao_alternativa_id) as ordem_alternativa_marcada,
                     qaq.id as cod_alternativa_correta,
                     qaq.ordem as ordem_alternativa,
