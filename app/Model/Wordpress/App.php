@@ -29,10 +29,10 @@ class App
         'pesquisaCientifica' => 'Pesquisa Científica',
         'minhaSaude' => 'Minha Saúde',
         'boletinsEpidemiologicos' => 'Boletins Epidemiológicos',
-        'noticias' => 'Notícias'
+        'noticias' => 'Notícias',
     ];
 
-    public static function getApp($v2=null)
+    public static function getApp($v2 = null)
     {
         $appTemp = [];
 

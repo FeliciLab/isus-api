@@ -30,9 +30,11 @@ class WordpressSyncronizeService
             $categoriasProjetosTemp = [];
 
             foreach ($categoriasAPI as $categoria) {
-                if ($prefixo === 200
+                if (
+                    $prefixo === 200
                     && ($categoria->slug === 'biblioteca'
-                    || $categoria->slug === 'instrucoes')) {
+                        || $categoria->slug === 'instrucoes')
+                ) {
                     continue;
                 }
 
@@ -118,7 +120,7 @@ class WordpressSyncronizeService
             $post->_links,
             $post->_links->{'wp:featuredmedia'},
             $post->_links->{'wp:featuredmedia'}[0]
-            )) {
+        )) {
             return;
         }
 

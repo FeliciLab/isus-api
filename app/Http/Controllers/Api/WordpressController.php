@@ -115,6 +115,8 @@ class WordpressController extends Controller
      *          }
      *       )
      * )
+     *
+     * @param Request $request
      */
     public function categoriasArquitetura(Request $request)
     {
