@@ -13,18 +13,18 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            EstadosSeeder::class,
-            MunicipiosSeeder::class,
-            CategoriasProfissionaisSeeder::class,
-            TipoContratacoesSeeder::class,
-            TitulacoesAcademicaSeeder::class,
-            InstituicoesSeeder::class,
-            UnidadesServicoSeeder::class,
-            UnidadesServicoCategoriaSeeder::class,
-            EspecialidadesSeeder::class,
-            AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1::class,
-            AdcDefaultBannersSeeder::class,
-            DefinicoesConteudoSeeder::class,
+            // EstadosSeeder::class,
+            // MunicipiosSeeder::class,
+            // CategoriasProfissionaisSeeder::class,
+            // TipoContratacoesSeeder::class,
+            // TitulacoesAcademicaSeeder::class,
+            // InstituicoesSeeder::class,
+            // UnidadesServicoSeeder::class,
+            // UnidadesServicoCategoriaSeeder::class,
+            // EspecialidadesSeeder::class,
+            // AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1::class,
+            // AdcDefaultBannersSeeder::class,
+            // DefinicoesConteudoSeeder::class,
             ManejoClinicoCovid19::class,
         ]);
     }
