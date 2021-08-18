@@ -11,9 +11,9 @@ RUN apt-get update \
 
 # Set the locale timezone to America/Fortaleza
 RUN touch /etc/locale.gen
-RUN sed -i '/pt_BR.UTF-8/s/^# //g' /etc/locale.gen 
+RUN sed -i '/pt_BR.UTF-8/s/^# //g' /etc/locale.gen
 RUN locale-gen
-ENV LANG pt_BR.UTF-8  
+ENV LANG pt_BR.UTF-8
 ENV LC_ALL pt_BR.UTF-8
 ENV TZ=America/Fortaleza
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -27,12 +27,3 @@ RUN chmod 0744 /etc/cron.d/hello-cron
 
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log
-
-#Install Cron
-#RUN apt-get -y install cron
-#RUN apt-get -y install -qq --force-yes cron
-
-# Run the command on container startup
-#CMD cron && tail -f /var/log/cron.log
-#CMD ["cron", "-f"]
-CMD ["cron", "-f", "-l", "2"]
