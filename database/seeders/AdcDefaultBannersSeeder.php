@@ -87,7 +87,7 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 5,
-                'ativo' => true,
+                'ativo' => false,
                 'titulo' => 'SUS 30 anos',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/SUS-30-anos.png',
                 'valor' => 'https://www.esp.ce.gov.br/tag/semana-do-sus/',
@@ -104,7 +104,7 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 6,
-                'ativo' => true,
+                'ativo' => false,
                 'titulo' => 'PPSUS',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/PPSUS.png',
                 'valor' => 'https://www.esp.ce.gov.br/tag/ppsus/',
@@ -156,7 +156,7 @@ class AdcDefaultBannersSeeder extends Seeder
             [
                 'id' => 9,
                 'ordem' => 6,
-                'ativo' => true,
+                'ativo' => false,
                 'titulo' => 'Covid-19 Heroes Study',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/10/Covid-Heroes-iSUS.png',
                 'valor' => 'https://heroescovid19study.org/survey/',
