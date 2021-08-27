@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             // AvaliacaoDigitalDaForcaDeTrabalhoEmSaudePt1::class,
             // AdcDefaultBannersSeeder::class,
             // DefinicoesConteudoSeeder::class,
-            ManejoClinicoCovid19::class,
+            // ManejoClinicoCovid19::class,
         ]);
     }
 }
