@@ -160,4 +160,22 @@ class RespostaRepository
                 ->get()
         );
     }
+
+    public function numeroAcertosDataResposta($quizId, $identificacao)
+    {
+        $nAcertosData = DB::table('qquiz_respostas as qr')
+            ->selectRaw(
+                'SUM(CASE qaq.pontuacao WHEN 100 THEN 1 ELSE 0 END) as acertos,
+                qr.created_at as data_resposta'
+            )
+            ->join('qquiz_alternativas_questoes as qaq', 'qaq.id', '=', 'qr.questao_alternativa_id')
+            ->where('qr.identificacao', '=', $identificacao)
+            ->where('qr.quiz_id', '=', $quizId)
+            ->groupBy('qr.created_at')
+            ->orderByDesc('qr.created_at')
+            ->limit(1)
+            ->get();
+
+        return $nAcertosData;
+    }
 }
