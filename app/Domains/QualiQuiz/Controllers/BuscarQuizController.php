@@ -90,7 +90,7 @@ class BuscarQuizController extends Controller
             $buscarQuizService->buscarQuizCompleto((int) $codQuiz)
         );
     }
-    //todo
+
     public function buscarQuizHome(
         Request $request,
         BuscarQuizService $buscarQuizService,
@@ -105,8 +105,9 @@ class BuscarQuizController extends Controller
         );
 
         if (Validator::make($autenticacao->toArray(), ['email' => 'required'])->fails()) {
-            return response()->json(['mensagem' => 'Token inválido'], 400); 
+            return response()->json(['mensagem' => 'Token inválido'], 400);
         }
+
         return response()->json(
             $buscarQuizService->buscarQuizAtivosHome($autenticacao->get('email'))
         );

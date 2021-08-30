@@ -200,9 +200,10 @@ class BuscarQuizService
                 'total_questoes' => $value->total_questoes,
                 'respondido' => $respondido,
                 'acertos' => $respondido ? $dataAcertos[0]->acertos : -1,
-                'data_resposta' => $respondido ? $dataAcertos[0]->data_resposta : ''
+                'data_resposta' => $respondido ? $dataAcertos[0]->data_resposta : '',
             ];
         }
+
         return $result;
     }
 }

@@ -161,7 +161,8 @@ class RespostaRepository
         );
     }
 
-    public function numeroAcertosDataResposta($quizId, $identificacao){
+    public function numeroAcertosDataResposta($quizId, $identificacao)
+    {
         $nAcertosData = DB::table('qquiz_respostas as qr')
             ->selectRaw(
                 'SUM(CASE qaq.pontuacao WHEN 100 THEN 1 ELSE 0 END) as acertos,
@@ -174,6 +175,7 @@ class RespostaRepository
             ->orderByDesc('qr.created_at')
             ->limit(1)
             ->get();
+
         return $nAcertosData;
     }
 }

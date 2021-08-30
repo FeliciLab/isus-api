@@ -67,7 +67,7 @@ class QuizRepository
             ->groupBy('qq.nome', 'qq.created_at', 'qq.id', 'qq.cod_quiz')
             ->where('qq.ativo', true)
             ->get();
+
         return $titleDateNumberQuestions;
     }
-
 }
