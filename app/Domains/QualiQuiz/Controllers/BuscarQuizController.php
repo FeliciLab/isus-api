@@ -90,4 +90,25 @@ class BuscarQuizController extends Controller
             $buscarQuizService->buscarQuizCompleto((int) $codQuiz)
         );
     }
+    //todo
+    public function buscarQuizHome(
+        Request $request,
+        BuscarQuizService $buscarQuizService,
+        JWTDecoder $jwtDecoder
+    ): JsonResponse {
+        if (!$request->header('Authorization')) {
+            return response()->json(['mensagem' => 'Token não enviado'], 401);
+        }
+
+        $autenticacao = $jwtDecoder->decoderPayload(
+            $request->header('Authorization')
+        );
+
+        if (Validator::make($autenticacao->toArray(), ['email' => 'required'])->fails()) {
+            return response()->json(['mensagem' => 'Token inválido'], 400); 
+        }
+        return response()->json(
+            $buscarQuizService->buscarQuizAtivosHome($autenticacao->get('email'))
+        );
+    }
 }

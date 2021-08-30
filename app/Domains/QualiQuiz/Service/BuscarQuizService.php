@@ -185,4 +185,24 @@ class BuscarQuizService
 
         return $quiz->id;
     }
+
+    public function buscarQuizAtivosHome($email)
+    {
+        $tituloDataQuestoes = $this->quizRepository->buscarTituloDataNumeroQuestoesQuizAtivos();
+        $result = [];
+        foreach ($tituloDataQuestoes as $value) {
+            $dataAcertos = $this->respostaRepository->numeroAcertosDataResposta($value->id, $email);
+            $respondido = count($dataAcertos) > 0;
+            $result[] = [
+                'cod_quiz' => $value->cod_quiz,
+                'titulo' => $value->titulo,
+                'data_criacao' => $value->data_criacao,
+                'total_questoes' => $value->total_questoes,
+                'respondido' => $respondido,
+                'acertos' => $respondido ? $dataAcertos[0]->acertos : -1,
+                'data_resposta' => $respondido ? $dataAcertos[0]->data_resposta : ''
+            ];
+        }
+        return $result;
+    }
 }
