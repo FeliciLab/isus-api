@@ -194,6 +194,7 @@ class BuscarQuizService
             $dataAcertos = $this->respostaRepository->numeroAcertosDataResposta($value->id, $email);
             $respondido = count($dataAcertos) > 0;
             $result[] = [
+                'id' => $value->id,
                 'cod_quiz' => $value->cod_quiz,
                 'titulo' => $value->titulo,
                 'data_criacao' => $value->data_criacao,
