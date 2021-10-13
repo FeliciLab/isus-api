@@ -5,6 +5,7 @@ do iSUS, vai desde a autenticação com o projeto ID Saúde a sincronização de
 com o Wordpress
 
 # Dependências
+
 - Docker
 - PHP 7.4 (FPM)
 - Laravel 7
@@ -15,7 +16,7 @@ com o Wordpress
 
 ### 1. Clone o projeto na branch develop
 
-```
+```bash
 $ git clone https://github.com/EscolaDeSaudePublica/isus-api.git -b develop
 ```
 
@@ -45,7 +46,7 @@ Altere as configurações no arquivo `.env` de acordo com a necessidade do proje
 
 Execute o comando abaixo para instalar as dependencias e executar as *migrations* e os *seeds*
 
-```sh
+```bash
 $ docker exec -it api-isus-fpm composer install 
 $ docker exec -it api-isus-fpm php artisan key:generate
 $ docker exec -it api-isus-fpm php artisan migrate --seed
@@ -53,7 +54,7 @@ $ docker exec -it api-isus-fpm php artisan migrate --seed
 
 Libere permissão para as views acessarem os storage
 
-```
+```bash
 sudo chgrp -R www-data storage bootstrap/cache
 sudo chmod -R ug+rwx storage bootstrap/cache
 ```
@@ -66,20 +67,19 @@ sudo chmod -R ug+rwx storage bootstrap/cache
 > configurações usadas nos testes manuais ou de produção/homologação.
 > Desta forma, os testes irão ser executados utilizando uma base de dados isolada, já que os testes que utilizam banco, apagam suas alterações a cada teste.
 
-
 1. Copie o arquivo `.env` para `.env.testing`
 2. Altere o banco de dados na variável `DB_DATABASE` para `isus_testing`
 3. Crie o banco de dados de teste
 
-```
+```bash
 $ docker exec -it api-isus-db mysql -uroot -p12345678 -e "create database isus_testing"
 ```
 
-### 4.2. Teste 
+### 4.2. Teste
 
 1. Acesse [http://localhost:7000/](http://localhost:7000/) se tudo ocorrer bem irá ter API-ISUS.
 2. Execute os testes automatizados
 
-```
+```bash
 $ docker exec -it api-isus-fpm php artisan test
 ```
