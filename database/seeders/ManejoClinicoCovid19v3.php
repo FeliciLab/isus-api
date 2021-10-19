@@ -8,7 +8,7 @@ use App\Domains\QualiQuiz\Models\QuizQuestao;
 use App\Domains\QualiQuiz\Models\AlternativaQuestao;
 use App\Domains\QualiQuiz\Models\Explicacao;
 
-class ManejoClinicoCovid19 extends Seeder
+class ManejoClinicoCovid19v3 extends Seeder
 {
     /**
      * Run the database seeds.
@@ -26,7 +26,7 @@ class ManejoClinicoCovid19 extends Seeder
                 'publico_alvo' => $this->avaliacao['quiz']['publico_alvo'],
                 'descricao' => $this->avaliacao['quiz']['descricao'],
                 'ativo' => true,
-                'id' => 4
+                'id' => 5
             ]
         ));
         $quiz->save();
