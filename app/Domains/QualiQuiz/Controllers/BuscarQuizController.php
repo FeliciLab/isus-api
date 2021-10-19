@@ -54,11 +54,6 @@ class BuscarQuizController extends Controller
             return response()->json(['mensagem' => 'Token inválido'], 400);
         }
 
-        /**
-         * TODO: REMOVER QUANDO APLICATIVO FOR PRA PRODUÇÃO.
-         */
-        $codQuiz = $buscarQuizService->buscarIdQuizAtivo();
-
         if (!is_numeric($codQuiz) && is_float((float) $codQuiz)) {
             $quiz = $buscarQuizService->buscarQuizPeloCod($codQuiz);
 
