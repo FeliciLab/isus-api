@@ -82,6 +82,7 @@ class RespostaRepository
         $ultimoQuiz = DB::table('qquiz_respostas')
             ->selectRaw('MAX(created_at) as data')
             ->where('identificacao', '=', $identificacao)
+            ->where('quiz_id', '=', $idQuiz)
             ->first();
 
         return collect(
