@@ -9,16 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
+        "ext-json": "*",
         "darkaonline/l5-swagger": "^8.0",
-        "doctrine/dbal": "^2.12",
+        "doctrine/dbal": "^3.2",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "geekcom/validator-docs": "^3.4",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^3.0",
-        "ext-json": "*"
+        "laravel/ui": "^3.0"
     },
     "require-dev": {
         "brianium/paratest": "^6.3",
