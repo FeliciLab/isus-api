@@ -9,6 +9,7 @@ use App\Model\User;
 use App\Model\UserKeycloak;
 use App\Service\KeycloakService;
 use App\Service\UserService;
+use App\Service\MeusConteudosService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -57,6 +58,35 @@ class UserController extends Controller
 
         if ($usuario) {
             $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
+            $categProfissional = $usuario->categoriaProfissional()->first('categoriaprofissional_id');
+            $especialidadeUsuario = $usuario->especialidades()->first('especialidade_id');
+            $projetosDoProfissional = [];
+
+            $projetosDoProfissional = MeusConteudosService->findConteudoByCategoriaId($categProfissional, $especialidadeUsuario);
+
+            return response()->json(
+                [
+                    'sucesso' => true,
+                    'projetosDoProfissional' => $projetosDoProfissional,
+                    'categProfissional' => $categProfissional
+                ]
+            );
+        }
+
+        return response()->json(
+            [
+                'sucesso' => false,
+                'mensagem' => 'Usuário não existe',
+            ]
+        );
+    }
+
+    /* public function projetosPorProfissional(Request $request)
+    {
+        $usuario = User::where('id_keycloak', $request->usuario->sub)->first();
+
+        if ($usuario) {
+            $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
             $macroUnidadesDeSaude = UnidadeServico::pegarMacroUnidadeDeServico($unidadesDoUsuario);
             $projetosDoProfissional = [];
 
@@ -75,6 +105,7 @@ class UserController extends Controller
                 [
                     'sucesso' => true,
                     'projetosDoProfissional' => array_unique($projetosDoProfissional, SORT_REGULAR),
+                    'usuario' => $usuario
                 ]
             );
         }
@@ -85,7 +116,7 @@ class UserController extends Controller
                 'mensagem' => 'Usuário não existe',
             ]
         );
-    }
+    } */
 
     /**
      * Consulta os dados do perfil da persona e retorna o perfil completo ou um

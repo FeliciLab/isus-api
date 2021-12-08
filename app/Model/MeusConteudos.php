@@ -47,6 +47,8 @@ class MeusConteudos extends Model
             'categoriaprofissional_id' => $categoriProfissional,
             'especialidade_id' => $especialidades
         ];
+
+        return $dadosMeusConteudos;
     }
 
     public function remover()
