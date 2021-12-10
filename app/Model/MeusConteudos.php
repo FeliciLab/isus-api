@@ -28,12 +28,14 @@ class MeusConteudos extends Model
 
     public function especialidades()
     {
-        return $this->hasOne(UserEspecialidade::class);
+        return $this->hasOne(UserEspecialidade::class, 'id', 'especialidade_id');
     }
 
-    public function dadosMeusConteudos()
+    public function pegarDadosMeusConteudos()
     {
-        $categoriProfissional = $this->categoriaProfissional()->first();
+        $dadosMeusConteudos = [];
+
+        $categProfissional = $this->categoriaProfissional()->first();
         $especialidades = $this->especialidades()->first();
 
         $dadosMeusConteudos = [
@@ -44,13 +46,13 @@ class MeusConteudos extends Model
             'data' => $this->data,
             'ativo' => $this->ativo,
             'tipo_conteudo' => $this->tipo_conteudo,
-            'categoriaprofissional_id' => $categoriProfissional,
+            'categoriaprofissional_id' => $categProfissional,
             'especialidade_id' => $especialidades
         ];
 
         return $dadosMeusConteudos;
     }
-
+    
     public function remover()
     {
         return $this->delete();

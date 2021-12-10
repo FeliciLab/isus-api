@@ -55,20 +55,18 @@ class UserController extends Controller
     public function projetosPorProfissional(Request $request)
     {
         $usuario = User::where('id_keycloak', $request->usuario->sub)->first();
+        $meusConteudosServ = new MeusConteudosService();
 
         if ($usuario) {
-            $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
-            $categProfissional = $usuario->categoriaProfissional()->first('categoriaprofissional_id');
-            $especialidadeUsuario = $usuario->especialidades()->first('especialidade_id');
-            $projetosDoProfissional = [];
+            $categProfissional = $usuario->categoriaProfissional()->first('id')->id;
+            $especialidadeUsuario = $usuario->especialidades()->first('especialidade_id')->especialidade_id;
 
-            $projetosDoProfissional = MeusConteudosService->findConteudoByCategoriaId($categProfissional, $especialidadeUsuario);
+            $projetosDoProfissional = $meusConteudosServ->findConteudoByCategoriaId($categProfissional, $especialidadeUsuario);
 
             return response()->json(
                 [
                     'sucesso' => true,
-                    'projetosDoProfissional' => $projetosDoProfissional,
-                    'categProfissional' => $categProfissional
+                    'projetosDoProfissional' => $projetosDoProfissional
                 ]
             );
         }

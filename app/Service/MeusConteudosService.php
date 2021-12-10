@@ -17,16 +17,14 @@ class MeusConteudosService
      *
      * @return User|null
      */
-    public function findConteudoByCategoriaId( string $categoriaId, string $especialidadeId)
+    public function findConteudoByCategoriaId(string $categoriaId, string $especialidadeId)
     {
         if ($categoriaId == 1 || $categoriaId == 2) {
-            return  MeusConteudos::where('especialidade_id', '=', $especialidadeId)
-            ->select('id')
-            ->first();
+            return MeusConteudos::where('especialidade_id', '=', $especialidadeId)
+            ->get();
         }else {
             return MeusConteudos::where('categoriaprofissional_id', '=', $categoriaId)
-            ->select('id')
-            ->first();
+            ->get();
         }
     }
 
