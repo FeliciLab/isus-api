@@ -89,6 +89,17 @@ class MeusConteudosSeeder extends Seeder
             'categoriaprofissional_id' => 3,
             'especialidade_id' => 71
         ]);
+        DB::table('meus_conteudos')->insert(
+            ['id' => 8,
+            'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
+            'title' => 'Medicina - Cardiologia - conteudo 2',
+            'link' => 'https://coronavirus.ceara.gov.br/project/relacao-estadual-de-medicamentos-do-ceara-resme-ce-2021/',
+            'data' => '2021-08-30 14:15:10',
+            'ativo' => true,
+            'tipo_conteudo' => 'webview',
+            'categoriaprofissional_id' => 1,
+            'especialidade_id' => 8
+        ]);
 
     }
 }
