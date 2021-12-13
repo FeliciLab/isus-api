@@ -58,9 +58,17 @@ class UserController extends Controller
         $meusConteudosServ = new MeusConteudosService();
 
         if ($usuario) {
-            $categProfissional = $usuario->categoriaProfissional()->first('id')->id;
-            $especialidadeUsuario = $usuario->especialidades()->first('especialidade_id')->especialidade_id;
-
+            if(is_null($usuario->categoriaprofissional_id)){
+                $categProfissional = '0';
+                $especialidadeUsuario = '0';
+            }else if (sizeof($usuario->especialidades)==0 && $usuario->categoriaprofissional_id) {
+                $especialidadeUsuario = '0';
+                $categProfissional = $usuario->categoriaProfissional()->first('id')->id;
+            }else{
+                $especialidadeUsuario = $usuario->especialidades()->first('especialidade_id')->especialidade_id;
+                $categProfissional = $usuario->categoriaProfissional()->first('id')->id;
+            }
+            
             $projetosDoProfissional = $meusConteudosServ->findConteudoByCategoriaId($categProfissional, $especialidadeUsuario);
 
             return response()->json(
@@ -78,43 +86,6 @@ class UserController extends Controller
             ]
         );
     }
-
-    /* public function projetosPorProfissional(Request $request)
-    {
-        $usuario = User::where('id_keycloak', $request->usuario->sub)->first();
-
-        if ($usuario) {
-            $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
-            $macroUnidadesDeSaude = UnidadeServico::pegarMacroUnidadeDeServico($unidadesDoUsuario);
-            $projetosDoProfissional = [];
-
-            if ($unidadesDoUsuario->contains(UnidadeServico::ISUS_CATEGORIA_UTI)) {
-                $macroUnidadesDeSaude = $macroUnidadesDeSaude->push(
-                    UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI)
-                );
-            }
-
-            foreach ($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
-                $projetosPorMacrounidades = $this->projetosPorMacroUnidades($macroUnidadeDeSaude);
-                $projetosDoProfissional = array_merge($projetosDoProfissional, $projetosPorMacrounidades);
-            }
-
-            return response()->json(
-                [
-                    'sucesso' => true,
-                    'projetosDoProfissional' => array_unique($projetosDoProfissional, SORT_REGULAR),
-                    'usuario' => $usuario
-                ]
-            );
-        }
-
-        return response()->json(
-            [
-                'sucesso' => false,
-                'mensagem' => 'Usuário não existe',
-            ]
-        );
-    } */
 
     /**
      * Consulta os dados do perfil da persona e retorna o perfil completo ou um

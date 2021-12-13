@@ -19,13 +19,14 @@ class MeusConteudosService
      */
     public function findConteudoByCategoriaId(string $categoriaId, string $especialidadeId)
     {
-        if ($categoriaId == 1 || $categoriaId == 2) {
-            return MeusConteudos::where('especialidade_id', '=', $especialidadeId)
-            ->get();
-        }else {
-            return MeusConteudos::where('categoriaprofissional_id', '=', $categoriaId)
-            ->get();
+        if ($categoriaId == 1 || $categoriaId == 3) {
+            if($especialidadeId){
+                return MeusConteudos::where('especialidade_id', '=', $especialidadeId)
+                ->get();
+            }
         }
+        return MeusConteudos::where('categoriaprofissional_id', '=', $categoriaId)
+        ->get();
     }
 
 }
