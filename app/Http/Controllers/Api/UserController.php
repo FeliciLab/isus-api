@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Model\UnidadeServico;
 use App\Model\UnidadesServicoCategoria;
 use App\Model\User;
 use App\Model\UserKeycloak;
 use App\Service\KeycloakService;
-use App\Service\UserService;
 use App\Service\MeusConteudosService;
+use App\Service\UserService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -58,23 +57,23 @@ class UserController extends Controller
         $meusConteudosServ = new MeusConteudosService();
 
         if ($usuario) {
-            if(is_null($usuario->categoriaprofissional_id)){
+            if (null === $usuario->categoriaprofissional_id) {
                 $categProfissional = '0';
                 $especialidadeUsuario = '0';
-            }else if (sizeof($usuario->especialidades)==0 && $usuario->categoriaprofissional_id) {
+            } elseif (count($usuario->especialidades) == 0 && $usuario->categoriaprofissional_id) {
                 $especialidadeUsuario = '0';
                 $categProfissional = $usuario->categoriaProfissional()->first('id')->id;
-            }else{
+            } else {
                 $especialidadeUsuario = $usuario->especialidades()->first('especialidade_id')->especialidade_id;
                 $categProfissional = $usuario->categoriaProfissional()->first('id')->id;
             }
-            
+
             $projetosDoProfissional = $meusConteudosServ->findConteudoByCategoriaId($categProfissional, $especialidadeUsuario);
 
             return response()->json(
                 [
                     'sucesso' => true,
-                    'projetosDoProfissional' => $projetosDoProfissional
+                    'projetosDoProfissional' => $projetosDoProfissional,
                 ]
             );
         }

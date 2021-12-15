@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Model\MeusConteudos;
 
 class MeusConteudosController extends Controller
@@ -13,6 +12,4 @@ class MeusConteudosController extends Controller
     {
         $this->meusConteudos = $meusConteudos;
     }
-
-
 }

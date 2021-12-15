@@ -18,7 +18,7 @@ class MeusConteudos extends Model
         'categoriaprofissional_id',
         'especialidade_id',
         'updated_at',
-        'created_at'
+        'created_at',
     ];
 
     public function categoriaProfissional()
@@ -47,12 +47,12 @@ class MeusConteudos extends Model
             'ativo' => $this->ativo,
             'tipo_conteudo' => $this->tipo_conteudo,
             'categoriaprofissional_id' => $categProfissional,
-            'especialidade_id' => $especialidades
+            'especialidade_id' => $especialidades,
         ];
 
         return $dadosMeusConteudos;
     }
-    
+
     public function remover()
     {
         return $this->delete();

@@ -14,19 +14,21 @@ class MeusConteudosService
      *
      * @param $email string
      * @param $cpf   string
+     * @param string $categoriaId
+     * @param string $especialidadeId
      *
      * @return User|null
      */
     public function findConteudoByCategoriaId(string $categoriaId, string $especialidadeId)
     {
         if ($categoriaId == 1 || $categoriaId == 3) {
-            if($especialidadeId){
+            if ($especialidadeId) {
                 return MeusConteudos::where('especialidade_id', '=', $especialidadeId)
                 ->get();
             }
         }
+
         return MeusConteudos::where('categoriaprofissional_id', '=', $categoriaId)
         ->get();
     }
-
 }
