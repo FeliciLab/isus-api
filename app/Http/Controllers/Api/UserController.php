@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Model\UnidadeServico;
 use App\Model\UnidadesServicoCategoria;
 use App\Model\User;
 use App\Model\UserKeycloak;
 use App\Service\KeycloakService;
+use App\Service\MeusConteudosService;
 use App\Service\UserService;
 use Exception;
 use Illuminate\Http\Request;
@@ -54,27 +54,26 @@ class UserController extends Controller
     public function projetosPorProfissional(Request $request)
     {
         $usuario = User::where('id_keycloak', $request->usuario->sub)->first();
+        $meusConteudosServ = new MeusConteudosService();
 
         if ($usuario) {
-            $unidadesDoUsuario = $usuario->unidadesServicos()->get()->pluck('unidade_servico_id');
-            $macroUnidadesDeSaude = UnidadeServico::pegarMacroUnidadeDeServico($unidadesDoUsuario);
-            $projetosDoProfissional = [];
-
-            if ($unidadesDoUsuario->contains(UnidadeServico::ISUS_CATEGORIA_UTI)) {
-                $macroUnidadesDeSaude = $macroUnidadesDeSaude->push(
-                    UnidadeServico::find(UnidadeServico::ISUS_CATEGORIA_UTI)
-                );
+            if (null === $usuario->categoriaprofissional_id) {
+                $categProfissional = '0';
+                $especialidadeUsuario = '0';
+            } elseif (count($usuario->especialidades) == 0 && $usuario->categoriaprofissional_id) {
+                $especialidadeUsuario = '0';
+                $categProfissional = $usuario->categoriaProfissional()->first('id')->id;
+            } else {
+                $especialidadeUsuario = $usuario->especialidades()->first('especialidade_id')->especialidade_id;
+                $categProfissional = $usuario->categoriaProfissional()->first('id')->id;
             }
 
-            foreach ($macroUnidadesDeSaude as $macroUnidadeDeSaude) {
-                $projetosPorMacrounidades = $this->projetosPorMacroUnidades($macroUnidadeDeSaude);
-                $projetosDoProfissional = array_merge($projetosDoProfissional, $projetosPorMacrounidades);
-            }
+            $projetosDoProfissional = $meusConteudosServ->findConteudoByCategoriaId($categProfissional, $especialidadeUsuario);
 
             return response()->json(
                 [
                     'sucesso' => true,
-                    'projetosDoProfissional' => array_unique($projetosDoProfissional, SORT_REGULAR),
+                    'projetosDoProfissional' => $projetosDoProfissional,
                 ]
             );
         }

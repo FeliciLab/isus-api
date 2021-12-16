@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
             // AdcDefaultBannersSeeder::class,
             // DefinicoesConteudoSeeder::class,
             // ManejoClinicoCovid19::class,
-            ManejoClinicoCovid19v2::class,
-            ManejoClinicoCovid19v3::class,
-            ManejoClinicoCovid19v4::class,
+            // ManejoClinicoCovid19v2::class,
+            // ManejoClinicoCovid19v3::class,
+            // ManejoClinicoCovid19v4::class,
         ]);
     }
 }
