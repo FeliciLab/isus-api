@@ -13,6 +13,16 @@ class WordpressController extends Controller
 {
     private $step = 20;
 
+    //função de suporte para ordenação dos projetosPublicados
+    public static function comparaProjetosData($projetoA, $projetoB)
+    {
+        if (strtotime($projetoA->data) == strtotime($projetoB->data)) {
+            return 0;
+        }
+
+        return (strtotime($projetoA->data) > strtotime($projetoB->data)) ? -1 : 1;
+    }
+
     public function projetosPorCategoria(Request $request, $categoriaId)
     {
         $categoria = Categoria::where('term_id', $categoriaId)->first();
@@ -24,7 +34,7 @@ class WordpressController extends Controller
                 $projetosPublicados[] = $categoriaProjeto->projeto()->first();
             }
         }
-
+        usort($projetosPublicados, [$this, 'comparaProjetosData']);
         // Pagination
         $total = count($projetosPublicados);
         $step = $request->step ?? $this->step;
