@@ -12,12 +12,14 @@ use Illuminate\Support\Arr;
 class WordpressController extends Controller
 {
     private $step = 20;
-    
+
     //função de suporte para ordenação dos projetosPublicados
-    public static function comparaProjetosData($projetoA, $projetoB){
-        if(strtotime($projetoA->data) == strtotime($projetoB->data)){
+    public static function comparaProjetosData($projetoA, $projetoB)
+    {
+        if (strtotime($projetoA->data) == strtotime($projetoB->data)) {
             return 0;
         }
+
         return (strtotime($projetoA->data) > strtotime($projetoB->data)) ? -1 : 1;
     }
 
@@ -32,7 +34,7 @@ class WordpressController extends Controller
                 $projetosPublicados[] = $categoriaProjeto->projeto()->first();
             }
         }
-        usort($projetosPublicados, array($this, 'comparaProjetosData'));
+        usort($projetosPublicados, [$this, 'comparaProjetosData']);
         // Pagination
         $total = count($projetosPublicados);
         $step = $request->step ?? $this->step;
@@ -43,7 +45,6 @@ class WordpressController extends Controller
         return response()->json($paginate);
     }
 
-    
     public function projetoPorId(Request $request, $id)
     {
         $projeto = Projeto::find($id);
