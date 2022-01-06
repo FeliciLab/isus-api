@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get(
+    '/qualiquiz/home',
+    '\App\Domains\QualiQuiz\Controllers\BuscarQuizController@buscarQuizHome'
+);
+
+Route::get(
     '/qualiquiz/quiz/{codQuiz}',
     '\App\Domains\QualiQuiz\Controllers\BuscarQuizController@buscarQuiz'
 );

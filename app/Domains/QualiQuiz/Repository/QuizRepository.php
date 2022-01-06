@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domains\QualiQuiz\Repository;
 
 use App\Domains\QualiQuiz\Models\Quiz;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Conjunto de consultas para a tabela Quiz.
@@ -50,5 +51,23 @@ class QuizRepository
         return (new Quiz())
             ->where('ativo', true)
             ->first();
+    }
+
+    public function buscarTituloDataNumeroQuestoesQuizAtivos()
+    {
+        $titleDateNumberQuestions = DB::table('qquiz_quiz as qq')
+            ->selectRaw(
+                'qq.id as id,
+                qq.cod_quiz as cod_quiz,
+                qq.nome as titulo,
+                qq.created_at as data_criacao,
+                COUNT(qqq.id) as total_questoes'
+            )
+            ->join('qquiz_quiz_questoes as qqq', 'qq.id', '=', 'qqq.quiz_id')
+            ->groupBy('qq.nome', 'qq.created_at', 'qq.id', 'qq.cod_quiz')
+            ->where('qq.ativo', true)
+            ->get();
+
+        return $titleDateNumberQuestions;
     }
 }

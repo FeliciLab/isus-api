@@ -15,3 +15,6 @@ yarn-error.log
 .php_cs.cache
 /storage/api-docs/api-docs.json
 /.vscode
+
+# Linter de .md
+.markdownlint.json

@@ -54,11 +54,6 @@ class BuscarQuizController extends Controller
             return response()->json(['mensagem' => 'Token inválido'], 400);
         }
 
-        /**
-         * TODO: REMOVER QUANDO APLICATIVO FOR PRA PRODUÇÃO.
-         */
-        $codQuiz = $buscarQuizService->buscarIdQuizAtivo();
-
         if (!is_numeric($codQuiz) && is_float((float) $codQuiz)) {
             $quiz = $buscarQuizService->buscarQuizPeloCod($codQuiz);
 
@@ -88,6 +83,28 @@ class BuscarQuizController extends Controller
 
         return response()->json(
             $buscarQuizService->buscarQuizCompleto((int) $codQuiz)
+        );
+    }
+
+    public function buscarQuizHome(
+        Request $request,
+        BuscarQuizService $buscarQuizService,
+        JWTDecoder $jwtDecoder
+    ): JsonResponse {
+        if (!$request->header('Authorization')) {
+            return response()->json(['mensagem' => 'Token não enviado'], 401);
+        }
+
+        $autenticacao = $jwtDecoder->decoderPayload(
+            $request->header('Authorization')
+        );
+
+        if (Validator::make($autenticacao->toArray(), ['email' => 'required'])->fails()) {
+            return response()->json(['mensagem' => 'Token inválido'], 400);
+        }
+
+        return response()->json(
+            $buscarQuizService->buscarQuizAtivosHome($autenticacao->get('email'))
         );
     }
 }
