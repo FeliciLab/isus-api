@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,7 +50,6 @@ Route::namespace('Api')->group(function () {
     Route::put('definicoes-conteudos/{categoria}/{id_publico}', 'DefinicoesConteudoController@update');
     Route::delete('definicoes-conteudos/{categoria}/{id_publico}', 'DefinicoesConteudoController@destroy');
 
-
     Route::get('/buscaPorProjetos', 'WordpressController@buscaPorProjetos');
     Route::get('/projetosPorCategoria/{categoriaid}', 'WordpressController@projetosPorCategoria');
     Route::get('/projeto/{id}', 'WordpressController@projetoPorId');
@@ -86,7 +84,6 @@ Route::namespace('Api')->group(function () {
         Route::delete('/user', 'UserController@delete');
     });
 });
-
 
 Route::get('/delay-textit/{segundos?}', function ($segundos = 1) {
     sleep($segundos);

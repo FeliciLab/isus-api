@@ -17,7 +17,6 @@ class CreateCategoriasProjetosTable extends Migration
             $table->id();
             $table->foreignId('categoria_id')->references('term_id')->on('categorias');
             $table->foreignId('projeto_id')->references('id')->on('projetos');
-
         });
     }
 

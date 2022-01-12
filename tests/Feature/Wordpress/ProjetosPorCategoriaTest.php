@@ -7,7 +7,6 @@ use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\CategoriaProjeto;
 use App\Model\Wordpress\Projeto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
@@ -24,19 +23,18 @@ class ProjetosPorCategoriaTest extends TestCase
 
     public function testProjetosPorCategoriaSemParametro()
     {
-        $response = $this->json('GET', "api/projetosPorCategoria/");
+        $response = $this->json('GET', 'api/projetosPorCategoria/');
         $response->assertNotFound();
     }
 
     public function testProjetosPorCategoriaComProjetoInexistente()
     {
-        $response = $this->json('GET', "api/projetosPorCategoria/0");
+        $response = $this->json('GET', 'api/projetosPorCategoria/0');
         $response->assertOk();
         $response->assertJsonFragment([
-            'total' => 0
+            'total' => 0,
         ]);
     }
-
 
     public function testProjetosPorCategoriaComProjetoExistente()
     {
@@ -45,7 +43,7 @@ class ProjetosPorCategoriaTest extends TestCase
         foreach ($apps as $key => $app) {
             foreach ($app as $categoriaId) {
                 $categoria = factory(Categoria::class)->create([
-                    'term_id' => $categoriaId
+                    'term_id' => $categoriaId,
                 ]);
 
                 $categorias = Categoria::all();
@@ -62,7 +60,7 @@ class ProjetosPorCategoriaTest extends TestCase
 
         $response = $this->json('GET', "api/projetosPorCategoria/{$categoria->term_id}");
         $response->assertJsonFragment([
-            'content' => $projeto->content
+            'content' => $projeto->content,
         ]);
         $response->assertOk();
     }

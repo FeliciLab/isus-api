@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Model\Wordpress\App;
 use GuzzleHttp\Client;
 use Tests\TestCase;
-use App\Model\Wordpress\App;
 
 class SynchronizeTest extends TestCase
 {

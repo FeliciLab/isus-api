@@ -18,8 +18,8 @@ class BannerConfigCrudTest extends TestCase
         $this->get('/api/banner-config')
             ->assertStatus(200)
             ->assertJson(
-                fn(AssertableJson $json) => $json->first(
-                    fn($json) => $json->has('id')
+                fn (AssertableJson $json) => $json->first(
+                    fn ($json) => $json->has('id')
                         ->has('titulo')
                         ->has('imagem')
                         ->has('valor')
@@ -66,13 +66,13 @@ class BannerConfigCrudTest extends TestCase
         $this->postJson(
             '/api/banner-config',
             [
-                "titulo" => "Meu teste de API",
-                "imagem" => "images/banners/guiaAssistenciaFarmaceutica.jpg",
-                "valor" => "https =>//coronavirus.ceara.gov.br/project/secretaria-de-saude-disponibiliza-guia-da-assistencia-farmaceutica-no-estado-do-ceara\/",
-                "tipo" => "webview",
-                "ordem" => 5,
-                "ativo" => 1,
-                "options" => json_encode(["local_imagem" => "app"]),
+                'titulo' => 'Meu teste de API',
+                'imagem' => 'images/banners/guiaAssistenciaFarmaceutica.jpg',
+                'valor' => "https =>//coronavirus.ceara.gov.br/project/secretaria-de-saude-disponibiliza-guia-da-assistencia-farmaceutica-no-estado-do-ceara\/",
+                'tipo' => 'webview',
+                'ordem' => 5,
+                'ativo' => 1,
+                'options' => json_encode(['local_imagem' => 'app']),
 
             ]
         )
@@ -89,13 +89,13 @@ class BannerConfigCrudTest extends TestCase
         $this->postJson('/api/banner-config', [])
             ->assertExactJson(
                 [
-                    "titulo.0" => "O campo titulo é obrigatório.",
-                    "imagem.0" => "O campo imagem é obrigatório.",
-                    "valor.0" => "O campo valor é obrigatório.",
-                    "tipo.0" => "O campo tipo é obrigatório.",
-                    "ordem.0" => "O campo ordem é obrigatório.",
-                    "options.0" => "O campo options é obrigatório.",
-                    "ativo.0" => "O campo ativo é obrigatório.",
+                    'titulo.0' => 'O campo titulo é obrigatório.',
+                    'imagem.0' => 'O campo imagem é obrigatório.',
+                    'valor.0' => 'O campo valor é obrigatório.',
+                    'tipo.0' => 'O campo tipo é obrigatório.',
+                    'ordem.0' => 'O campo ordem é obrigatório.',
+                    'options.0' => 'O campo options é obrigatório.',
+                    'ativo.0' => 'O campo ativo é obrigatório.',
                 ]
             )
             ->assertStatus(400);
@@ -116,18 +116,17 @@ class BannerConfigCrudTest extends TestCase
                 ->first()
                 ->id,
             [
-                "titulo" => "Meu teste atualizando API",
-                "imagem" => "images/banners/guiaAssistenciaFarmaceutica.jpg",
-                "valor" => "https =>//coronavirus.ceara.gov.br/project/secretaria-de-saude-disponibiliza-guia-da-assistencia-farmaceutica-no-estado-do-ceara\/",
-                "tipo" => "webview",
-                "ordem" => 6,
-                "ativo" => 0,
-                "options" => json_encode(["local_imagem" => "app"]),
+                'titulo' => 'Meu teste atualizando API',
+                'imagem' => 'images/banners/guiaAssistenciaFarmaceutica.jpg',
+                'valor' => "https =>//coronavirus.ceara.gov.br/project/secretaria-de-saude-disponibiliza-guia-da-assistencia-farmaceutica-no-estado-do-ceara\/",
+                'tipo' => 'webview',
+                'ordem' => 6,
+                'ativo' => 0,
+                'options' => json_encode(['local_imagem' => 'app']),
             ]
         )
             ->assertStatus(200);
     }
-
 
     /**
      * A basic feature test example.

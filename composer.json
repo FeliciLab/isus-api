@@ -74,6 +74,9 @@
         ],
         "php-cs:fix": [
             "php-cs-fixer fix ./app"
+        ],
+        "php-cs:verbose": [
+            "php-cs-fixer fix -v"
         ]
     }
 }

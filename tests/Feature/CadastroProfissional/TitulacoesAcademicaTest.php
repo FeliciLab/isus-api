@@ -3,7 +3,6 @@
 namespace Tests\Feature\CadastroProfissional;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
@@ -21,13 +20,13 @@ class TitulacoesAcademicaTest extends TestCase
         $response->assertOk();
         $response->assertJsonFragment([
             'id' => 1,
-            'nome' => 'Graduado'
+            'nome' => 'Graduado',
         ]);
         $response->assertJsonStructure([
             [
                 'id',
-                'nome'
-            ]
+                'nome',
+            ],
         ]);
     }
 }

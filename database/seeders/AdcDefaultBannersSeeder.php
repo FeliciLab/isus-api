@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Carbon\Carbon;
@@ -26,7 +27,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
-                        'labelAnalytics' => 'banner_vacina_covid19'
+                        'labelAnalytics' => 'banner_vacina_covid19',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -43,7 +44,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
-                        'labelAnalytics' => 'guia_assistencia_farmaceutica'
+                        'labelAnalytics' => 'guia_assistencia_farmaceutica',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -61,7 +62,7 @@ class AdcDefaultBannersSeeder extends Seeder
                     [
                         'localImagem' => 'app',
                         'login' => true,
-                        'labelAnalytics' => 'id_saude'
+                        'labelAnalytics' => 'id_saude',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -79,7 +80,7 @@ class AdcDefaultBannersSeeder extends Seeder
                     [
                         'localImagem' => 'app',
                         'login' => false,
-                        'labelAnalytics' => 'id_saude'
+                        'labelAnalytics' => 'id_saude',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -96,7 +97,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'sus_30_anos'
+                        'labelAnalytics' => 'sus_30_anos',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -113,7 +114,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_ppsus'
+                        'labelAnalytics' => 'banner_ppsus',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -130,7 +131,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_cartilha_saude_mental'
+                        'labelAnalytics' => 'banner_cartilha_saude_mental',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -147,7 +148,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_manejo_clinico'
+                        'labelAnalytics' => 'banner_manejo_clinico',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -164,7 +165,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'bannercovid19heroesstudy'
+                        'labelAnalytics' => 'bannercovid19heroesstudy',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -181,7 +182,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'bannerprotocolocoronariana'
+                        'labelAnalytics' => 'bannerprotocolocoronariana',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -198,7 +199,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_observaeps'
+                        'labelAnalytics' => 'banner_observaeps',
                     ]
                 ),
                 'created_at' => Carbon::now(),
