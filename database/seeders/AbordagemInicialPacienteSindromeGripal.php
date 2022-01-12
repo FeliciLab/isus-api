@@ -27,7 +27,7 @@ class AbordagemInicialPacienteSindromeGripal extends Seeder
                 'publico_alvo' => $this->avaliacao['quiz']['publico_alvo'],
                 'descricao' => $this->avaliacao['quiz']['descricao'],
                 'ativo' => true,
-                'id' => 3
+                'id' => 4
             ]
         ));
         $quiz->save();
