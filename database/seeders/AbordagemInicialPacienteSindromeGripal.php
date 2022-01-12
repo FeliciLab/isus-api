@@ -27,7 +27,7 @@ class AbordagemInicialPacienteSindromeGripal extends Seeder
                 'publico_alvo' => $this->avaliacao['quiz']['publico_alvo'],
                 'descricao' => $this->avaliacao['quiz']['descricao'],
                 'ativo' => true,
-                'id' => 2
+                'id' => 3
             ]
         ));
         $quiz->save();
@@ -118,7 +118,7 @@ class AbordagemInicialPacienteSindromeGripal extends Seeder
                 ]
             ],
             [
-                'questao' => '<p>Gestante, 31 anos, com 12 semanas de gestação, referindo ter recebido 2 doses de vacina para COVID e vacina para influenza, chega à Unidade de Pronto Atendimento com história de mialgia, coriza, odinofagia e náuseas há 48h.</p>
+                'questao' => '<p>Gestante, 31 anos, com 12 semanas de gestação, referindo ter recebido 2 doses de vacina para covid e vacina para influenza, chega à Unidade de Pronto Atendimento com história de mialgia, coriza, odinofagia e náuseas há 48h.</p>
                 <p>Nega comorbidades.</p>
                 <p>Exame Físico: EGR, eupneica, desidratada.</p>
                 <p>PA: 90 x 60 mmHg.</p>
@@ -133,14 +133,13 @@ class AbordagemInicialPacienteSindromeGripal extends Seeder
                 'url_imagem' => '',
                 'alternativas' => [
                     ['alternativa' => 'Como recebeu duas doses de vacina para covid e vacina para influenza, o quadro deve ser devido a um resfriado comum sendo orientado acompanhamento ambulatorial com sintomáticos e hidratação sem necessidade de nenhum teste.', 'pontuacao' => 0],
-                    ['alternativa' => 'Acompanhamento ambulatorial, realizar teste para covid-19, prescrever sintomáticos/hidratação e iniciar oseltamivir, orientar sinais de alarme e reavaliar com 24-48h.', 'pontuacao' => 0],
-                    ['alternativa' => 'Acompanhamento ambulatorial, realizar teste para covid-19 e influenza, prescrever sintomáticos/hidratação/corticoide oral e iniciar oseltamivir se teste para influenza positivo, orientar sinais de alarme e reavaliar com 24-48h.', 'pontuacao' => 100],
+                    ['alternativa' => 'Acompanhamento ambulatorial, realizar teste para covid-19, prescrever sintomáticos/hidratação e iniciar oseltamivir, orientar sinais de alarme e reavaliar com 24-48h.', 'pontuacao' => 100],
+                    ['alternativa' => 'Acompanhamento ambulatorial, realizar teste para covid-19 e influenza, prescrever sintomáticos/hidratação/corticoide oral e iniciar oseltamivir se teste para influenza positivo, orientar sinais de alarme e reavaliar com 24-48h.', 'pontuacao' => 0],
                     ['alternativa' => 'Realizar teste para covid-19 e influenza, iniciar hidratação/antibióticos/oseltamivir e indicar internamento hospitalar por presença de sinais de alarme.', 'pontuacao' => 0],
                 ],
                 'explicacao' => [
-                    'alternativa' => 2,
-                    'descricao' =>'<p><em>Trata-se uma gestante com quadro de síndrome gripal e, portanto, com fator de risco para influenza (gestante), além de presença de sinal de alarme (desidratação). Dessa forma, enquadra-se na classificação do GRUPO B do diagrama de abordagem inicial da síndrome gripal<sup>1</sup>.</em></p>
-                    <p><em>Nesse caso, a conduta inicial mais adequada é: realizar teste para covid-19, fazer acompanhamento ambulatorial com sintomáticos/hidratação, prescrever Oseltamivir, orientar sinais de alarme e reavaliar em 24-48h.</em></p>
+                    'alternativa' => 1,
+                    'descricao' =>'<p><em>Trata-se uma gestante com quadro de síndrome gripal e, portanto, com fator de risco para influenza (gestante), além de presença de sinal de alarme (desidratação). Dessa forma, enquadra-se na classificação do GRUPO B do diagrama de abordagem inicial da síndrome gripal<sup>1</sup>. Nesse caso, a conduta inicial mais adequada é: realizar teste para covid-19, fazer acompanhamento ambulatorial com sintomáticos/hidratação, prescrever Oseltamivir, orientar sinais de alarme e reavaliar em 24-48h.</em></p>
                     <p><em>Referência bibliográfica:</em></p>
                     <p>1 - Diagrama Abordagem Inicial da síndrome gripal. Escola de Saúde Pública do Ceará, 2022.</p>
                     <p>2 - Nota Técnica Oseltamivir. Escola de Saúde Pública do Ceará, 2021.</p>'
@@ -182,13 +181,13 @@ class AbordagemInicialPacienteSindromeGripal extends Seeder
                 <p><strong>Qual o provável diagnóstico e onde deve ser feito o acompanhamento clínico?</strong></p>',
                 'url_imagem' => '',
                 'alternativas' => [
-                    ['alternativa' => 'Síndrome respiratória aguda grave/enfermaria.', 'pontuacao' => 0],
+                    ['alternativa' => 'Síndrome respiratória aguda grave/internamento enfermaria', 'pontuacao' => 100],
                     ['alternativa' => 'Síndrome gripal/acompanhamento ambulatorial.', 'pontuacao' => 0],
-                    ['alternativa' => 'Resfriado comum/acompanhamento ambulatorial.', 'pontuacao' => 100],
+                    ['alternativa' => 'Resfriado comum/acompanhamento ambulatorial.', 'pontuacao' => 0],
                     ['alternativa' => 'Síndrome respiratória aguda grave/unidade de terapia intensiva.', 'pontuacao' => 0],
                 ],
                 'explicacao' => [
-                    'alternativa' => 2,
+                    'alternativa' => 0,
                     'descricao' => '<p><em>Trata-se de um paciente, previamente hígido, sem comorbidades. O passo inicial para o correto manejo clínico</em> é diferenciar o caso de síndrome gripal (*) e síndrome respiratória aguda grave (**).</p>
                     <p>O referido paciente tem sinais e sintomas compatíveis com síndrome respiratória aguda grave (dispneia, taquipneia, hipoxemia - SpO <94%) e deve ser acompanhado em ambiente hospitalar, especificamente em enfermaria. Caso apresentasse também sinais de disfunção orgânica (choque, insuficiência respiratória ou circulatória, além de disfunção de outros órgãos vitais), o ambiente mais adequado para o acompanhamento seria a unidade de terapia intensiva.</p>
                     <p><em>(*) SÍNDROME GRIPAL -SG</em></p>
