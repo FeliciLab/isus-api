@@ -6,7 +6,7 @@ use App\Model\CategoriaProfissional;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class EspecidadesSeeder extends Seeder
+class EspecialidadesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
