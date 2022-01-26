@@ -3,9 +3,7 @@
 namespace Tests\Feature\CadastroProfissional;
 
 use App\Model\Estado;
-use App\Model\Municipio;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
@@ -27,15 +25,15 @@ class MunicipiosTest extends TestCase
             [
                 'id',
                 'estado_id',
-                'nome'
-            ]
+                'nome',
+            ],
         ]);
         $response->assertJsonFragment([
             [
                 'id' => 1,
                 'estado_id' => 1,
                 'nome' => 'Acrelândia',
-            ]
+            ],
         ]);
     }
 }

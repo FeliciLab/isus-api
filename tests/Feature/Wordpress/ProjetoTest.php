@@ -2,11 +2,8 @@
 
 namespace Tests\Feature\Wordpress;
 
-use App\Model\Wordpress\App;
-use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\Projeto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
@@ -24,7 +21,7 @@ class ProjetoTest extends TestCase
 
     public function testRetornaProjetoSemParametro()
     {
-        $response = $this->json('GET', "api/projeto/");
+        $response = $this->json('GET', 'api/projeto/');
         $response->assertNotFound();
     }
 

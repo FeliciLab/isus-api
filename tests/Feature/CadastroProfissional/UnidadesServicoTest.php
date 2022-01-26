@@ -3,7 +3,6 @@
 namespace Tests\Feature\CadastroProfissional;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
@@ -21,15 +20,15 @@ class UnidadesServicoTest extends TestCase
         $response->assertOk();
         $response->assertJsonFragment([
             'pai' => 1,
-            'nome' => 'Pronto-socorro'
+            'nome' => 'Pronto-socorro',
 
         ]);
         $response->assertJsonStructure([
             [
                 'id',
                 'pai',
-                'nome'
-            ]
+                'nome',
+            ],
         ]);
     }
 }

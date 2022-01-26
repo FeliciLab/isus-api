@@ -22,7 +22,7 @@ class UserTest extends TestCase
 
         $user = [
             'email' => $usuario['email'],
-            'senha' => $usuario['senha']
+            'senha' => $usuario['senha'],
         ];
 
         $response = $this->json('POST', 'api/auth', $user);
@@ -31,7 +31,7 @@ class UserTest extends TestCase
 
         $this->assertNotNull($access_token);
 
-        if (is_null($access_token)) {
+        if (null === $access_token) {
             return false;
         }
 
@@ -40,7 +40,7 @@ class UserTest extends TestCase
                 'Authorization' => 'Bearer ' . $access_token,
             ]
         )
-            ->json('GET', "api/perfil");
+            ->json('GET', 'api/perfil');
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -57,21 +57,21 @@ class UserTest extends TestCase
                 'municipio' => [
                     'id',
                     'estado_id',
-                    'nome'
+                    'nome',
                 ],
                 'estado' => [
                     'id',
                     'nome',
-                    'uf'
+                    'uf',
                 ],
                 'profissional' => [
                     'categoria_profissional',
                     'tipos_contratacoes',
                     'titulacoes_academica',
                     'unidades_servicos',
-                    'especialidades'
-                ]
-            ]
+                    'especialidades',
+                ],
+            ],
         ]);
     }
 
@@ -81,11 +81,11 @@ class UserTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer xyz',
-        ])->json('GET', "api/perfil");
+        ])->json('GET', 'api/perfil');
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
         $response->assertJsonFragment([
             'sucesso' => false,
-            'erros' => 'Token não autorizado'
+            'erros' => 'Token não autorizado',
         ]);
     }
 
@@ -98,15 +98,15 @@ class UserTest extends TestCase
 
         $user = [
             'email' => $usuario['email'],
-            'senha' => $usuario['senha']
+            'senha' => $usuario['senha'],
         ];
 
         $response = $this->json('POST', 'api/auth', $user);
         $data = $response->getData();
         $refresh_token = $data->mensagem->refresh_token;
 
-        if (!is_null($refresh_token)) {
-            $response = $this->json('POST', "api/refresh-token", ['refresh_token' => $refresh_token]);
+        if (null !== $refresh_token) {
+            $response = $this->json('POST', 'api/refresh-token', ['refresh_token' => $refresh_token]);
             $response->assertOk();
             $response->assertJsonStructure([
                 'sucesso',
@@ -118,12 +118,11 @@ class UserTest extends TestCase
                     'token_type',
                     'not-before-policy',
                     'session_state',
-                    'scope'
-                ]
+                    'scope',
+                ],
             ]);
         }
     }
-
 
     public function testExcluirUsuario()
     {
@@ -134,21 +133,21 @@ class UserTest extends TestCase
 
         $user = [
             'email' => $usuario['email'],
-            'senha' => $usuario['senha']
+            'senha' => $usuario['senha'],
         ];
 
         $response = $this->json('POST', 'api/auth', $user);
         $data = $response->getData();
         $access_token = $data->mensagem->access_token;
 
-        if (!is_null($access_token)) {
+        if (null !== $access_token) {
             $response = $this->withHeaders([
                 'Authorization' => 'Bearer ' . $access_token,
-            ])->json("DELETE", "api/user");
+            ])->json('DELETE', 'api/user');
             $response->assertOk();
             $response->assertJsonStructure([
                 'sucesso',
-                'mensagem'
+                'mensagem',
             ]);
             $response->assertJson([
                 'sucesso' => true,

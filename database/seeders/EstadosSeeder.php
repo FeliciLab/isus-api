@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -13,15 +14,15 @@ class EstadosSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('estados')->insert(['id'   => 1 ,'nome' => 'Acre', 'uf' => 'AC']);
-        DB::table('estados')->insert(['id'   => 2 ,'nome' => 'Alagoas', 'uf' => 'AL']);
-        DB::table('estados')->insert(['id'   => 3 ,'nome' => 'Amazonas', 'uf' => 'AM']);
-        DB::table('estados')->insert(['id'   => 4 ,'nome' => 'Amapá', 'uf' => 'AP']);
-        DB::table('estados')->insert(['id'   => 5 ,'nome' => 'Bahia', 'uf' => 'BA']);
-        DB::table('estados')->insert(['id'   => 6 ,'nome' => 'Ceará', 'uf' => 'CE']);
-        DB::table('estados')->insert(['id'   => 7 ,'nome' => 'Distrito Federal', 'uf' => 'DF']);
-        DB::table('estados')->insert(['id'   => 8 ,'nome' => 'Espírito Santo', 'uf' => 'ES']);
-        DB::table('estados')->insert(['id'   => 9 ,'nome' => 'Goiás', 'uf' => 'GO']);
+        DB::table('estados')->insert(['id'   => 1, 'nome' => 'Acre', 'uf' => 'AC']);
+        DB::table('estados')->insert(['id'   => 2, 'nome' => 'Alagoas', 'uf' => 'AL']);
+        DB::table('estados')->insert(['id'   => 3, 'nome' => 'Amazonas', 'uf' => 'AM']);
+        DB::table('estados')->insert(['id'   => 4, 'nome' => 'Amapá', 'uf' => 'AP']);
+        DB::table('estados')->insert(['id'   => 5, 'nome' => 'Bahia', 'uf' => 'BA']);
+        DB::table('estados')->insert(['id'   => 6, 'nome' => 'Ceará', 'uf' => 'CE']);
+        DB::table('estados')->insert(['id'   => 7, 'nome' => 'Distrito Federal', 'uf' => 'DF']);
+        DB::table('estados')->insert(['id'   => 8, 'nome' => 'Espírito Santo', 'uf' => 'ES']);
+        DB::table('estados')->insert(['id'   => 9, 'nome' => 'Goiás', 'uf' => 'GO']);
         DB::table('estados')->insert(['id'   => 10, 'nome' => 'Maranhão', 'uf' => 'MA']);
         DB::table('estados')->insert(['id'   => 11, 'nome' => 'Minas Gerais', 'uf' => 'MG']);
         DB::table('estados')->insert(['id'   => 12, 'nome' => 'Mato Grosso do Sul', 'uf' => 'MS']);

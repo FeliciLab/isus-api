@@ -42,21 +42,21 @@ class DefinicoesConteudoCrudTest extends TestCase
             ->assertExactJson(
                 [
                     [
-                      "id" => 1,
-                      "id_publico" => "elmo_treinamento",
-                      "ativo" => true,
-                      "categoria" => "elmo",
-                      "imagem" => "SvgCapacitacao",
-                      "ordem" => 1,
-                      "sessao" => "conteudos",
-                      "tipo" => "webview",
-                      "titulo" => "Treinamento",
-                      "valor" => "https://sus.ce.gov.br/elmo/faca-sua-capacitacao/",
-                      "opcoes" => [
-                        "localImagem" => "app",
-                        "labelAnalytics" => "elmo_card_treinamento"
-                      ]
-                    ]
+                      'id' => 1,
+                      'id_publico' => 'elmo_treinamento',
+                      'ativo' => true,
+                      'categoria' => 'elmo',
+                      'imagem' => 'SvgCapacitacao',
+                      'ordem' => 1,
+                      'sessao' => 'conteudos',
+                      'tipo' => 'webview',
+                      'titulo' => 'Treinamento',
+                      'valor' => 'https://sus.ce.gov.br/elmo/faca-sua-capacitacao/',
+                      'opcoes' => [
+                        'localImagem' => 'app',
+                        'labelAnalytics' => 'elmo_card_treinamento',
+                      ],
+                    ],
                   ]
             );
     }
@@ -66,19 +66,19 @@ class DefinicoesConteudoCrudTest extends TestCase
         $this->postJson(
             $this->rotaElmo,
             [
-                "id_publico" => "teste_conteudo",
-                "ativo" => true,
-                "categoria" => "elmo",
-                "imagem" => "SvgCapacitacao",
-                "ordem" => 9999,
-                "sessao" => "conteudos",
-                "tipo" => "webview",
-                "titulo" => "Treinamento",
-                "valor" => "https://sus.ce.gov.br/elmo/faca-sua-capacitacao/",
-                "opcoes" => [
-                    "localImagem" => "app",
-                    "labelAnalytics" => "teste_conteudo_analytics"
-                ]
+                'id_publico' => 'teste_conteudo',
+                'ativo' => true,
+                'categoria' => 'elmo',
+                'imagem' => 'SvgCapacitacao',
+                'ordem' => 9999,
+                'sessao' => 'conteudos',
+                'tipo' => 'webview',
+                'titulo' => 'Treinamento',
+                'valor' => 'https://sus.ce.gov.br/elmo/faca-sua-capacitacao/',
+                'opcoes' => [
+                    'localImagem' => 'app',
+                    'labelAnalytics' => 'teste_conteudo_analytics',
+                ],
             ]
         )
             ->assertCreated();
@@ -89,7 +89,7 @@ class DefinicoesConteudoCrudTest extends TestCase
         $this->putJson(
             $this->rotaElmo . '/teste_conteudo',
             [
-                "ativo" => false,
+                'ativo' => false,
             ]
         )
             ->assertOk();

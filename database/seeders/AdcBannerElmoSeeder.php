@@ -27,7 +27,7 @@ class AdcBannerElmoSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_treinamento_elmo'
+                        'labelAnalytics' => 'banner_treinamento_elmo',
                     ]
                 ),
                 'created_at' => Carbon::now(),

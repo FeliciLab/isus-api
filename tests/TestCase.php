@@ -6,28 +6,27 @@ use App\Model\Estado;
 use App\Model\UnidadeServico;
 use Faker\Factory;
 use Faker\Generator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    protected $usuarioAutenticado;
-
     public string $codQuiz = 'ADFTS-SUS-P1';
     public $authorization = [
         'resposta' => [
             'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
             . 'eyJlbWFpbCI6ImRldkBkZXYuZGV2Iiwibm9tZSI6IkRldiBkZXYiLCJjcGYiOiIx'
-            . 'MjMuMTIzLjEyMy02OSJ9.CkWK7LixybXxO7vCatModnOD_X8C0uCTJU89KPex-Vo'
+            . 'MjMuMTIzLjEyMy02OSJ9.CkWK7LixybXxO7vCatModnOD_X8C0uCTJU89KPex-Vo',
         ],
         'busca' => [
             'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
             . 'eyJlbWFpbCI6ImRldkB0ZXN0ZS5kZXYiLCJub21lIjoiRGV2IGRldiIsImNwZiI6IjEifQ.'
-            . 'cAmrqKcpRAzF5gJu_iPm1TRqZd7UnbQsSiAHWXhtLro'
+            . 'cAmrqKcpRAzF5gJu_iPm1TRqZd7UnbQsSiAHWXhtLro',
         ],
     ];
+
+    protected $usuarioAutenticado;
 
     public function setUp(): void
     {
@@ -67,7 +66,4 @@ abstract class TestCase extends BaseTestCase
 
         return $user;
     }
-
-
-
 }

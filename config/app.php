@@ -16,7 +16,7 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
     'qualiquiz' => [
         'bloquear_refazer' => env('QQUIZ_BLOQUEAR_REFAZER', false),
-        'outras_respostas' => env('BLOQUEAR_OUTRAS_RESPOSTAS', false)
+        'outras_respostas' => env('BLOQUEAR_OUTRAS_RESPOSTAS', false),
     ],
 
     /*
