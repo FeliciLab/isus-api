@@ -5,7 +5,6 @@ namespace Tests\Feature\Wordpress;
 use App\Model\Wordpress\App;
 use App\Model\Wordpress\Categoria;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
@@ -14,7 +13,6 @@ use Tests\TestCase;
 class CategoriaArquiteturaTest extends TestCase
 {
     use RefreshDatabase;
-
 
     public function setUp(): void
     {
@@ -28,7 +26,7 @@ class CategoriaArquiteturaTest extends TestCase
         foreach ($apps as $prefixo => $app) {
             foreach ($app as $categoriaId) {
                 $categoria = factory(Categoria::class)->create([
-                    'term_id' => $categoriaId
+                    'term_id' => $categoriaId,
                 ]);
             }
         }

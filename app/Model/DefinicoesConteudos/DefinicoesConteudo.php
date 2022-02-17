@@ -32,7 +32,8 @@ class DefinicoesConteudo extends Model
     {
         return $this->hasMany(
             DefinicoesConteudoOpcoes::class,
-            'definicoes_conteudos_id', 'id'
+            'definicoes_conteudos_id',
+            'id'
         );
     }
 

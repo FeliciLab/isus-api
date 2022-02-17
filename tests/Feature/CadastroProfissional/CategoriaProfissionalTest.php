@@ -4,7 +4,6 @@ namespace Tests\Feature\CadastroProfissional;
 
 use App\Model\CategoriaProfissional;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
@@ -27,13 +26,13 @@ class CategoriaProfissionalTest extends TestCase
         $response->assertOk();
         $response->assertJsonFragment([
             'id' => 1,
-            'nome' => 'Medicina'
+            'nome' => 'Medicina',
         ]);
         $response->assertJsonStructure([
             [
                 'id',
-                'nome'
-            ]
+                'nome',
+            ],
         ]);
     }
 
@@ -49,8 +48,8 @@ class CategoriaProfissionalTest extends TestCase
             [
                 'id',
                 'categoriaprofissional_id',
-                'nome'
-            ]
+                'nome',
+            ],
         ]);
     }
 }

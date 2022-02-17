@@ -2,15 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class DemandaEducacaoTest extends TestCase
 {
     public function testdemandaEducacaoComSucesso()
     {
-        $response = $this->postJson("api/demanda-educacao", [
+        $response = $this->postJson('api/demanda-educacao', [
             'email' => 'victor.magalhaesp@gmail.com',
             'descricao' => 'descricao',
             'unidadeDeSaude' => 'unidadeDeSaude',
@@ -19,7 +17,7 @@ class DemandaEducacaoTest extends TestCase
         ]);
         $response->assertOk();
         $response->assertJsonFragment([
-            'success' => true
+            'success' => true,
         ]);
     }
 }

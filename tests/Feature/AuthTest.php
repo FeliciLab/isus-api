@@ -2,15 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Model\CategoriaProfissional;
-use App\Model\Estado;
-use App\Model\UnidadeServico;
-use Faker\Factory;
-use Faker\Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Illuminate\Http\Response;
 
 class AuthTest extends TestCase
 {
@@ -32,14 +25,14 @@ class AuthTest extends TestCase
             ->assertStatus(400)
             ->assertJson(
                 [
-                    "erros" => [
-                        "email" => [
-                            "O campo email é obrigatório."
+                    'erros' => [
+                        'email' => [
+                            'O campo email é obrigatório.',
                         ],
-                        "senha" => [
-                            "O campo senha é obrigatório."
-                        ]
-                    ]
+                        'senha' => [
+                            'O campo senha é obrigatório.',
+                        ],
+                    ],
                 ]
             );
     }
@@ -50,17 +43,17 @@ class AuthTest extends TestCase
             'POST',
             'api/auth',
             [
-                'senha' => '1234556678'
+                'senha' => '1234556678',
             ]
         )
             ->assertStatus(400)
             ->assertJson(
                 [
-                    "erros" => [
-                        "email" => [
-                            "O campo email é obrigatório."
-                        ]
-                    ]
+                    'erros' => [
+                        'email' => [
+                            'O campo email é obrigatório.',
+                        ],
+                    ],
                 ]
             );
     }
@@ -72,17 +65,17 @@ class AuthTest extends TestCase
             'api/auth',
             [
                 'email' => 'email-invalido',
-                'senha' => 'joinado'
+                'senha' => 'joinado',
             ]
         )
             ->assertStatus(400)
             ->assertJson(
                 [
-                    "erros" => [
-                        "email" => [
-                            "O campo email deve ser um endereço de e-mail válido."
-                        ]
-                    ]
+                    'erros' => [
+                        'email' => [
+                            'O campo email deve ser um endereço de e-mail válido.',
+                        ],
+                    ],
                 ]
             );
     }
@@ -93,21 +86,20 @@ class AuthTest extends TestCase
             'POST',
             'api/auth',
             [
-                'email' => 'email@email.com'
+                'email' => 'email@email.com',
             ]
         )
             ->assertStatus(400)
             ->assertJson(
                 [
-                    "erros" => [
-                        "senha" => [
-                            "O campo senha é obrigatório."
-                        ]
-                    ]
+                    'erros' => [
+                        'senha' => [
+                            'O campo senha é obrigatório.',
+                        ],
+                    ],
                 ]
             );
     }
-
 
     public function testCredenciaisInvalidas()
     {
@@ -116,13 +108,13 @@ class AuthTest extends TestCase
             'api/auth',
             [
                 'email' => 'user@mail.com',
-                'senha' => '987654'
+                'senha' => '987654',
             ]
         )
             ->assertUnauthorized()
             ->assertJson(
                 [
-                    'erros' => 'Usuário ou senha inválidos'
+                    'erros' => 'Usuário ou senha inválidos',
                 ]
             );
     }
@@ -141,8 +133,8 @@ class AuthTest extends TestCase
             ->assertJsonStructure(
                 [
                     'mensagem' => [
-                        'access_token'
-                    ]
+                        'access_token',
+                    ],
                 ]
             );
     }

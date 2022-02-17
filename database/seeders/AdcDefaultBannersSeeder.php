@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Carbon\Carbon;
@@ -26,7 +27,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
-                        'labelAnalytics' => 'banner_vacina_covid19'
+                        'labelAnalytics' => 'banner_vacina_covid19',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -43,7 +44,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
-                        'labelAnalytics' => 'guia_assistencia_farmaceutica'
+                        'labelAnalytics' => 'guia_assistencia_farmaceutica',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -56,12 +57,12 @@ class AdcDefaultBannersSeeder extends Seeder
                 'imagem' => 'images/banners/IDSaude.png',
                 'valor' => 'PERFIL',
                 'tipo' => 'rota',
-                'ordem' => 5,
+                'ordem' => 6,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
                         'login' => true,
-                        'labelAnalytics' => 'id_saude'
+                        'labelAnalytics' => 'id_saude',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -74,12 +75,12 @@ class AdcDefaultBannersSeeder extends Seeder
                 'imagem' => 'images/banners/IDSaude.png',
                 'valor' => 'LOGIN',
                 'tipo' => 'rota',
-                'ordem' => 5,
+                'ordem' => 6,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
                         'login' => false,
-                        'labelAnalytics' => 'id_saude'
+                        'labelAnalytics' => 'id_saude',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -96,7 +97,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'sus_30_anos'
+                        'labelAnalytics' => 'sus_30_anos',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -104,23 +105,23 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 6,
-                'ativo' => false,
-                'titulo' => 'PPSUS',
-                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/PPSUS.png',
-                'valor' => 'https://www.esp.ce.gov.br/tag/ppsus/',
+                'ativo' => true,
+                'titulo' => 'Regulação de Pacientes',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/BANNER-ISUS.png',
+                'valor' => 'https://coronavirus.ceara.gov.br/project/nota-informativa-orienta-sobre-os-procedimentos-de-regulacao-de-pacientes-com-sindrome-gripal-sindrome-respiratoria-aguda-grave/',
                 'tipo' => 'webview',
                 'ordem' => 2,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_ppsus'
+                        'labelAnalytics' => 'banner_regulacao_pacientes',
                     ]
                 ),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'ativo' => true,
+                'ativo' => false,
                 'id' => 7,
                 'ordem' => 3,
                 'titulo' => 'Cartilha de Saúde Mental',
@@ -130,7 +131,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_cartilha_saude_mental'
+                        'labelAnalytics' => 'banner_cartilha_saude_mental',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -143,11 +144,11 @@ class AdcDefaultBannersSeeder extends Seeder
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/Banner-Cartilha-Saúde-Mental.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/profissional/manejoclinico/',
                 'tipo' => 'webview',
-                'ordem' => 4,
+                'ordem' => 5,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_manejo_clinico'
+                        'labelAnalytics' => 'banner_manejo_clinico',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -164,7 +165,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'bannercovid19heroesstudy'
+                        'labelAnalytics' => 'bannercovid19heroesstudy',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -173,7 +174,7 @@ class AdcDefaultBannersSeeder extends Seeder
             [
                 'id' => 10,
                 'ordem' => 7,
-                'ativo' => true,
+                'ativo' => false,
                 'titulo' => 'Protocolo do primeiro atendimento ao paciente com síndrome coronariana aguda',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/11/Protocolo-Sindroma-Coroniana-Aguda.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/project/protocolo-da-sesa-orienta-atendimentos-a-pacientes-com-sindrome-coronariana-aguda/',
@@ -181,7 +182,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'bannerprotocolocoronariana'
+                        'labelAnalytics' => 'bannerprotocolocoronariana',
                     ]
                 ),
                 'created_at' => Carbon::now(),
@@ -190,7 +191,7 @@ class AdcDefaultBannersSeeder extends Seeder
             [
                 'id' => 11,
                 'ordem' => 9,
-                'ativo' => true,
+                'ativo' => false,
                 'titulo' => 'ObservaEPS - Comunidade de práticas',
                 'imagem' => 'http://www.esp.ce.gov.br/wp-content/uploads/sites/78/2021/06/Slider-CdP-Observa-III.png',
                 'valor' => 'tinyurl.com/CPobservaEPS',
@@ -198,7 +199,75 @@ class AdcDefaultBannersSeeder extends Seeder
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
-                        'labelAnalytics' => 'banner_observaeps'
+                        'labelAnalytics' => 'banner_observaeps',
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 12,
+                'ordem' => 10,
+                'ativo' => false,
+                'titulo' => 'Treinamentos Elmo',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed-3.png',
+                'valor' => 'https://sus.ce.gov.br/elmo/faca-seu-treinamento/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_treinamento_elmo'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 13,
+                'ordem' => 4,
+                'ativo' => true,
+                'titulo' => 'Nota Técnica ESP/SESA',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed-1.png',
+                'valor' => 'https://coronavirus.ceara.gov.br/project/nt-esp-sesa-01-2021-orientacoes-sore-uso-de-oseltamivir-para-tratamento-de-influenza/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'notaTecnica_esp_sesa'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 14,
+                'ordem' => 1,
+                'ativo' => true,
+                'titulo' => 'Protocolos e Fluxogramas',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed-2.png',
+                'valor' => 'https://coronavirus.ceara.gov.br/project/esp-ce-desenvolve-fluxograma-para-orientar-sobre-atendimento-inicial-a-pacientes-com-sindrome-gripal/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_fluxograma'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 15,
+                'ordem' => 3,
+                'ativo' => true,
+                'titulo' => 'Painel Covid-19',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/Cisec-1.png',
+                'valor' => 'https://cisec.esp.ce.gov.br/#',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'painel_alerta_covid_19'
                     ]
                 ),
                 'created_at' => Carbon::now(),

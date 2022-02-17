@@ -1,9 +1,9 @@
 <?php
+
 namespace Database\Seeders;
-use App\Model\CategoriaProfissional;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Model\UnidadeServico;
 
 class MeusConteudosSeeder extends Seeder
 {
@@ -14,7 +14,6 @@ class MeusConteudosSeeder extends Seeder
      */
     public function run()
     {
-
         DB::table('meus_conteudos')->insert(
             ['id' => 1,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
@@ -23,8 +22,9 @@ class MeusConteudosSeeder extends Seeder
             'data' => '2021-08-30 14:15:10',
             'ativo' => true,
             'tipo_conteudo' => 'webview',
-            'categoriaprofissional_id' => 5
-        ]);
+            'categoriaprofissional_id' => 5,
+        ]
+        );
         DB::table('meus_conteudos')->insert(
             ['id' => 2,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
@@ -33,8 +33,9 @@ class MeusConteudosSeeder extends Seeder
             'data' => '2021-08-30 14:15:10',
             'ativo' => true,
             'tipo_conteudo' => 'webview',
-            'categoriaprofissional_id' => 2
-        ]);
+            'categoriaprofissional_id' => 2,
+        ]
+        );
         DB::table('meus_conteudos')->insert(
             ['id' => 3,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
@@ -43,8 +44,9 @@ class MeusConteudosSeeder extends Seeder
             'data' => '2021-08-30 14:15:10',
             'ativo' => true,
             'tipo_conteudo' => 'webview',
-            'categoriaprofissional_id' => 12
-        ]);
+            'categoriaprofissional_id' => 12,
+        ]
+        );
         DB::table('meus_conteudos')->insert(
             ['id' => 4,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
@@ -54,8 +56,9 @@ class MeusConteudosSeeder extends Seeder
             'ativo' => true,
             'tipo_conteudo' => 'webview',
             'categoriaprofissional_id' => 1,
-            'especialidade_id' => 8
-        ]);
+            'especialidade_id' => 8,
+        ]
+        );
         DB::table('meus_conteudos')->insert(
             ['id' => 5,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
@@ -65,8 +68,9 @@ class MeusConteudosSeeder extends Seeder
             'ativo' => true,
             'tipo_conteudo' => 'webview',
             'categoriaprofissional_id' => 1,
-            'especialidade_id' => 12
-        ]);
+            'especialidade_id' => 12,
+        ]
+        );
         DB::table('meus_conteudos')->insert(
             ['id' => 6,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
@@ -76,8 +80,9 @@ class MeusConteudosSeeder extends Seeder
             'ativo' => true,
             'tipo_conteudo' => 'webview',
             'categoriaprofissional_id' => 3,
-            'especialidade_id' => 67
-        ]);
+            'especialidade_id' => 67,
+        ]
+        );
         DB::table('meus_conteudos')->insert(
             ['id' => 7,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
@@ -87,8 +92,9 @@ class MeusConteudosSeeder extends Seeder
             'ativo' => true,
             'tipo_conteudo' => 'webview',
             'categoriaprofissional_id' => 3,
-            'especialidade_id' => 71
-        ]);
+            'especialidade_id' => 71,
+        ]
+        );
         DB::table('meus_conteudos')->insert(
             ['id' => 8,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/04/resme.png',
@@ -98,8 +104,9 @@ class MeusConteudosSeeder extends Seeder
             'ativo' => true,
             'tipo_conteudo' => 'webview',
             'categoriaprofissional_id' => 1,
-            'especialidade_id' => 8
-        ]);
+            'especialidade_id' => 8,
+        ]
+        );
         DB::table('meus_conteudos')->insert(
             ['id' => 9,
             'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2021/11/TUMB-19.png',
@@ -109,8 +116,8 @@ class MeusConteudosSeeder extends Seeder
             'ativo' => true,
             'tipo_conteudo' => 'webview',
             'categoriaprofissional_id' => 10,
-            'especialidade_id' => null
-        ]);
-
+            'especialidade_id' => null,
+        ]
+        );
     }
 }

@@ -65,10 +65,12 @@ class WordpressController extends Controller
         $search = $request->search ?? ' ';
 
         $projetos = Projeto::query()
-                ->where('post_title', 'LIKE', "%{$search}%")
-                ->orWhere('content', 'LIKE', "%{$search}%")->get();
+            ->where('post_title', 'LIKE', "%{$search}%")
+            ->orderBy('data', 'desc')
+            ->orWhere('content', 'LIKE', "%{$search}%")->get();
 
         $projetosSearch = [];
+
         foreach ($projetos as $projeto) {
             $projetosSearch[] = [
                 'id' => $projeto->id,
