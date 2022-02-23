@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SaguOfertasController;
 use App\Http\Controllers\SaguUserInfoController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,7 +45,9 @@ Route::get(
 );
 
 // SAGU
-Route::get('/sagu/userInfo/', [SaguUserInfoController::class, 'index']);
+Route::get('/sagu/userInfo/{idUser}', [SaguUserInfoController::class, 'index']);
+Route::get('/sagu/ofertas/', [SaguOfertasController::class, 'index']);
+Route::get('/sagu/ofertas/', [SaguOfertasController::class, 'index']);
 
 
 Route::namespace('Api')->group(function () {
