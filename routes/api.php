@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SaguUserInfoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,10 @@ Route::get(
     '\App\Domains\QualiQuiz\Controllers\RelatorioQuizController@respostasCodQuiz'
 );
 
+// SAGU
+Route::get('/sagu/userInfo/', [SaguUserInfoController::class, 'index']);
+
+
 Route::namespace('Api')->group(function () {
     Route::apiResource('banner-config', 'BannerConfigController');
     Route::get('definicoes-conteudos/{categoria}', 'DefinicoesConteudoController@index');
@@ -83,6 +88,7 @@ Route::namespace('Api')->group(function () {
         Route::put('/user', 'UserController@update');
         Route::delete('/user', 'UserController@delete');
     });
+
 });
 
 Route::get('/delay-textit/{segundos?}', function ($segundos = 1) {
