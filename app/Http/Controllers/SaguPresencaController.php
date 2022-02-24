@@ -17,14 +17,14 @@ class SaguPresencaController extends Controller
     public function index(int $idUser, int $idOferta)
     {
         $presencas = SaguPresenca::where('user_id', $idUser)
-            ->where('sagu_oferta_id', $idOferta)
+            ->where('oferta_id', $idOferta)
             ->select('id', 'data', 'turno')
             ->orderBy('data', 'desc')
             ->get();
 
         return response()->json([
             'user_id' => $idUser,
-            'sagu_oferta_id' => $idOferta,
+            'oferta_id' => $idOferta,
             'presencas' => $presencas
         ], 200);
     }
@@ -51,12 +51,12 @@ class SaguPresencaController extends Controller
 
             $presenca = new SaguPresenca();
             $presenca->user_id = $idUser;
-            $presenca->sagu_oferta_id = $idOferta;
+            $presenca->oferta_id = $idOferta;
             $presenca->data = $data;
             $presenca->turno = $requestBody['turno'];
 
             $presencaExist = SaguPresenca::where('user_id', $idUser)
-                ->where('sagu_oferta_id', $idOferta)
+                ->where('oferta_id', $idOferta)
                 ->where('turno', $requestBody['turno'])
                 ->where('data', $data)
                 ->first();

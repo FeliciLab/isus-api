@@ -10,7 +10,7 @@ class SaguPresenca extends Model
 
     protected $fillable = [
         'user_id',
-        'sagu_oferta_id',
+        'oferta_id',
         'data',
         'turno',
     ];

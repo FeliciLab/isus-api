@@ -19,6 +19,6 @@ class SaguOfertasController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return response()->json(['data' => $saguOfertas], 200);
+        return response()->json(['ofertas' => $saguOfertas], 200);
     }
 }

@@ -16,7 +16,7 @@ class CreateSaguPresencasTable extends Migration
         Schema::create('sagu_presencas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('sagu_oferta_id')->references('id')->on('sagu_ofertas');
+            $table->foreignId('oferta_id')->references('id')->on('sagu_ofertas');
             $table->date('data');
             $table->string('turno', 10);
             $table->timestamps();
