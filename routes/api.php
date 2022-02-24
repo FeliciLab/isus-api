@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\SaguOfertasController;
+use App\Http\Controllers\SaguPresencaController;
+use App\Http\Controllers\SaguRelatorioController;
 use App\Http\Controllers\SaguUserInfoController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,9 +47,12 @@ Route::get(
 );
 
 // SAGU
+Route::get('/sagu/presencas/{idUser}/{idOferta}', [SaguPresencaController::class, 'index']);
+Route::post('/sagu/presencas/{idUser}/{idOferta}', [SaguPresencaController::class, 'marcarPresenca']);
+Route::get('/sagu/ofertas', [SaguOfertasController::class, 'index']);
 Route::get('/sagu/userInfo/{idUser}', [SaguUserInfoController::class, 'index']);
-Route::get('/sagu/ofertas/', [SaguOfertasController::class, 'index']);
-Route::get('/sagu/ofertas/', [SaguOfertasController::class, 'index']);
+Route::put('/sagu/userInfo/{idUser}', [SaguUserInfoController::class, 'updateUserInfo']);
+Route::get('/sagu/relatorio', [SaguRelatorioController::class, 'index']);
 
 
 Route::namespace('Api')->group(function () {
@@ -91,7 +96,6 @@ Route::namespace('Api')->group(function () {
         Route::put('/user', 'UserController@update');
         Route::delete('/user', 'UserController@delete');
     });
-
 });
 
 Route::get('/delay-textit/{segundos?}', function ($segundos = 1) {
