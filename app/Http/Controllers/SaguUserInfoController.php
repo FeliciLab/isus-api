@@ -21,7 +21,6 @@ class SaguUserInfoController extends Controller
             $resquest->validate([
                 'componente' => 'required',
                 'programaResidencia' => 'required',
-                'residenciaMunicipio' => 'required'
             ]);
 
             $requestBody = $resquest->all();

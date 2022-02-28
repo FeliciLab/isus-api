@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Model\Sagu\SaguOferta;
-use Illuminate\Http\Request;
 
 class SaguRelatorioController extends Controller
 {
     /**
      * Listar as Ofertas
      * 1. Apenas as que estão ativas
-     * 2. Ordenar por data de criação decrescente
+     * 2. Ordenar por data de criação decrescente.
      */
     public function index()
     {
