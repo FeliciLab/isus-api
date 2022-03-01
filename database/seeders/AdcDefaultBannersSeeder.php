@@ -57,7 +57,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'imagem' => 'images/banners/IDSaude.png',
                 'valor' => 'PERFIL',
                 'tipo' => 'rota',
-                'ordem' => 6,
+                'ordem' => 7,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
@@ -75,7 +75,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'imagem' => 'images/banners/IDSaude.png',
                 'valor' => 'LOGIN',
                 'tipo' => 'rota',
-                'ordem' => 6,
+                'ordem' => 7,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
@@ -110,7 +110,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/BANNER-ISUS.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/project/nota-informativa-orienta-sobre-os-procedimentos-de-regulacao-de-pacientes-com-sindrome-gripal-sindrome-respiratoria-aguda-grave/',
                 'tipo' => 'webview',
-                'ordem' => 2,
+                'ordem' => 3,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
@@ -144,7 +144,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/Banner-Cartilha-Saúde-Mental.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/profissional/manejoclinico/',
                 'tipo' => 'webview',
-                'ordem' => 5,
+                'ordem' => 6,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
@@ -224,7 +224,7 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 13,
-                'ordem' => 4,
+                'ordem' => 5,
                 'ativo' => true,
                 'titulo' => 'Nota Técnica ESP/SESA',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed-1.png',
@@ -241,7 +241,7 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 14,
-                'ordem' => 1,
+                'ordem' => 2,
                 'ativo' => true,
                 'titulo' => 'Protocolos e Fluxogramas',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed-2.png',
@@ -258,7 +258,7 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 15,
-                'ordem' => 3,
+                'ordem' => 4,
                 'ativo' => true,
                 'titulo' => 'Painel Covid-19',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/Cisec-1.png',
@@ -268,6 +268,23 @@ class AdcDefaultBannersSeeder extends Seeder
                     [
                         'localImagem' => 'web',
                         'labelAnalytics' => 'painel_alerta_covid_19'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 16,
+                'ordem' => 1,
+                'ativo' => true,
+                'titulo' => 'Matrícula Residência',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/02/Matricula-Resmed-banner-isus.png',
+                'valor' => 'https://www.esp.ce.gov.br/ensino/residencia-em-saude/matricula/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_matricula_residencias'
                     ]
                 ),
                 'created_at' => Carbon::now(),
