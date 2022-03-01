@@ -18,7 +18,7 @@ class CreateSaguUserInfosTable extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('componente', 60);
             $table->string('programa_residencia', 100);
-            $table->string('municipio_residencia', 100);
+            $table->string('municipio_residencia', 100)->nullable();
             $table->timestamps();
         });
     }
