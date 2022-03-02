@@ -67,13 +67,13 @@ class KeycloakService
         ];
     }
 
-    public function login($email, $senha)
+    public function login($cpf, $senha)
     {
         return $this->keycloakClient->post(
             "{$this->keycloakUri}/auth/realms/saude/protocol/openid-connect/token",
             [
                 'form_params' => [
-                    'username' => $email,
+                    'username' => $cpf,
                     'password' => $senha,
                     'client_id' => 'isus',
                     'grant_type' => $this->keycloakAdminIsusGranttype,
