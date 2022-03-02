@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         $keyCloakService = new KeycloakService();
         try {
-            $resposta = $keyCloakService->login($dados['cpf'], $dados['senha']);
+            $resposta = $keyCloakService->login($dados['email'], $dados['senha']);
         } catch (\GuzzleHttp\Exception\ClientException $exception) {
             if ($exception->getCode() === Response::HTTP_UNAUTHORIZED) {
                 return response()->json(
