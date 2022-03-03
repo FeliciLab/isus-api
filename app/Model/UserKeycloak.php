@@ -143,6 +143,7 @@ class UserKeycloak
         $dadosKeycloak = [
             'enabled' => $this->enabled,
             'email' => $this->email,
+            'username' => $this->cpf,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'credentials' => [
