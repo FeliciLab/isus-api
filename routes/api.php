@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\SaguOfertasController;
+use App\Http\Controllers\SaguPresencaController;
+use App\Http\Controllers\SaguRelatorioController;
+use App\Http\Controllers\SaguUserInfoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +45,15 @@ Route::get(
     '/qualiquiz/relatorio/respostas/cod/{codQuiz}',
     '\App\Domains\QualiQuiz\Controllers\RelatorioQuizController@respostasCodQuiz'
 );
+
+// SAGU
+Route::get('/sagu/presencas/{idUser}/{idOferta}', [SaguPresencaController::class, 'index']);
+Route::post('/sagu/presencas/{idUser}/{idOferta}', [SaguPresencaController::class, 'marcarPresenca']);
+Route::get('/sagu/ofertas', [SaguOfertasController::class, 'index']);
+Route::get('/sagu/userInfo/{idUser}', [SaguUserInfoController::class, 'index']);
+Route::put('/sagu/userInfo/{idUser}', [SaguUserInfoController::class, 'updateUserInfo']);
+Route::get('/sagu/relatorio', [SaguRelatorioController::class, 'index']);
+
 
 Route::namespace('Api')->group(function () {
     Route::apiResource('banner-config', 'BannerConfigController');

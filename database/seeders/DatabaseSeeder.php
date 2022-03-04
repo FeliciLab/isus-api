@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             // ManejoClinicoCovid19v2::class,
             // ManejoClinicoCovid19v3::class,
             // ManejoClinicoCovid19v4::class,
+            AdcSaguOfertasSeeder::class,
         ]);
     }
 }
