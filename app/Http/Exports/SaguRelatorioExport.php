@@ -5,8 +5,8 @@ namespace App\Http\Exports;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 
 class SaguRelatorioExport implements
@@ -16,7 +16,6 @@ class SaguRelatorioExport implements
     WithHeadings,
     WithEvents
 {
-
     protected $data;
 
     public function __construct(array $data)
@@ -63,7 +62,7 @@ class SaguRelatorioExport implements
             'Município Residência',
             'Presença CH',
             '% de Presença',
-            '% de Falta'
+            '% de Falta',
         ];
     }
 
@@ -73,10 +72,10 @@ class SaguRelatorioExport implements
             AfterSheet::class => function (AfterSheet $event) {
                 $event->sheet->getStyle('A1:M1')->applyFromArray([
                     'font' => [
-                        'bold' => true
-                    ]
+                        'bold' => true,
+                    ],
                 ]);
-            }
+            },
         ];
     }
 }

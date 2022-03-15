@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Exports\SaguRelatorioExport;
 use App\Model\Sagu\SaguOferta;
 use App\Model\Sagu\SaguPresenca;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Exports\SaguRelatorioExport;
 use App\Model\Sagu\SaguUserInfo;
 use App\Model\User;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SaguRelatorioController extends Controller
 {
@@ -20,12 +20,10 @@ class SaguRelatorioController extends Controller
         $buscaPorOfertaId = request('oferta');
 
         if ($buscaPorOfertaId) {
-
             $saguOfertas = SaguOferta
                 ::where('id', $buscaPorOfertaId)
                 ->get();
         } else {
-
             $saguOfertas = SaguOferta
                 ::where('is_active', true)
                 ->get();
@@ -40,14 +38,13 @@ class SaguRelatorioController extends Controller
             ::select(
                 'user_id',
                 'oferta_id',
-                DB::raw("count(oferta_id) as count_presenca")
+                DB::raw('count(oferta_id) as count_presenca')
             )
             ->whereIn('oferta_id', $ofertasArray)
             ->groupBy('user_id', 'oferta_id')
             ->get();
 
         foreach ($saguPresencas as $presenca) {
-
             $saguOferta = $saguOfertas->where('id', '=', $presenca->oferta_id)->first();
 
             $saguUserInfo = SaguUserInfo::where('user_id', '=', $presenca->user_id)->first();
