@@ -6,8 +6,13 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Install selected extensions and other stuff
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install php7.4-mysql cron locales \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+    && apt-get -y --no-install-recommends install \
+        php7.4-gd \
+        php7.4-mysql \
+        cron \
+        locales \
+    && apt-get clean; \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Set the locale timezone to America/Fortaleza
 RUN touch /etc/locale.gen
