@@ -7,9 +7,11 @@ use App\Model\Wordpress\App;
 use App\Model\Wordpress\Categoria;
 use App\Model\Wordpress\CategoriaProjeto;
 use App\Model\Wordpress\Projeto;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class WordpressSyncronizeService
 {
@@ -22,7 +24,9 @@ class WordpressSyncronizeService
 
     public function sync()
     {
-        $this->truncateTables();
+        $this->verifyWpServersAvailables();
+
+        $this->truncateTables(); // zerando as tabelas
 
         foreach (App::WORDPRESS_ENDPOINT as $prefixo => $endpoint) {
             $categoriasAPI = $this->getCategoriasWp($endpoint);
@@ -78,6 +82,20 @@ class WordpressSyncronizeService
         $res = $this->client->get($endpoint . 'project_category/?per_page=100');
 
         return json_decode($res->getBody(), false);
+    }
+
+    /**
+     * Verifica se o servidor está disponível
+     */
+    private function verifyWpServersAvailables()
+    {
+        try {
+            foreach (App::WORDPRESS_ENDPOINT as $prefixo => $endpoint) {
+                $this->client->get($endpoint);
+            }
+        } catch (Throwable $th) {
+            throw new Exception('Servidor off - ' . $th->getMessage());
+        }
     }
 
     private function salvaCategorias($endpoint, $prefixo, $categoriaId)
