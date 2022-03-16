@@ -85,7 +85,7 @@ class WordpressSyncronizeService
     }
 
     /**
-     * Verifica se o servidor está disponível
+     * Verifica se o servidor está disponível.
      */
     private function verifyWpServersAvailables()
     {

@@ -48,6 +48,7 @@ class SincronizarWordpress extends Command
         } catch (Throwable $e) {
             $this->error('sincronizar:wordpress error: ' . $e->getMessage());
         }
+
         return 0;
     }
 }
