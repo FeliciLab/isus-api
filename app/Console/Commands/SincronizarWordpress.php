@@ -41,9 +41,9 @@ class SincronizarWordpress extends Command
     public function handle()
     {
         try {
-            $sync = new WordpressSyncronizeService();
+            $wordpressSyncronizeService = new WordpressSyncronizeService();
             $this->info('sincronizar:wordpress is running...');
-            $sync->sync();
+            $wordpressSyncronizeService->sync();
             $this->info('sincronizar:wordpress was executed successfully! ' . Carbon::now());
         } catch (Throwable $e) {
             $this->error('sincronizar:wordpress error: ' . $e->getMessage());
