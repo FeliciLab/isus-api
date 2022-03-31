@@ -3,8 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Service\WordpressSyncronizeService;
-// Salvar o dado no DB
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Throwable;
 
 class SincronizarWordpress extends Command
 {
@@ -39,10 +40,14 @@ class SincronizarWordpress extends Command
      */
     public function handle()
     {
-        $sync = new WordpressSyncronizeService();
-        $this->info('sincronizar:wordpress is running...\n');
-        $sync->sync();
-        $this->info('sincronizar:wordpress was executed successfully!\n');
+        try {
+            $wordpressSyncronizeService = new WordpressSyncronizeService();
+            $this->info('sincronizar:wordpress is running...');
+            $wordpressSyncronizeService->sync();
+            $this->info('sincronizar:wordpress was executed successfully! ' . Carbon::now());
+        } catch (Throwable $e) {
+            $this->error('sincronizar:wordpress error: ' . $e->getMessage());
+        }
 
         return 0;
     }
