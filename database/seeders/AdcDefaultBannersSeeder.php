@@ -35,12 +35,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 2,
+                'ordem' => 8,
                 'ativo' => false,
                 'titulo' => 'Guia de Assistência Farmacêutica',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/11/guia-de-assistencia-farmaceutica-thumb-isus.jpg',
                 'valor' => 'https://coronavirus.ceara.gov.br/project/secretaria-de-saude-disponibiliza-guia-da-assistencia-farmaceutica-no-estado-do-ceara/',
                 'tipo' => 'webview',
-                'ordem' => 8,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
@@ -52,12 +52,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 3,
+                'ordem' => 6,
                 'ativo' => true,
                 'titulo' => 'ID Saúde',
                 'imagem' => 'images/banners/IDSaude.png',
                 'valor' => 'PERFIL',
                 'tipo' => 'rota',
-                'ordem' => 7,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
@@ -70,12 +70,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 4,
+                'ordem' => 6,
                 'ativo' => true,
                 'titulo' => 'ID Saúde',
                 'imagem' => 'images/banners/IDSaude.png',
                 'valor' => 'LOGIN',
                 'tipo' => 'rota',
-                'ordem' => 7,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
@@ -88,12 +88,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 5,
+                'ordem' => 1,
                 'ativo' => false,
                 'titulo' => 'SUS 30 anos',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/SUS-30-anos.png',
                 'valor' => 'https://www.esp.ce.gov.br/tag/semana-do-sus/',
                 'tipo' => 'webview',
-                'ordem' => 1,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
@@ -105,12 +105,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 6,
+                'ordem' => 3,
                 'ativo' => true,
                 'titulo' => 'Regulação de Pacientes',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/BANNER-ISUS.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/project/nota-informativa-orienta-sobre-os-procedimentos-de-regulacao-de-pacientes-com-sindrome-gripal-sindrome-respiratoria-aguda-grave/',
                 'tipo' => 'webview',
-                'ordem' => 3,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
@@ -121,9 +121,9 @@ class AdcDefaultBannersSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'ativo' => false,
                 'id' => 7,
                 'ordem' => 3,
+                'ativo' => false,
                 'titulo' => 'Cartilha de Saúde Mental',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/Banner-Cartilha-Saúde-Mental.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/cartilhas-sobre-saude-mental/',
@@ -139,12 +139,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 8,
+                'ordem' => 5,
                 'ativo' => true,
                 'titulo' => 'Manejo Clínico',
-                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/Banner-Cartilha-Saúde-Mental.png',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/profissional/manejoclinico/',
                 'tipo' => 'webview',
-                'ordem' => 6,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
@@ -225,7 +225,7 @@ class AdcDefaultBannersSeeder extends Seeder
             [
                 'id' => 13,
                 'ordem' => 5,
-                'ativo' => true,
+                'ativo' => false,
                 'titulo' => 'Nota Técnica ESP/SESA',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed-1.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/project/nt-esp-sesa-01-2021-orientacoes-sore-uso-de-oseltamivir-para-tratamento-de-influenza/',
@@ -275,8 +275,8 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 16,
-                'ordem' => 1,
-                'ativo' => true,
+                'ordem' => 99,
+                'ativo' => false,
                 'titulo' => 'Matrícula Residência',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/02/Matricula-Resmed-banner-isus.png',
                 'valor' => 'https://www.esp.ce.gov.br/ensino/residencia-em-saude/matricula/',
@@ -285,6 +285,23 @@ class AdcDefaultBannersSeeder extends Seeder
                     [
                         'localImagem' => 'web',
                         'labelAnalytics' => 'banner_matricula_residencias'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 17,
+                'ordem' => 1,
+                'ativo' => true,
+                'titulo' => 'Programa PBM',
+                'imagem' => 'https://www.esp.ce.gov.br/wp-content/uploads/sites/78/2022/04/Slider-PBM.png',
+                'valor' => 'https://pbmipheduca.eduvem.com/#',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_programa_PBM'
                     ]
                 ),
                 'created_at' => Carbon::now(),
