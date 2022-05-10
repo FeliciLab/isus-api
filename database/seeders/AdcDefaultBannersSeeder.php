@@ -292,8 +292,8 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 17,
-                'ordem' => 2,
-                'ativo' => true,
+                'ordem' => 99,
+                'ativo' => false,
                 'titulo' => 'Programa PBM',
                 'imagem' => 'https://www.esp.ce.gov.br/wp-content/uploads/sites/78/2022/04/Slider-PBM.png',
                 'valor' => 'https://pbmipheduca.eduvem.com/#',
@@ -311,7 +311,7 @@ class AdcDefaultBannersSeeder extends Seeder
                 'id' => 18,
                 'ordem' => 1,
                 'ativo' => true,
-                'titulo' => 'Livro Enfrentamento à Covid-19',
+                'titulo' => 'Livro',
                 'imagem' => 'https://www.esp.ce.gov.br/wp-content/uploads/sites/78/2022/05/Slider-ebook-covid19.png',
                 'valor' => 'https://www.esp.ce.gov.br/2022/04/28/esp-ce-lanca-versao-digital-do-livro-enfrentamento-a-covid-19-a-construcao-da-coragem-coletiva/',
                 'tipo' => 'webview',
@@ -319,6 +319,23 @@ class AdcDefaultBannersSeeder extends Seeder
                     [
                         'localImagem' => 'web',
                         'labelAnalytics' => 'banner_livro_enfrentamento_covid_19'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 19,
+                'ordem' => 2,
+                'ativo' => true,
+                'titulo' => 'Síndrome Gripal',
+                'imagem' => 'https://www.esp.ce.gov.br/wp-content/uploads/sites/78/2022/05/banner-iSUS.png',
+                'valor' => 'https://coronavirus.ceara.gov.br/project/abordagem-inicial-do-recem-nascido-com-sindrome-gripal-confira-fluxograma/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_sindrome_gripal_recem-nascido'
                     ]
                 ),
                 'created_at' => Carbon::now(),
