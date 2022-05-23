@@ -140,7 +140,7 @@ class AdcDefaultBannersSeeder extends Seeder
             [
                 'id' => 8,
                 'ordem' => 5,
-                'ativo' => true,
+                'ativo' => false,
                 'titulo' => 'Manejo Clínico',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/profissional/manejoclinico/',
@@ -336,6 +336,23 @@ class AdcDefaultBannersSeeder extends Seeder
                     [
                         'localImagem' => 'web',
                         'labelAnalytics' => 'banner_sindrome_gripal_recem-nascido'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 20,
+                'ordem' => 5,
+                'ativo' => true,
+                'titulo' => 'Guia de Diversidade',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/05/Manual-de-Diversidade.png',
+                'valor' => 'https://coronavirus.ceara.gov.br/project/guia-de-diversidade-igualdade-no-servico-publico-de-saude-do-ceara/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_guia_diversidade'
                     ]
                 ),
                 'created_at' => Carbon::now(),
