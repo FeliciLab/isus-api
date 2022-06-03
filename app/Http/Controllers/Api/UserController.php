@@ -202,7 +202,6 @@ class UserController extends Controller
         $keycloakService = new KeycloakService();
         $userService = new UserService();
 
-
         // Verifica se existe um usuário com aquele email no idSaude
         $userKeyCloak = $keycloakService->keyCloakRetornaUsuarioPorEmail($email);
         if ($userKeyCloak) {
