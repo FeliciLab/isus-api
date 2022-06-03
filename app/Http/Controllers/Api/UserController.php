@@ -197,6 +197,7 @@ class UserController extends Controller
     public function emailCadastrado($email)
     {
         $dados = ['email' => $email];
+
         $validacao = Validator::make(
             $dados,
             [
@@ -209,10 +210,18 @@ class UserController extends Controller
         }
 
         $keycloakService = new KeycloakService();
-        $username = $email;
-        $emailCadastrado = $keycloakService->keyCloakRetornaUsuarioPorUsername($username);
-        if ($emailCadastrado) {
+        $userService = new UserService();
+
+        // Verifica se existe um usuário com aquele email no idSaude
+        $userKeyCloak = $keycloakService->keyCloakRetornaUsuarioPorEmail($email);
+        if ($userKeyCloak) {
             return response()->json(['email_existe' => true, 'mensagem' => 'EMAIL já cadastrado no ID Saúde']);
+        }
+
+        // Verifica se existe um usuário com aquele email no idSaude
+        $userISUS = $userService->verificarEmailExiste($email);
+        if ($userISUS) {
+            return response()->json(['email_existe' => true, 'mensagem' => 'EMAIL já cadastrado no iSUS']);
         }
 
         return response()->json(['email_existe' => false]);
