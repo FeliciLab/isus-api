@@ -47,6 +47,20 @@ class UserService
     }
 
     /**
+     * Consulta usuário pelo e-mail ou CPF, é para ter somente um usuário com um
+     * e-mail ou um cpf. Então se algum deles bater, atualiza o dado.
+     *
+     * @param $email string
+     * @param $cpf   string
+     *
+     * @return User|null
+     */
+    public function verificarEmailExiste(string $email)
+    {
+        return User::where('email', '=', $email)->first();
+    }
+
+    /**
      * @param string $cpf
      * @param string $idKeycloak
      */
@@ -167,9 +181,9 @@ class UserService
     public function hasAcademicTitles($user, $titulacao)
     {
         return UserTitulacaoAcademica::where('user_id', $user->id)
-                ->where('titulacao_academica_id', $titulacao->id)
-                ->select('id')
-                ->first() !== null;
+            ->where('titulacao_academica_id', $titulacao->id)
+            ->select('id')
+            ->first() !== null;
     }
 
     /**
