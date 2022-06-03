@@ -47,8 +47,7 @@ class UserService
     }
 
     /**
-     * Consulta usuário pelo e-mail ou CPF, é para ter somente um usuário com um
-     * e-mail ou um cpf. Então se algum deles bater, atualiza o dado.
+     * Consulta usuário pelo e-mail, é para ter somente um usuário com um e-mail.
      *
      * @param $email string
      * @param $cpf   string
