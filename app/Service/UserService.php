@@ -61,6 +61,18 @@ class UserService
 
     /**
      * @param string $cpf
+     *
+     * @return User->id|null
+     */
+    public function verificarCpfExiste(string $cpf)
+    {
+        return User::where('cpf', '=', $cpf)
+            ->select('id')
+            ->first();
+    }
+
+    /**
+     * @param string $cpf
      * @param string $idKeycloak
      */
     public function verificarCpfExisteParaOutrem(string $cpf, string $idKeycloak)

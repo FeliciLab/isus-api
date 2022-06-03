@@ -176,9 +176,19 @@ class UserController extends Controller
         }
 
         $keycloakService = new KeycloakService();
-        $cpfCadastrado = $keycloakService->verificarSeExisteDadoNaPropriedade('CPF', $cpf);
-        if ($cpfCadastrado) {
+        $userService = new UserService();
+
+        $cpfCadastradoKeyCloak = $keycloakService
+            ->keyCloakRetornaUsuarioPorUsername($cpf);
+
+        $cpfCadastradoIsusApi = $userService->verificarCpfExiste($cpf);
+
+        if ($cpfCadastradoKeyCloak) {
             return response()->json(['cpf_existe' => true, 'mensagem' => 'CPF já cadastrado no ID Saúde']);
+        }
+
+        if ($cpfCadastradoIsusApi) {
+            return response()->json(['cpf_existe' => true, 'mensagem' => 'CPF já cadastrado no iSUS']);
         }
 
         return response()->json(['cpf_existe' => false]);
