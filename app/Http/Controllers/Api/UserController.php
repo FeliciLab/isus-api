@@ -125,8 +125,7 @@ class UserController extends Controller
 
     public function update(
         Request $request,
-        KeycloakService $keyCloakService,
-        UserService $userService
+        KeycloakService $keyCloakService
     ) {
         $dados = $request->all();
 
@@ -141,6 +140,8 @@ class UserController extends Controller
 
         $userKeycloak = new UserKeycloak($dados);
 
+        // Atualiza tbm para o iSUS
+        // Sinto que faltou um clean code 🚀
         $user = $keyCloakService->update($userKeycloak, $request->usuario->sub);
 
         if (empty($user->id_keycloak)) {
