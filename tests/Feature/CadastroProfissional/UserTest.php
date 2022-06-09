@@ -21,7 +21,7 @@ class UserTest extends TestCase
         $usuario = $this->registrarUsuario($comUnidadesDeServico);
 
         $user = [
-            'email' => $usuario['email'],
+            'username' => $usuario['email'],
             'senha' => $usuario['senha'],
         ];
 
@@ -44,7 +44,7 @@ class UserTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure([
-            'sucesso',
+            // 'sucesso',
             'data' => [
                 'id',
                 'id_keycloak',
@@ -97,7 +97,7 @@ class UserTest extends TestCase
         $usuario = $this->registrarUsuario($comUnidadesDeServico);
 
         $user = [
-            'email' => $usuario['email'],
+            'username' => $usuario['email'],
             'senha' => $usuario['senha'],
         ];
 
@@ -132,7 +132,7 @@ class UserTest extends TestCase
         $usuario = $this->registrarUsuario($comUnidadesDeServico);
 
         $user = [
-            'email' => $usuario['email'],
+            'username' => $usuario['email'],
             'senha' => $usuario['senha'],
         ];
 
