@@ -252,7 +252,8 @@ class KeycloakService
             $this->getIdKeycloakFromHeader($resposta)
         );
 
-        $this->enviarEmailCadastro($user);
+        // TODO: voltar ao normal aqui quando ajustar o SMPT
+        // $this->enviarEmailCadastro($user);
 
         return $user;
     }

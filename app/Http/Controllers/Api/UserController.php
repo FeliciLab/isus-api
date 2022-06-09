@@ -125,10 +125,10 @@ class UserController extends Controller
 
     public function update(
         Request $request,
-        KeycloakService $keyCloakService,
-        UserService $userService
+        KeycloakService $keyCloakService
     ) {
         $dados = $request->all();
+
         $validacao = $this->validarRequisicaoUpdate($dados);
 
         if ($validacao->fails()) {
@@ -138,17 +138,10 @@ class UserController extends Controller
             );
         }
 
-        if ($userService->verificarCpfExisteParaOutrem($dados['cpf'], $request->usuario->sub)) {
-            return response()->json(
-                [
-                    'sucesso' => false,
-                    'mensagem' => 'CPF já cadastrado no ID Saúde',
-                ],
-                Response::HTTP_CONFLICT
-            );
-        }
-
         $userKeycloak = new UserKeycloak($dados);
+
+        // Atualiza tbm para o iSUS
+        // Sinto que faltou um clean code 🚀
         $user = $keyCloakService->update($userKeycloak, $request->usuario->sub);
 
         if (empty($user->id_keycloak)) {
@@ -299,7 +292,6 @@ class UserController extends Controller
                 'email' => 'required|email',
                 'nomeCompleto' => 'required',
                 'telefone' => 'required|min:9|max:11',
-                'cpf' => 'required|cpf|min:11|max:11',
                 'cidadeId' => 'required',
                 'cidade' => 'required',
                 'termos' => 'accepted',
