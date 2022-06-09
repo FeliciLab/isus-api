@@ -35,12 +35,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 2,
+                'ordem' => 8,
                 'ativo' => false,
                 'titulo' => 'Guia de Assistência Farmacêutica',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/11/guia-de-assistencia-farmaceutica-thumb-isus.jpg',
                 'valor' => 'https://coronavirus.ceara.gov.br/project/secretaria-de-saude-disponibiliza-guia-da-assistencia-farmaceutica-no-estado-do-ceara/',
                 'tipo' => 'webview',
-                'ordem' => 8,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
@@ -52,12 +52,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 3,
+                'ordem' => 6,
                 'ativo' => true,
                 'titulo' => 'ID Saúde',
                 'imagem' => 'images/banners/IDSaude.png',
                 'valor' => 'PERFIL',
                 'tipo' => 'rota',
-                'ordem' => 7,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
@@ -70,12 +70,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 4,
+                'ordem' => 6,
                 'ativo' => true,
                 'titulo' => 'ID Saúde',
                 'imagem' => 'images/banners/IDSaude.png',
                 'valor' => 'LOGIN',
                 'tipo' => 'rota',
-                'ordem' => 7,
                 'options' => json_encode(
                     [
                         'localImagem' => 'app',
@@ -88,12 +88,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 5,
+                'ordem' => 1,
                 'ativo' => false,
                 'titulo' => 'SUS 30 anos',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/SUS-30-anos.png',
                 'valor' => 'https://www.esp.ce.gov.br/tag/semana-do-sus/',
                 'tipo' => 'webview',
-                'ordem' => 1,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
@@ -105,12 +105,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 6,
+                'ordem' => 3,
                 'ativo' => true,
                 'titulo' => 'Regulação de Pacientes',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/BANNER-ISUS.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/project/nota-informativa-orienta-sobre-os-procedimentos-de-regulacao-de-pacientes-com-sindrome-gripal-sindrome-respiratoria-aguda-grave/',
                 'tipo' => 'webview',
-                'ordem' => 3,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
@@ -121,9 +121,9 @@ class AdcDefaultBannersSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'ativo' => false,
                 'id' => 7,
                 'ordem' => 3,
+                'ativo' => false,
                 'titulo' => 'Cartilha de Saúde Mental',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/Banner-Cartilha-Saúde-Mental.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/cartilhas-sobre-saude-mental/',
@@ -139,12 +139,12 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 8,
-                'ativo' => true,
+                'ordem' => 5,
+                'ativo' => false,
                 'titulo' => 'Manejo Clínico',
-                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2020/09/Banner-Cartilha-Saúde-Mental.png',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/profissional/manejoclinico/',
                 'tipo' => 'webview',
-                'ordem' => 6,
                 'options' => json_encode(
                     [
                         'localImagem' => 'web',
@@ -225,7 +225,7 @@ class AdcDefaultBannersSeeder extends Seeder
             [
                 'id' => 13,
                 'ordem' => 5,
-                'ativo' => true,
+                'ativo' => false,
                 'titulo' => 'Nota Técnica ESP/SESA',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed-1.png',
                 'valor' => 'https://coronavirus.ceara.gov.br/project/nt-esp-sesa-01-2021-orientacoes-sore-uso-de-oseltamivir-para-tratamento-de-influenza/',
@@ -241,7 +241,7 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 14,
-                'ordem' => 2,
+                'ordem' => 3,
                 'ativo' => true,
                 'titulo' => 'Protocolos e Fluxogramas',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/01/unnamed-2.png',
@@ -275,8 +275,8 @@ class AdcDefaultBannersSeeder extends Seeder
             ],
             [
                 'id' => 16,
-                'ordem' => 1,
-                'ativo' => true,
+                'ordem' => 99,
+                'ativo' => false,
                 'titulo' => 'Matrícula Residência',
                 'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/02/Matricula-Resmed-banner-isus.png',
                 'valor' => 'https://www.esp.ce.gov.br/ensino/residencia-em-saude/matricula/',
@@ -285,6 +285,74 @@ class AdcDefaultBannersSeeder extends Seeder
                     [
                         'localImagem' => 'web',
                         'labelAnalytics' => 'banner_matricula_residencias'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 17,
+                'ordem' => 99,
+                'ativo' => false,
+                'titulo' => 'Programa PBM',
+                'imagem' => 'https://www.esp.ce.gov.br/wp-content/uploads/sites/78/2022/04/Slider-PBM.png',
+                'valor' => 'https://pbmipheduca.eduvem.com/#',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_programa_PBM'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 18,
+                'ordem' => 1,
+                'ativo' => true,
+                'titulo' => 'Livro',
+                'imagem' => 'https://www.esp.ce.gov.br/wp-content/uploads/sites/78/2022/05/Slider-ebook-covid19.png',
+                'valor' => 'https://www.esp.ce.gov.br/2022/04/28/esp-ce-lanca-versao-digital-do-livro-enfrentamento-a-covid-19-a-construcao-da-coragem-coletiva/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_livro_enfrentamento_covid_19'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 19,
+                'ordem' => 2,
+                'ativo' => true,
+                'titulo' => 'Síndrome Gripal',
+                'imagem' => 'https://www.esp.ce.gov.br/wp-content/uploads/sites/78/2022/05/banner-iSUS.png',
+                'valor' => 'https://coronavirus.ceara.gov.br/project/abordagem-inicial-do-recem-nascido-com-sindrome-gripal-confira-fluxograma/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_sindrome_gripal_recem-nascido'
+                    ]
+                ),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => 20,
+                'ordem' => 5,
+                'ativo' => true,
+                'titulo' => 'Guia de Diversidade',
+                'imagem' => 'https://coronavirus.ceara.gov.br/wp-content/uploads/2022/05/Manual-de-Diversidade.png',
+                'valor' => 'https://coronavirus.ceara.gov.br/project/guia-de-diversidade-igualdade-no-servico-publico-de-saude-do-ceara/',
+                'tipo' => 'webview',
+                'options' => json_encode(
+                    [
+                        'localImagem' => 'web',
+                        'labelAnalytics' => 'banner_guia_diversidade'
                     ]
                 ),
                 'created_at' => Carbon::now(),

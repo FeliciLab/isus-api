@@ -159,6 +159,21 @@ class KeycloakService
         return json_decode($response->getBody());
     }
 
+    public function keyCloakRetornaUsuarioPorEmail($email)
+    {
+        $response = $this->keycloakClient->get(
+            "{$this->keycloakUri}/auth/admin/realms/saude/users?email=" . $email,
+            [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => "Bearer {$this->getTokenAdmin()}",
+                ],
+            ]
+        );
+
+        return json_decode($response->getBody());
+    }
+
     /**
      * Coleta os dados do usuário.
      *
@@ -237,7 +252,8 @@ class KeycloakService
             $this->getIdKeycloakFromHeader($resposta)
         );
 
-        $this->enviarEmailCadastro($user);
+        // TODO: voltar ao normal aqui quando ajustar o SMPT
+        // $this->enviarEmailCadastro($user);
 
         return $user;
     }

@@ -125,10 +125,10 @@ class UserController extends Controller
 
     public function update(
         Request $request,
-        KeycloakService $keyCloakService,
-        UserService $userService
+        KeycloakService $keyCloakService
     ) {
         $dados = $request->all();
+
         $validacao = $this->validarRequisicaoUpdate($dados);
 
         if ($validacao->fails()) {
@@ -138,17 +138,10 @@ class UserController extends Controller
             );
         }
 
-        if ($userService->verificarCpfExisteParaOutrem($dados['cpf'], $request->usuario->sub)) {
-            return response()->json(
-                [
-                    'sucesso' => false,
-                    'mensagem' => 'CPF já cadastrado no ID Saúde',
-                ],
-                Response::HTTP_CONFLICT
-            );
-        }
-
         $userKeycloak = new UserKeycloak($dados);
+
+        // Atualiza tbm para o iSUS
+        // Sinto que faltou um clean code 🚀
         $user = $keyCloakService->update($userKeycloak, $request->usuario->sub);
 
         if (empty($user->id_keycloak)) {
@@ -176,9 +169,19 @@ class UserController extends Controller
         }
 
         $keycloakService = new KeycloakService();
-        $cpfCadastrado = $keycloakService->verificarSeExisteDadoNaPropriedade('CPF', $cpf);
-        if ($cpfCadastrado) {
+        $userService = new UserService();
+
+        $cpfCadastradoKeyCloak = $keycloakService
+            ->keyCloakRetornaUsuarioPorUsername($cpf);
+
+        $cpfCadastradoIsusApi = $userService->verificarCpfExiste($cpf);
+
+        if ($cpfCadastradoKeyCloak) {
             return response()->json(['cpf_existe' => true, 'mensagem' => 'CPF já cadastrado no ID Saúde']);
+        }
+
+        if ($cpfCadastradoIsusApi) {
+            return response()->json(['cpf_existe' => true, 'mensagem' => 'CPF já cadastrado no iSUS']);
         }
 
         return response()->json(['cpf_existe' => false]);
@@ -187,6 +190,7 @@ class UserController extends Controller
     public function emailCadastrado($email)
     {
         $dados = ['email' => $email];
+
         $validacao = Validator::make(
             $dados,
             [
@@ -199,10 +203,18 @@ class UserController extends Controller
         }
 
         $keycloakService = new KeycloakService();
-        $username = $email;
-        $emailCadastrado = $keycloakService->keyCloakRetornaUsuarioPorUsername($username);
-        if ($emailCadastrado) {
+        $userService = new UserService();
+
+        // Verifica se existe um usuário com aquele email no idSaude
+        $userKeyCloak = $keycloakService->keyCloakRetornaUsuarioPorEmail($email);
+        if ($userKeyCloak) {
             return response()->json(['email_existe' => true, 'mensagem' => 'EMAIL já cadastrado no ID Saúde']);
+        }
+
+        // Verifica se existe um usuário com aquele email no idSaude
+        $userISUS = $userService->verificarEmailExiste($email);
+        if ($userISUS) {
+            return response()->json(['email_existe' => true, 'mensagem' => 'EMAIL já cadastrado no iSUS']);
         }
 
         return response()->json(['email_existe' => false]);
@@ -280,7 +292,6 @@ class UserController extends Controller
                 'email' => 'required|email',
                 'nomeCompleto' => 'required',
                 'telefone' => 'required|min:9|max:11',
-                'cpf' => 'required|cpf|min:11|max:11',
                 'cidadeId' => 'required',
                 'cidade' => 'required',
                 'termos' => 'accepted',
