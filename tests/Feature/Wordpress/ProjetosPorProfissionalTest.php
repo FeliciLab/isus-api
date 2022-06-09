@@ -25,7 +25,7 @@ class ProjetosPorProfissionalTest extends TestCase
         $usuario = $this->registrarUsuario($comUnidadesDeServico);
 
         $user = [
-            'email' => $usuario['email'],
+            'username' => $usuario['email'],
             'senha' => $usuario['senha'],
         ];
 
@@ -53,7 +53,7 @@ class ProjetosPorProfissionalTest extends TestCase
         $usuario = $this->registrarUsuario($comUnidadesDeServico);
 
         $user = [
-            'email' => $usuario['email'],
+            'username' => $usuario['email'],
             'senha' => $usuario['senha'],
         ];
 
