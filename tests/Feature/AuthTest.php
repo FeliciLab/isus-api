@@ -119,7 +119,7 @@ class AuthTest extends TestCase
             );
     }
 
-    public function testLoginSucesso()
+    public function testLoginSucessoComEmail()
     {
         $usuario = $this->registrarUsuario(false);
 
@@ -128,7 +128,27 @@ class AuthTest extends TestCase
         $this->json(
             'POST',
             'api/auth',
-            ['username' => $usuario['username'], 'senha' => $usuario['senha']]
+            ['username' => $usuario['email'], 'senha' => $usuario['senha']]
+        )
+            ->assertOk()
+            ->assertJsonStructure(
+                [
+                    'mensagem' => [
+                        'access_token',
+                    ],
+                ]
+            );
+    }
+    public function testLoginSucessoComCpf()
+    {
+        $usuario = $this->registrarUsuario(false);
+
+        $this->assertNotNull($usuario);
+
+        $this->json(
+            'POST',
+            'api/auth',
+            ['username' => $usuario['cpf'], 'senha' => $usuario['senha']]
         )
             ->assertOk()
             ->assertJsonStructure(
