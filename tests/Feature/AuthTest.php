@@ -15,7 +15,7 @@ class AuthTest extends TestCase
         $this->seed();
     }
 
-    public function testLoginSemEmailEPassword()
+    public function testLoginSemUsernameEPassword()
     {
         $this->json(
             'POST',
@@ -26,8 +26,8 @@ class AuthTest extends TestCase
             ->assertJson(
                 [
                     'erros' => [
-                        'email' => [
-                            'O campo email é obrigatório.',
+                        'username' => [
+                            'O campo username é obrigatório.',
                         ],
                         'senha' => [
                             'O campo senha é obrigatório.',
@@ -37,7 +37,7 @@ class AuthTest extends TestCase
             );
     }
 
-    public function testLoginSemEmail()
+    public function testLoginSemUsername()
     {
         $this->json(
             'POST',
@@ -50,21 +50,21 @@ class AuthTest extends TestCase
             ->assertJson(
                 [
                     'erros' => [
-                        'email' => [
-                            'O campo email é obrigatório.',
+                        'username' => [
+                            'O campo username é obrigatório.',
                         ],
                     ],
                 ]
             );
     }
 
-    public function testLoginEmailInvalido()
+    public function testLoginUsernameInvalido()
     {
         $this->json(
             'POST',
             'api/auth',
             [
-                'email' => 'email-invalido',
+                'username' => '',
                 'senha' => 'joinado',
             ]
         )
@@ -72,8 +72,8 @@ class AuthTest extends TestCase
             ->assertJson(
                 [
                     'erros' => [
-                        'email' => [
-                            'O campo email deve ser um endereço de e-mail válido.',
+                        'username' => [
+                            'O campo username é obrigatório.',
                         ],
                     ],
                 ]
@@ -86,7 +86,7 @@ class AuthTest extends TestCase
             'POST',
             'api/auth',
             [
-                'email' => 'email@email.com',
+                'username' => 'email@email.com',
             ]
         )
             ->assertStatus(400)
@@ -107,8 +107,8 @@ class AuthTest extends TestCase
             'POST',
             'api/auth',
             [
-                'email' => 'user@mail.com',
-                'senha' => '987654',
+                'username' => 'username@mail.com',
+                'senha' => '98765432',
             ]
         )
             ->assertUnauthorized()
@@ -119,15 +119,36 @@ class AuthTest extends TestCase
             );
     }
 
-    public function testLoginSucesso()
+    public function testLoginSucessoComEmail()
     {
         $usuario = $this->registrarUsuario(false);
+
         $this->assertNotNull($usuario);
 
         $this->json(
             'POST',
             'api/auth',
-            ['email' => $usuario['email'], 'senha' => $usuario['senha']]
+            ['username' => $usuario['email'], 'senha' => $usuario['senha']]
+        )
+            ->assertOk()
+            ->assertJsonStructure(
+                [
+                    'mensagem' => [
+                        'access_token',
+                    ],
+                ]
+            );
+    }
+    public function testLoginSucessoComCpf()
+    {
+        $usuario = $this->registrarUsuario(false);
+
+        $this->assertNotNull($usuario);
+
+        $this->json(
+            'POST',
+            'api/auth',
+            ['username' => $usuario['cpf'], 'senha' => $usuario['senha']]
         )
             ->assertOk()
             ->assertJsonStructure(

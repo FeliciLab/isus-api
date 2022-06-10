@@ -14,7 +14,9 @@ class AuthController extends Controller
     public function auth(Request $request)
     {
         $dados = $request->all();
+
         $validacao = $this->validarRequisicao($dados);
+
         if ($validacao->fails()) {
             return response()->json(
                 ['sucesso' => false, 'erros' =>  $validacao->errors()],
@@ -23,8 +25,9 @@ class AuthController extends Controller
         }
 
         $keyCloakService = new KeycloakService();
+
         try {
-            $resposta = $keyCloakService->login($dados['email'], $dados['senha']);
+            $resposta = $keyCloakService->login($dados['username'], $dados['senha']);
         } catch (\GuzzleHttp\Exception\ClientException $exception) {
             if ($exception->getCode() === Response::HTTP_UNAUTHORIZED) {
                 return response()->json(
@@ -109,7 +112,7 @@ class AuthController extends Controller
     private function validarRequisicao($dados)
     {
         return Validator::make($dados, [
-            'email' => 'required|email',
+            'username' => 'required', // username: email ou cpf
             'senha' => 'required',
         ]);
     }
