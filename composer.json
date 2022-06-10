@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "ISUS API v3.19.6",
+    "description": "ISUS API v3.20.0",
     "keywords": [
         "framework",
         "laravel"
