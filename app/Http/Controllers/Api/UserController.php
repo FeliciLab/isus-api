@@ -26,7 +26,9 @@ class UserController extends Controller
     public function save(Request $request)
     {
         $dados = $request->all();
-        $validacao = $this->validarRequisicao($dados);
+
+        $validacao = $this->validarRequisicaoSaveUser($dados);
+
         if ($validacao->fails()) {
             return response()->json(
                 [
@@ -38,7 +40,9 @@ class UserController extends Controller
         }
 
         $userKeycloak = new UserKeycloak($dados);
+
         $keyCloakService = new KeycloakService();
+
         $user = $keyCloakService->save($userKeycloak);
 
         if (!empty($user->id_keycloak)) {
@@ -106,6 +110,8 @@ class UserController extends Controller
         );
 
         $user = $userService->fetchUserRegisteredCorrectly($userProfile);
+
+        // Caso quando o usuário existe no iSUS
         if ($user) {
             return response()->json(
                 [
@@ -222,9 +228,9 @@ class UserController extends Controller
 
     public function delete(Request $request)
     {
-        $keyCloakService = new KeycloakService();
         try {
             $idKeycloak = $request->usuario->sub;
+
             $keycloakService = new KeycloakService();
 
             if ($keycloakService->delete($idKeycloak)) {
@@ -266,7 +272,7 @@ class UserController extends Controller
         return $projetosPorMacrounidades;
     }
 
-    private function validarRequisicao($dados)
+    private function validarRequisicaoSaveUser($dados)
     {
         return Validator::make(
             $dados,
@@ -290,6 +296,7 @@ class UserController extends Controller
             $dados,
             [
                 'email' => 'required|email',
+                // 'cpf' => 'required|cpf|min:11|max:11', // removendo cpf para ajustes no idSaude
                 'nomeCompleto' => 'required',
                 'telefone' => 'required|min:9|max:11',
                 'cidadeId' => 'required',

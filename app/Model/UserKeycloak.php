@@ -205,7 +205,9 @@ class UserKeycloak
     private function pegarSobrenome($nomeCompleto)
     {
         $sobrenome = '';
+
         $nomeCompletoArr = explode(' ', $nomeCompleto);
+
         for ($i = 0; $i < count($nomeCompletoArr); $i++) {
             if ($i != 0) {
                 if ($i < count($nomeCompletoArr) - 1) {
