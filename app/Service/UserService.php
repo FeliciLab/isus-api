@@ -316,6 +316,7 @@ class UserService
         }
 
         $user = User::where('id_keycloak', $userKeycloak['sub'])->first();
+
         if (!$user || !isset($user, $user->municipio_id, $user->telefone, $user->cpf)) {
             return;
         }
@@ -334,20 +335,19 @@ class UserService
     public function preRegisterUser(array $userKeycloak)
     {
         $userIsus = User::where('id_keycloak', $userKeycloak['sub'])->first();
+
         if ($userIsus) {
             return $userIsus;
         }
 
         $user = (new KeycloakService())->getUserData($userKeycloak['sub']);
+
         $userData = [
             'email' => $userKeycloak['email'],
             'id_keycloak' => $userKeycloak['sub'],
+            'cpf' => $userKeycloak['preferred_username'], // username no idSaude é o CPF
             'name' => $userKeycloak['given_name'] . ' ' . $userKeycloak['family_name'],
         ];
-
-        if (Arr::get($user, 'attributes.CPF.0', false)) {
-            $userData['cpf'] = Arr::get($user, 'attributes.CPF.0');
-        }
 
         if (Arr::get($user, 'attributes.CIDADE_ID.0', false)) {
             $userData['municipio_id'] = Arr::get($user, 'attributes.CIDADE_ID.0');
