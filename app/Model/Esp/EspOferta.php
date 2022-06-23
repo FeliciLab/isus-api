@@ -2,7 +2,6 @@
 
 namespace App\Model\Esp;
 
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class EspOferta extends Model

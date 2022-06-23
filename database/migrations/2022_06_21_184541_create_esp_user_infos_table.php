@@ -17,7 +17,7 @@ class CreateEspUserInfosTable extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('area_esp', 100);
-            $table->string('area_outros', 100);
+            $table->string('area_outros', 100)->nullable();
             $table->timestamps();
         });
     }

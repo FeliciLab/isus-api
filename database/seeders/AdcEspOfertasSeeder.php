@@ -19,7 +19,7 @@ class AdcEspOfertasSeeder extends Seeder
             [
                 'id' => 1,
                 'nome' => 'Oficina de Design de Serviços da ESP',
-                'carga_horaria' => 6,
+                'carga_horaria' => 24,
                 'is_active' => true,
                 'inicio' => '2022-06-28',
                 'fim' => '2022-06-30',
