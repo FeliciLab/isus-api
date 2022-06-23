@@ -9,7 +9,7 @@ class EspPresenca extends Model
     protected $table = 'esp_presencas';
 
     protected $dates = [
-        'data'
+        'data',
     ];
 
     protected $fillable = [
