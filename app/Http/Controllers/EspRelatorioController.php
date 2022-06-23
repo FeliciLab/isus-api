@@ -16,7 +16,6 @@ class EspRelatorioController extends Controller
     public function index()
     {
         try {
-
             $report = [];
             $ofertasArray = [];
 
@@ -88,7 +87,6 @@ class EspRelatorioController extends Controller
             // return Excel::download($export, 'RelatorioPresencaEsp.xlsx');
             return response()->json($report, 200);
         } catch (Exception $e) {
-
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }

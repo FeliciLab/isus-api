@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Model\Esp\EspPresenca;
 use Carbon\Carbon;
-use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 
