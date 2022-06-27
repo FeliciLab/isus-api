@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Exports\EspRelatorioExport;
 use App\Http\Exports\EspRelatorioDetalhadoExport;
+use App\Http\Exports\EspRelatorioExport;
 use App\Model\Esp\EspOferta;
 use App\Model\Esp\EspPresenca;
 use App\Model\Esp\EspUserInfo;
@@ -24,7 +24,6 @@ class EspRelatorioController extends Controller
 
             $buscaPorOfertaId = request('oferta');
             $relatorioDetalhado = request('detalhado');
-
 
             if ($buscaPorOfertaId) {
                 $espOfertas = EspOferta
@@ -80,7 +79,6 @@ class EspRelatorioController extends Controller
                     $espUserInfo = EspUserInfo::where('user_id', '=', $presenca->user_id)->first();
 
                     $user = User::where('id', '=', $presenca->user_id)->first();
-
 
                     /* Cálculo da Carga Horária */
                     $totalPresencasNecessarias = $espOferta->carga_horaria / $cHPorPresenca;
