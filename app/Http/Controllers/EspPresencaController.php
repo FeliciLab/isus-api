@@ -50,7 +50,7 @@ class EspPresencaController extends Controller
             $requestBody = $resquest->all();
 
             // Sincroniza o TZ do Cliente com TZ do Laravel
-            // Fomato: ISO-8601 em UTC (2022-06-29T18:22:36.000000Z)
+            // Fomato: ISO-8601 em GMT (2022-06-29T18:22:36.000000Z)
             $data = Carbon::create($requestBody['data'])
                 ->setTimezone('America/Fortaleza')
                 ->toDateTime();
