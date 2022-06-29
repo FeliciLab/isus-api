@@ -49,11 +49,19 @@ class EspPresencaController extends Controller
 
             $requestBody = $resquest->all();
 
-            // $data Compatível com formato: dd-MM-yyyy HH:mm:ss
-            $data = Carbon::create($requestBody['data'])->toDateTime();
+            // Sincroniza o TZ do Cliente com TZ do Laravel
+            // Fomato: ISO-8601 em UTC (2022-06-29T18:22:36.000000Z)
+            $data = Carbon::create($requestBody['data'])
+                ->setTimezone('America/Fortaleza')
+                ->toDateTime();
 
-            $dataInicio = Carbon::create($requestBody['data'])->startOfDay();
-            $dataFim = Carbon::create($requestBody['data'])->endOfDay();
+            $dataInicio = Carbon::create($requestBody['data'])
+                ->setTimezone('America/Fortaleza')
+                ->startOfDay();
+
+            $dataFim = Carbon::create($requestBody['data'])
+                ->setTimezone('America/Fortaleza')
+                ->endOfDay();
 
             $novaPresenca = new EspPresenca();
             $novaPresenca->user_id = $idUser;
