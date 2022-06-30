@@ -75,7 +75,7 @@
             API-ISUS
         </div>
         <div class="subtitle m-b-md">
-            v3.20.0
+            v3.20.1
         </div>
 
         <div class="links">
