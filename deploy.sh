@@ -6,9 +6,6 @@ docker exec -i isus-api_php-fpm_1 php artisan down || true
 # git clean -df
 git pull
 
-# Install/update composer dependecies
-docker exec -i isus-api_php-fpm_1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
-
 # Run database migrations
 docker exec -i isus-api_php-fpm_1 php artisan migrate --force
 
@@ -20,6 +17,9 @@ docker exec -i isus-api_php-fpm_1 php artisan config:cache
 
 # Clear and cache views
 docker exec -i isus-api_php-fpm_1 php artisan view:cache
+
+# Install/update composer dependecies
+docker exec -i isus-api_php-fpm_1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
 # Turn off maintenance mode
 docker exec -i isus-api_php-fpm_1 php artisan up
