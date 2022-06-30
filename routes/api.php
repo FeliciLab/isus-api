@@ -4,6 +4,11 @@ use App\Http\Controllers\SaguOfertasController;
 use App\Http\Controllers\SaguPresencaController;
 use App\Http\Controllers\SaguRelatorioController;
 use App\Http\Controllers\SaguUserInfoController;
+
+use App\Http\Controllers\EspOfertasController;
+use App\Http\Controllers\EspPresencaController;
+use App\Http\Controllers\EspRelatorioController;
+use App\Http\Controllers\EspUserInfoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +58,14 @@ Route::get('/sagu/ofertas', [SaguOfertasController::class, 'index']);
 Route::get('/sagu/userInfo/{idUser}', [SaguUserInfoController::class, 'index']);
 Route::put('/sagu/userInfo/{idUser}', [SaguUserInfoController::class, 'updateUserInfo']);
 Route::get('/sagu/relatorio', [SaguRelatorioController::class, 'index']);
+
+// ESP Oficina
+Route::get('/esp/presencas/{idUser}/{idOferta}', [EspPresencaController::class, 'index']);
+Route::post('/esp/presencas/{idUser}/{idOferta}', [EspPresencaController::class, 'marcarPresenca']);
+Route::get('/esp/ofertas', [EspOfertasController::class, 'index']);
+Route::get('/esp/userInfo/{idUser}', [EspUserInfoController::class, 'index']);
+Route::put('/esp/userInfo/{idUser}', [EspUserInfoController::class, 'updateUserInfo']);
+Route::get('/esp/relatorio', [EspRelatorioController::class, 'index']);
 
 
 Route::namespace('Api')->group(function () {
