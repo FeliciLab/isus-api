@@ -8,6 +8,16 @@ use Illuminate\Support\Collection;
 
 class UserEspecialidadeRepository
 {
+    /**
+     * Verifica se dados do Array $user['especialidades'] é
+     * igual ao especialidade_id da tabela users_especialidade.
+     * Se for igual mantém, se for diferente ele remove as entradas extras.
+     *
+     * @param User $user
+     * @param Collection $especialidades
+     *
+     * @return mixed
+     */
     public function removerEspecialidadesSobressalentes(User $user, Collection $especialidades)
     {
         return UserEspecialidade::where('user_id', $user->id)

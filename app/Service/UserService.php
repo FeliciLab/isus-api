@@ -123,11 +123,24 @@ class UserService
         $userEspecialidadeRepository = new UserEspecialidadeRepository();
         $especialidades = $userKeycloak->getEspecialidades();
         if (null === $especialidades->first()) {
+
+            // Possibilita apagar a especialidade previamente escolhida.
+            UserEspecialidade::where('user_id', $user->id)->delete();
+
             return false;
         }
 
-        $userEspecialidadeRepository->removerEspecialidadesSobressalentes($user, $especialidades);
+        // "removerEspecialidadesSobressalentes" verifica e remove
+        // especialidades que não fazem parte do que foi informado
+        // pelo $user
+        $userEspecialidadeRepository
+            ->removerEspecialidadesSobressalentes(
+                $user,
+                $especialidades
+            );
+
         $especialidadesUsuario = $userEspecialidadeRepository->coletarEspecialidadesUsuario($user);
+
         foreach ($especialidades as $especialidade) {
             if ($especialidadesUsuario->where('especialidade_id', $especialidade->id)->first()) {
                 continue;
@@ -155,6 +168,10 @@ class UserService
         $userUnidadesServicoRepository = new UserUnidadesServicoRepository();
         $unidadesServicos = $userKeycloak->getUnidadesServicos();
         if (null === $unidadesServicos->first()) {
+
+            // Possibilita apagar a unidade de serviço previamente escolhida.
+            UserUnidadeServico::where('user_id', $user->id)->delete();
+
             return false;
         }
 

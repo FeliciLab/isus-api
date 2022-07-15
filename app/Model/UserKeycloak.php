@@ -23,7 +23,8 @@ class UserKeycloak
     protected $titulacaoAcademica;
     protected $tipoContratacao;
     protected $instituicao;
-    protected CategoriaProfissional $categoriaProfissional;
+    protected $categoriaProfissional;
+    // protected CategoriaProfissional $categoriaProfissional;
     protected Collection $unidadeServico;
     protected Collection $especialidades;
 
@@ -50,9 +51,17 @@ class UserKeycloak
         $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
         $this->instituicao = $dados['instituicao'] ?? null;
 
-        $this->categoriaProfissional = new CategoriaProfissional(
-            $this->formatandoCampoRelacionameto('categoriaProfissional', $dados)
-        );
+        $this->categoriaProfissional = null === $dados['categoriaProfissional']
+            ? $this->removeEntradasCategoriaProfissional($dados['idKeycloak'])
+            : new CategoriaProfissional(
+                $this->formatandoCampoRelacionameto('categoriaProfissional', $dados)
+            );
+
+        // TODO: Rever o fluxo de criação e atualização (preferencialmente separados)
+        // Abaixo o método antigo para fins de pesquisa:
+        // $this->categoriaProfissional = new CategoriaProfissional(
+        //     $this->formatandoCampoRelacionameto('categoriaProfissional', $dados)
+        // );
 
         $this->unidadeServico = collect(
             array_map(
@@ -231,5 +240,15 @@ class UserKeycloak
         $tmp = $dados[$chave] ?? [];
 
         return is_string($tmp) ? json_decode($tmp, true) : $tmp;
+    }
+
+    private function removeEntradasCategoriaProfissional($idKeycloak)
+    {
+        $user = User::where('id_keycloak', $idKeycloak);
+        $user->update(['categoriaprofissional_id' => null]);
+
+        UserEspecialidade::where('user_id', $user->first()->id)->delete();
+
+        return [];
     }
 }
