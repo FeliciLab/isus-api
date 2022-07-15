@@ -51,7 +51,7 @@ class UserKeycloak
         $this->tipoContratacao = $dados['tipoContratacao'] ?? null;
         $this->instituicao = $dados['instituicao'] ?? null;
 
-        $this->categoriaProfissional = is_null($dados['categoriaProfissional'])
+        $this->categoriaProfissional = null === $dados['categoriaProfissional']
             ? $this->removeEntradasCategoriaProfissional($dados['idKeycloak'])
             : new CategoriaProfissional(
                 $this->formatandoCampoRelacionameto('categoriaProfissional', $dados)

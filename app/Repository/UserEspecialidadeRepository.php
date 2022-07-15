@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 
 class UserEspecialidadeRepository
 {
-
     /**
      * Verifica se dados do Array $user['especialidades'] é
      * igual ao especialidade_id da tabela users_especialidade.
@@ -16,6 +15,7 @@ class UserEspecialidadeRepository
      *
      * @param User $user
      * @param Collection $especialidades
+     *
      * @return mixed
      */
     public function removerEspecialidadesSobressalentes(User $user, Collection $especialidades)
